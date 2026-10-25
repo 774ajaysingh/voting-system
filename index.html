@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart & Secure College Voting System | Project No. 94</title>
+  <meta name="description" content="A modern digital platform for secure, simple and transparent college elections with Smart Candidate Comparison Matrix and cryptographic receipts.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Ambient background glow elements -->
+  <div class="bg-glow glow-cyan"></div>
+  <div class="bg-glow glow-purple"></div>
+  <div class="bg-grid"></div>
+
+  <!-- Top Navigation Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-group">
+        <div class="brand-icon">
+          <i class="fa-solid fa-check-to-slot"></i>
+        </div>
+        <div>
+          <div class="brand-tag">PROJECT NO. 94 • B.TECH MINI PROJECT</div>
+          <h1 class="brand-title">Smart & Secure College Voting System</h1>
+        </div>
+      </div>
+
+      <!-- Live Election Countdown & Status Badge -->
+      <div class="header-status-group">
+        <div class="status-pill status-active" id="electionStatusPill">
+          <span class="pulse-dot"></span>
+          <span id="electionStatusText">LIVE ELECTION</span>
+        </div>
+        <div class="timer-card">
+          <i class="fa-regular fa-clock"></i>
+          <span class="timer-label">Closing In:</span>
+          <span class="timer-value" id="headerCountdown">05:42:18</span>
+        </div>
+        <button class="btn btn-outline-cyan btn-sm" id="btnQuickDemoStudent" title="Quick Voter Demo Autofill">
+          <i class="fa-solid fa-user-check"></i> Demo Voter
+        </button>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-bar">
+      <div class="nav-tabs">
+        <button class="nav-tab active" data-tab="tab-matrix">
+          <i class="fa-solid fa-table-columns"></i> Smart Candidate Matrix
+          <span class="tab-badge">Slide 5</span>
+        </button>
+        <button class="nav-tab" data-tab="tab-booth">
+          <i class="fa-solid fa-person-booth"></i> Student Voting Booth
+        </button>
+        <button class="nav-tab" data-tab="tab-admin">
+          <i class="fa-solid fa-chart-pie"></i> Admin & Analytics
+        </button>
+        <button class="nav-tab" data-tab="tab-receipt-checker">
+          <i class="fa-solid fa-receipt"></i> Verify Receipt
+        </button>
+        <button class="nav-tab" data-tab="tab-project">
+          <i class="fa-solid fa-circle-info"></i> Project & Team
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Notification Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Main View Container -->
+  <main class="main-content">
+
+    <!-- ========================================================================= -->
+    <!-- TAB 1: SMART CANDIDATE COMPARISON MATRIX (SLIDE 5 RECREATION & ENHANCEMENT) -->
+    <!-- ========================================================================= -->
+    <section class="tab-pane active" id="tab-matrix">
+      <div class="matrix-hero-card">
+        <div class="matrix-hero-header">
+          <div class="matrix-hero-title-group">
+            <div class="matrix-icon-box">
+              <i class="fa-solid fa-brain"></i>
+            </div>
+            <div>
+              <div class="badge-pill-purple">One Manifesto • Same Standards</div>
+              <h2 class="matrix-title">Smart Candidate Comparison Matrix</h2>
+              <p class="matrix-subtitle">Make informed choices with a structured, side-by-side comparison across 8 standardized categories.</p>
+            </div>
+          </div>
+          <div class="matrix-badge-fair">
+            <i class="fa-solid fa-scale-balanced"></i>
+            <div>
+              <div class="fair-title">Fair. Transparent. Informed.</div>
+              <div class="fair-sub">Same Standards. Smarter Decisions.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter / Candidate Multi-Select Bar -->
+        <div class="candidate-selector-bar">
+          <div class="selector-instructions">
+            <i class="fa-solid fa-users-viewfinder"></i>
+            <span><strong>Compare Candidates:</strong> Select 2 to 4 candidates to inspect manifestos side-by-side:</span>
+          </div>
+          <div class="candidate-toggles" id="candidateTogglesContainer">
+            <!-- Dynamically generated toggles -->
+          </div>
+          <button class="btn btn-primary-gradient btn-sm" id="btnOpenAddCandidateModal">
+            <i class="fa-solid fa-plus"></i> Add Candidate
+          </button>
+        </div>
+
+        <!-- Matrix Table Container -->
+        <div class="matrix-table-wrapper">
+          <table class="matrix-table" id="matrixComparisonTable">
+            <thead>
+              <tr id="matrixHeaderRow">
+                <th class="matrix-criteria-header">
+                  <div class="criteria-header-title">
+                    <i class="fa-solid fa-list-check"></i> Standardized Categories
+                  </div>
+                  <div class="criteria-header-sub">All candidates answer identical benchmarks</div>
+                </th>
+                <!-- Candidate profile headers populated by JS -->
+              </tr>
+            </thead>
+            <tbody id="matrixBodyRows">
+              <!-- Dynamically populated rows for Academic, Infrastructure, Events, etc. -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 4 Guarantee Pillars from Slide 5 footer -->
+        <div class="matrix-pillars-grid">
+          <div class="pillar-card">
+            <div class="pillar-icon"><i class="fa-solid fa-circle-check"></i></div>
+            <div class="pillar-text">All candidates follow the same format</div>
+          </div>
+          <div class="pillar-card">
+            <div class="pillar-icon"><i class="fa-solid fa-chart-simple"></i></div>
+            <div class="pillar-text">Easy to compare and understand</div>
+          </div>
+          <div class="pillar-card">
+            <div class="pillar-icon"><i class="fa-solid fa-shield-halved"></i></div>
+            <div class="pillar-text">Ensures fairness and transparency</div>
+          </div>
+          <div class="pillar-card">
+            <div class="pillar-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+            <div class="pillar-text">Helps you vote with confidence</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 2: STUDENT VOTING BOOTH (DUAL AUTH + ONE STUDENT ONE VOTE + RECEIPT)  -->
+    <!-- ========================================================================= -->
+    <section class="tab-pane" id="tab-booth">
+      <div class="booth-container">
+        <!-- Step Stepper Header -->
+        <div class="stepper-bar">
+          <div class="step-item active" id="stepIndicator1">
+            <div class="step-circle">1</div>
+            <div class="step-label">Student ID Login</div>
+          </div>
+          <div class="step-divider"></div>
+          <div class="step-item" id="stepIndicator2">
+            <div class="step-circle">2</div>
+            <div class="step-label">OTP / QR Verification</div>
+          </div>
+          <div class="step-divider"></div>
+          <div class="step-item" id="stepIndicator3">
+            <div class="step-circle">3</div>
+            <div class="step-label">Cast Secret Vote</div>
+          </div>
+          <div class="step-divider"></div>
+          <div class="step-item" id="stepIndicator4">
+            <div class="step-circle">4</div>
+            <div class="step-label">Digital Receipt</div>
+          </div>
+        </div>
+
+        <!-- STAGE 1: Student Login -->
+        <div class="booth-stage" id="stageLogin">
+          <div class="booth-glass-card">
+            <div class="stage-header">
+              <div class="stage-icon"><i class="fa-solid fa-id-card"></i></div>
+              <h3>Student Identity Verification</h3>
+              <p>Enter your Institute Roll Number or Student ID to verify eligibility on the voter roster.</p>
+            </div>
+
+            <form id="formStudentLogin" class="booth-form">
+              <div class="form-group">
+                <label for="inputStudentId"><i class="fa-solid fa-hashtag"></i> Student ID / University Roll No.</label>
+                <div class="input-with-button">
+                  <input type="text" id="inputStudentId" placeholder="e.g., 22BCSE101" required autocomplete="off">
+                  <button type="button" class="btn btn-secondary-glass" id="btnDemoFillStudent">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Try Demo ID
+                  </button>
+                </div>
+                <small class="form-hint">Registered demo accounts: <code>22BCSE101</code> (Aarav), <code>22BECE205</code> (Priya), <code>22BME412</code> (Simran)</small>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label for="selectDepartment"><i class="fa-solid fa-building-columns"></i> Department</label>
+                  <select id="selectDepartment">
+                    <option value="CSE">Computer Science & Eng (CSE)</option>
+                    <option value="ECE">Electronics & Comm (ECE)</option>
+                    <option value="ME">Mechanical Eng (ME)</option>
+                    <option value="IT">Information Tech (IT)</option>
+                    <option value="CE">Civil Engineering (CE)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="selectYear"><i class="fa-solid fa-graduation-cap"></i> Academic Year</label>
+                  <select id="selectYear">
+                    <option value="3rd Year">3rd Year (B.Tech)</option>
+                    <option value="4th Year">4th Year (B.Tech)</option>
+                    <option value="2nd Year">2nd Year (B.Tech)</option>
+                    <option value="1st Year">1st Year (B.Tech)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="security-notice-box">
+                <i class="fa-solid fa-shield-halved"></i>
+                <div>
+                  <strong>One Student → One Vote Protection:</strong>
+                  Your student record verifies your right to vote, while your actual vote is separated anonymously into an encrypted tally.
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary-gradient btn-block btn-lg" id="btnRequestOtp">
+                <span>Proceed to Dual-Factor Verification</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- STAGE 2: Dual Verification (OTP + QR) -->
+        <div class="booth-stage hidden" id="stageVerify">
+          <div class="booth-glass-card">
+            <div class="stage-header">
+              <div class="stage-icon"><i class="fa-solid fa-shield-check"></i></div>
+              <h3>Step 2: Two-Factor Authentication</h3>
+              <p id="otpPromptMessage">A 6-digit security code has been sent to your registered college phone.</p>
+            </div>
+
+            <!-- OTP Simulation Box -->
+            <div class="otp-simulation-pill" id="demoOtpPill">
+              <i class="fa-solid fa-bell"></i>
+              <span>Demo SMS Simulator: Use test verification code <strong id="demoOtpCode">492108</strong></span>
+              <button class="btn btn-xs btn-cyan" id="btnAutofillOtp">Autofill</button>
+            </div>
+
+            <form id="formVerifyOtp" class="booth-form">
+              <div class="form-group text-center">
+                <label for="inputOtpDigits">Enter 6-Digit OTP</label>
+                <div class="otp-input-wrapper">
+                  <input type="text" id="inputOtpDigits" maxlength="6" placeholder="• • • • • •" class="otp-box-large" required autocomplete="off">
+                </div>
+                <div class="otp-timer-row">
+                  <span class="text-muted"><i class="fa-regular fa-clock"></i> Expires in <span id="otpCountdown">04:59</span></span>
+                  <button type="button" class="btn-link" id="btnResendOtp">Resend OTP</button>
+                </div>
+              </div>
+
+              <div class="verification-alt-divider">
+                <span>OR VERIFY VIA QR BADGE</span>
+              </div>
+
+              <div class="qr-verification-section">
+                <div class="qr-card">
+                  <div id="studentBadgeQr"></div>
+                  <div class="qr-caption">Scan student ID QR badge on scanner</div>
+                </div>
+                <button type="button" class="btn btn-outline-cyan btn-sm" id="btnSimulateQrScan">
+                  <i class="fa-solid fa-qrcode"></i> Instant QR Badge Scan
+                </button>
+              </div>
+
+              <div class="form-actions-row">
+                <button type="button" class="btn btn-secondary-glass" id="btnBackToLogin">
+                  <i class="fa-solid fa-arrow-left"></i> Change ID
+                </button>
+                <button type="submit" class="btn btn-primary-gradient btn-lg">
+                  Verify & Unlock Ballot <i class="fa-solid fa-lock-open"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- STAGE 3: Cast Vote (Secret Ballot) -->
+        <div class="booth-stage hidden" id="stageBallot">
+          <div class="booth-glass-card ballot-card">
+            <div class="ballot-header">
+              <div class="voter-badge-chip">
+                <i class="fa-solid fa-user-circle"></i>
+                <span>Voter: <strong id="voterBadgeName">Aarav Sharma</strong> (<span id="voterBadgeId">22BCSE101</span>)</span>
+                <span class="badge-dept" id="voterBadgeDept">CSE</span>
+              </div>
+              <div class="anonymous-seal">
+                <i class="fa-solid fa-user-secret"></i> Anonymous Ballot Guard Active
+              </div>
+            </div>
+
+            <div class="ballot-instructions">
+              <h3>Official Ballot: College Student Council Election 2026</h3>
+              <p>Position: <strong>President</strong>. Carefully select ONE candidate to cast your ballot. Click <em>"Review Manifesto"</em> to inspect details from the comparison matrix.</p>
+            </div>
+
+            <div class="ballot-candidates-grid" id="ballotCandidatesGrid">
+              <!-- Populated by JS -->
+            </div>
+
+            <div class="ballot-footer-actions">
+              <button class="btn btn-outline-purple" id="btnMatrixQuickLook">
+                <i class="fa-solid fa-table-columns"></i> Recheck Comparison Matrix
+              </button>
+              <button class="btn btn-emerald-gradient btn-lg" id="btnSubmitBallot" disabled>
+                <i class="fa-solid fa-paper-plane"></i> Cast Official Vote
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- STAGE 4: Digital Receipt (Cryptographic Proof) -->
+        <div class="booth-stage hidden" id="stageReceipt">
+          <div class="receipt-outer-wrapper">
+            <div class="receipt-success-banner">
+              <div class="success-ring"><i class="fa-solid fa-check"></i></div>
+              <h3>Vote Cast Successfully & Sealed!</h3>
+              <p>Your ballot has been deposited into the anonymous election ledger. One-vote protection is enforced.</p>
+            </div>
+
+            <!-- Digital Receipt Card -->
+            <div class="digital-receipt-card" id="printableReceiptCard">
+              <div class="receipt-watermark">VOTED</div>
+              
+              <div class="receipt-card-header">
+                <div class="receipt-brand">
+                  <i class="fa-solid fa-check-to-slot"></i>
+                  <div>
+                    <h4>Official Digital Voting Receipt</h4>
+                    <span>Smart & Secure College Voting System • Project No. 94</span>
+                  </div>
+                </div>
+                <div class="receipt-verified-badge">
+                  <i class="fa-solid fa-shield-check"></i> CRYPTOGRAPHICALLY SEALED
+                </div>
+              </div>
+
+              <div class="receipt-divider"></div>
+
+              <div class="receipt-grid">
+                <div class="receipt-item">
+                  <span class="r-label">Student Name:</span>
+                  <span class="r-val" id="receiptStudentName">Aarav Sharma</span>
+                </div>
+                <div class="receipt-item">
+                  <span class="r-label">Student ID:</span>
+                  <span class="r-val" id="receiptStudentId">22BCSE101</span>
+                </div>
+                <div class="receipt-item">
+                  <span class="r-label">Department:</span>
+                  <span class="r-val" id="receiptDepartment">CSE</span>
+                </div>
+                <div class="receipt-item">
+                  <span class="r-label">Timestamp:</span>
+                  <span class="r-val" id="receiptTimestamp">2026-10-25 20:45:10 UTC</span>
+                </div>
+                <div class="receipt-item full-width">
+                  <span class="r-label">Election:</span>
+                  <span class="r-val" id="receiptElection">College Student Council Elections 2026</span>
+                </div>
+                <div class="receipt-item full-width receipt-hash-box">
+                  <span class="r-label">Cryptographic Receipt Hash (SHA-256 Proof):</span>
+                  <div class="hash-row">
+                    <code id="receiptHashValue">0x8f2a91c4b7e801d3</code>
+                    <button class="btn btn-xs btn-outline-cyan" id="btnCopyHash"><i class="fa-solid fa-copy"></i> Copy</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="receipt-security-footer">
+                <div class="qr-receipt-box" id="receiptQrCode"></div>
+                <div class="receipt-footer-notes">
+                  <p><strong>Zero-Knowledge Privacy:</strong> For election privacy, this receipt proves your vote was cast and counted, without revealing your chosen candidate to anyone.</p>
+                  <p class="micro-text">Keep this hash to independently verify in the Receipt Verifier tool.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Receipt Actions -->
+            <div class="receipt-actions-bar">
+              <button class="btn btn-outline-cyan" id="btnPrintReceipt">
+                <i class="fa-solid fa-print"></i> Print / Save PDF Receipt
+              </button>
+              <button class="btn btn-primary-gradient" id="btnVerifyThisReceiptNow">
+                <i class="fa-solid fa-magnifying-glass-check"></i> Verify on Public Ledger
+              </button>
+              <button class="btn btn-secondary-glass" id="btnVoteAnotherStudent">
+                <i class="fa-solid fa-rotate-left"></i> Test Another Student
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 3: ADMIN DASHBOARD & ANALYTICS (SLIDE 6 & 10)                         -->
+    <!-- ========================================================================= -->
+    <section class="tab-pane" id="tab-admin">
+      <div class="admin-dashboard-container">
+        
+        <!-- Admin Header & Controls -->
+        <div class="admin-control-header">
+          <div>
+            <div class="badge-pill-cyan">Slide 6 Centralized Administration</div>
+            <h2>Election Control & Analytics Dashboard</h2>
+            <p>Monitor real-time student turnout, department trends, security audit trails, and manage election lifecycle.</p>
+          </div>
+          <div class="admin-actions-group">
+            <button class="btn btn-secondary-glass btn-sm" id="btnResetVoters">
+              <i class="fa-solid fa-arrows-rotate"></i> Reset Demo Voters
+            </button>
+            <button class="btn btn-outline-purple btn-sm" id="btnToggleElectionState">
+              <i class="fa-solid fa-pause"></i> Pause Election
+            </button>
+            <button class="btn btn-danger-gradient btn-sm" id="btnCloseElection">
+              <i class="fa-solid fa-flag-checkered"></i> Close & Tabulate
+            </button>
+          </div>
+        </div>
+
+        <!-- Metrics Cards Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon-wrapper cyan-glow">
+              <i class="fa-solid fa-users"></i>
+            </div>
+            <div class="stat-info">
+              <span class="stat-title">Eligible Voters</span>
+              <span class="stat-number" id="adminTotalEligible">1,250</span>
+              <span class="stat-sub">Enrolled across 5 departments</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon-wrapper emerald-glow">
+              <i class="fa-solid fa-check-double"></i>
+            </div>
+            <div class="stat-info">
+              <span class="stat-title">Total Votes Cast</span>
+              <span class="stat-number" id="adminTotalVoted">810</span>
+              <span class="stat-sub" id="adminTurnoutPercent">64.8% Student Turnout</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon-wrapper purple-glow">
+              <i class="fa-solid fa-hourglass-half"></i>
+            </div>
+            <div class="stat-info">
+              <span class="stat-title">Election Window</span>
+              <span class="stat-number" id="adminTimeRemaining">05h 42m</span>
+              <span class="stat-sub">Automated closing timer active</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon-wrapper amber-glow">
+              <i class="fa-solid fa-shield-virus"></i>
+            </div>
+            <div class="stat-info">
+              <span class="stat-title">Security Status</span>
+              <span class="stat-number text-emerald" id="adminSecurityStatus">Secure</span>
+              <span class="stat-sub" id="adminSuspiciousCount">1 flagged attempt mitigated</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Analytics Charts Row -->
+        <div class="charts-row">
+          <!-- Chart 1: Department-wise Turnout -->
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div>
+                <h4><i class="fa-solid fa-chart-column"></i> Department-wise Turnout Analytics</h4>
+                <p>Real-time participation rate breakdown across engineering branches</p>
+              </div>
+              <span class="badge-dept-count">5 Departments</span>
+            </div>
+            <div class="chart-canvas-container">
+              <canvas id="deptTurnoutChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Chart 2: Candidate Vote Tally / Live Matrix Impact -->
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div>
+                <h4><i class="fa-solid fa-chart-pie"></i> Candidate Vote Distribution</h4>
+                <p>Live encrypted tally (Presidential Race)</p>
+              </div>
+              <span class="badge-live-pulse" id="tallyStatusBadge">Live Tally</span>
+            </div>
+            <div class="chart-canvas-container">
+              <canvas id="candidateTallyChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Security & Audit Log Stream (Slide 6 & 10) -->
+        <div class="audit-log-card">
+          <div class="audit-card-header">
+            <div>
+              <h4><i class="fa-solid fa-fingerprint"></i> Suspicious Activity & Security Audit Log</h4>
+              <p>Continuous monitoring of authentication events, rate limits, and double-vote blocks</p>
+            </div>
+            <div class="filter-actions">
+              <button class="btn btn-xs btn-outline-cyan active" id="btnFilterAllLogs">All Events</button>
+              <button class="btn btn-xs btn-outline-amber" id="btnFilterSuspiciousLogs">Flagged Only</button>
+              <button class="btn btn-xs btn-secondary-glass" id="btnTriggerSimulatedAttack">
+                <i class="fa-solid fa-bug"></i> Simulate Double Vote
+              </button>
+            </div>
+          </div>
+          <div class="audit-table-wrapper">
+            <table class="audit-table">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Event Type</th>
+                  <th>IP Address</th>
+                  <th>Security Details</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="auditLogTbody">
+                <!-- Injected by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 4: RECEIPT VERIFIER TOOL                                              -->
+    <!-- ========================================================================= -->
+    <section class="tab-pane" id="tab-receipt-checker">
+      <div class="verifier-container">
+        <div class="verifier-card">
+          <div class="verifier-header">
+            <div class="stage-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+            <h2>Public Ledger Receipt Validator</h2>
+            <p>Every student receives a cryptographic receipt hash upon casting their ballot. Enter your receipt hash below to confirm it was immutably recorded in the election database.</p>
+          </div>
+
+          <div class="verifier-search-box">
+            <div class="input-with-button">
+              <input type="text" id="inputReceiptQuery" placeholder="Enter receipt hash (e.g. 0x7a89b4f321ec908d)" autocomplete="off">
+              <button class="btn btn-primary-gradient" id="btnRunReceiptLookup">
+                <i class="fa-solid fa-check"></i> Verify Ledger
+              </button>
+            </div>
+            <div class="quick-samples">
+              <span>Try test receipt:</span>
+              <a href="#" class="sample-link" id="linkSampleReceipt">0x7a89b4f321ec908d</a>
+            </div>
+          </div>
+
+          <div class="verifier-result-box hidden" id="verifierResultBox">
+            <!-- Dynamically populated verification result -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 5: PROJECT BLUEPRINT, SLIDES & TEAM CREDITS                           -->
+    <!-- ========================================================================= -->
+    <section class="tab-pane" id="tab-project">
+      <div class="project-info-container">
+        <!-- Project Hero Card -->
+        <div class="project-hero">
+          <div class="project-pill">PROJECT NO. 94 • ONLINE VOTING SYSTEM (COLLEGE LEVEL)</div>
+          <h2>Smart & Secure College Voting System</h2>
+          <p class="project-tagline">"A modern digital platform for secure, simple and transparent college elections."</p>
+          
+          <div class="team-grid">
+            <div class="team-card team-leader">
+              <div class="team-avatar"><i class="fa-solid fa-user-astronaut"></i></div>
+              <div class="team-name">Akhil Kumar</div>
+              <div class="team-role">Team Leader</div>
+            </div>
+            <div class="team-card">
+              <div class="team-avatar"><i class="fa-solid fa-user-tie"></i></div>
+              <div class="team-name">Aksh Cheema</div>
+              <div class="team-role">Team Member</div>
+            </div>
+            <div class="team-card">
+              <div class="team-avatar"><i class="fa-solid fa-user-gear"></i></div>
+              <div class="team-name">Ajay Singh</div>
+              <div class="team-role">Team Member</div>
+            </div>
+            <div class="team-card">
+              <div class="team-avatar"><i class="fa-solid fa-user-shield"></i></div>
+              <div class="team-name">Akhtar Ali</div>
+              <div class="team-role">Team Member</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Problem vs Solution Row (Slides 2 & 3) -->
+        <div class="problem-solution-grid">
+          <div class="prob-sol-card problem-card">
+            <div class="ps-header">
+              <i class="fa-solid fa-circle-exclamation text-amber"></i>
+              <h3>The Problem (Slide 2)</h3>
+            </div>
+            <ul class="ps-list">
+              <li>Paper-based elections require more time and manual work.</li>
+              <li>Long queues reduce student convenience and lower participation.</li>
+              <li>Candidate information is scattered or unavailable at voting time.</li>
+              <li>Manual counting introduces delays, disputes, and human errors.</li>
+              <li>Absence of tamper-evident receipts for voters.</li>
+            </ul>
+          </div>
+
+          <div class="prob-sol-card solution-card">
+            <div class="ps-header">
+              <i class="fa-solid fa-circle-check text-cyan"></i>
+              <h3>Our Solution (Slide 3)</h3>
+            </div>
+            <ul class="ps-list">
+              <li>Students verify identity, compare candidates, cast one vote, and receive confirmation.</li>
+              <li>Smart Candidate Comparison Matrix establishes fair, identical criteria.</li>
+              <li>Zero-knowledge separation of student identity and ballot choices.</li>
+              <li>Administrators schedule elections, monitor live turnout, and publish results.</li>
+              <li>Real-time department-wise analytics and anomaly detection.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 9 Key Innovations Grid (Slide 4) -->
+        <div class="innovations-section">
+          <div class="section-badge">SLIDE 4 INNOVATIONS</div>
+          <h3>What Makes Our Project Different</h3>
+          <div class="innovations-grid">
+            <div class="inno-card">
+              <div class="inno-num">1</div>
+              <h4>Student ID + OTP Verification</h4>
+              <p>Dual-factor institutional authentication preventing student impersonation.</p>
+            </div>
+            <div class="inno-card">
+              <div class="inno-num">2</div>
+              <h4>QR-Based Verification Option</h4>
+              <p>Instant contactless student ID badge scanning for fast voting booth access.</p>
+            </div>
+            <div class="inno-card">
+              <div class="inno-num">3</div>
+              <h4>One Student → One Vote</h4>
+              <p>Atomic database-level enforcement that permanently prevents double voting.</p>
+            </div>
+            <div class="inno-card highlight-card">
+              <div class="inno-num">4</div>
+              <h4>Candidate Comparison Before Voting</h4>
+              <p>The standout Smart Matrix: Compare 2-4 candidates side-by-side with 8 standardized benchmarks.</p>
+            </div>
+            <div class="inno-card">
+              <div class="inno-num">5</div>
+              <h4>Automatic Election Timer</h4>
+              <p>Scheduled opening and closing hours with precision countdown auto-locking.</p>
+            </div>
+            <div class="inno-card">
+              <div class="inno-num">6</div>
+              <h4>Anonymous Vote Recording</h4>
+              <p>Zero voter linkability in the ballot database ensures total election secrecy.</p>
+            </div>
+            <div class="inno-card">
+              <div class="inno-num">7</div>
+              <h4>Digital Vote Receipt</h4>
+              <p>Cryptographic proof hash allowing independent verification on the ledger.</p>
+            </div>
+            <div class="inno-card">
+              <div class="inno-num">8</div>
+              <h4>Department-Wise Analytics</h4>
+              <p>Granular branch turnout percentages and real-time participation tracking.</p>
+            </div>
+            <div class="inno-card">
+              <div class="inno-num">9</div>
+              <h4>Suspicious Activity Monitoring</h4>
+              <p>Automated threat detection for repeated login failures and anomalous IP traffic.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Technology Stack & Architecture (Slide 9 & 10) -->
+        <div class="tech-section">
+          <div class="section-badge">SLIDE 9 TECH STACK</div>
+          <h3>System Architecture & Components</h3>
+          <div class="tech-cards-grid">
+            <div class="tech-card">
+              <i class="fa-brands fa-html5 text-orange"></i>
+              <h4>Frontend</h4>
+              <p>HTML5, Modern CSS Design System, Responsive Glassmorphism & Vanilla JS</p>
+            </div>
+            <div class="tech-card">
+              <i class="fa-brands fa-node-js text-green"></i>
+              <h4>Backend</h4>
+              <p>Python/Node.js REST Services, Atomic Ballot Transaction Engine</p>
+            </div>
+            <div class="tech-card">
+              <i class="fa-solid fa-chart-simple text-cyan"></i>
+              <h4>Charts & Visuals</h4>
+              <p>Chart.js dynamic canvases for department turnout & live distributions</p>
+            </div>
+            <div class="tech-card">
+              <i class="fa-solid fa-qrcode text-purple"></i>
+              <h4>QR & Cryptography</h4>
+              <p>HMAC-SHA256 Digital Receipts, Canvas QR Generation & Validation</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Expected Outcome & Future Scope (Slides 11, 12, 13) -->
+        <div class="future-grid">
+          <div class="future-card">
+            <h4><i class="fa-solid fa-trophy text-amber"></i> Expected Outcome (Slide 11)</h4>
+            <ul>
+              <li>Faster voting and zero manual counting delays.</li>
+              <li>Elimination of paperwork and ballot paper wastage.</li>
+              <li>Better, objective access to candidate manifestos.</li>
+              <li>A robust, auditable B.Tech mini project showcase.</li>
+            </ul>
+          </div>
+          <div class="future-card">
+            <h4><i class="fa-solid fa-rocket text-cyan"></i> Future Scope (Slide 12)</h4>
+            <ul>
+              <li>College ERP & student portal single-sign-on integration.</li>
+              <li>Native iOS & Android mobile voting applications.</li>
+              <li>Advanced AI-driven anomaly detection algorithms.</li>
+              <li>Multi-college election federations & biometric verification.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: ADD CANDIDATE                                                      -->
+  <!-- ========================================================================= -->
+  <div class="modal-overlay hidden" id="modalAddCandidate">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-user-plus text-cyan"></i> Add Candidate to Ballot</h3>
+        <button class="btn-close-modal" id="btnCloseAddCandidateModal">&times;</button>
+      </div>
+      <form id="formAddCandidate" class="modal-form">
+        <div class="form-row-2">
+          <div class="form-group">
+            <label for="candName">Candidate Full Name</label>
+            <input type="text" id="candName" placeholder="e.g. Tanya Singhal" required>
+          </div>
+          <div class="form-group">
+            <label for="candDept">Department & Year</label>
+            <input type="text" id="candDept" placeholder="e.g. CSE | 3rd Year" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="candTagline">Vision Tagline</label>
+          <input type="text" id="candTagline" placeholder="e.g. Empowering students with cutting edge technology" required>
+        </div>
+
+        <div class="manifesto-inputs-header">Standardized 8-Point Manifesto Categories</div>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label>1. Academic Improvement</label>
+            <input type="text" id="mAcademic" placeholder="e.g. Coding bootcamps & doubt sessions" required>
+          </div>
+          <div class="form-group">
+            <label>2. Campus Infrastructure</label>
+            <input type="text" id="mInfra" placeholder="e.g. Library extension & 24/7 Wi-Fi" required>
+          </div>
+        </div>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label>3. Events & Clubs</label>
+            <input type="text" id="mEvents" placeholder="e.g. Inter-college hackathons & culture fest" required>
+          </div>
+          <div class="form-group">
+            <label>4. Student Welfare</label>
+            <input type="text" id="mWelfare" placeholder="e.g. Student grievance desk & mental health" required>
+          </div>
+        </div>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label>5. Technology</label>
+            <input type="text" id="mTech" placeholder="e.g. Mobile campus companion app" required>
+          </div>
+          <div class="form-group">
+            <label>6. Placement & Career</label>
+            <input type="text" id="mPlacement" placeholder="e.g. Mock interviews & resume reviews" required>
+          </div>
+        </div>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label>7. Previous Work / Track Record</label>
+            <input type="text" id="mPrevWork" placeholder="e.g. Head of robotics club, organized fest" required>
+          </div>
+          <div class="form-group">
+            <label>8. Action-Ready Score (%)</label>
+            <input type="number" id="mActionReady" min="50" max="100" value="82" required>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary-glass" id="btnCancelAddCandidate">Cancel</button>
+          <button type="submit" class="btn btn-primary-gradient">Add to Comparison Matrix</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: CONFIRM VOTE BALLOT CAST                                            -->
+  <!-- ========================================================================= -->
+  <div class="modal-overlay hidden" id="modalConfirmVote">
+    <div class="modal-box confirmation-box">
+      <div class="confirm-icon"><i class="fa-solid fa-box-archive"></i></div>
+      <h3>Confirm Your Official Vote</h3>
+      <p class="confirm-text">You are about to cast your vote for:</p>
+      
+      <div class="selected-candidate-preview" id="confirmCandidateCard">
+        <!-- Injected by JS -->
+      </div>
+
+      <div class="critical-warning-box">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <div>
+          <strong>Irreversible Action:</strong>
+          Once confirmed, your vote is cryptographically sealed in the tally ledger. You cannot change your vote or cast a second ballot.
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary-glass" id="btnCancelVoteConfirm">Go Back & Change</button>
+        <button type="button" class="btn btn-emerald-gradient btn-lg" id="btnFinalConfirmVote">
+          <i class="fa-solid fa-check"></i> Seal & Cast Ballot
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Script -->
+  <script src="app.js"></script>
+</body>
+</html>
