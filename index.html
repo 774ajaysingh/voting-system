@@ -171,7 +171,7 @@
           <!-- Voter Self-Registration & Status Check Gateway Link -->
           <div class="auth-register-callout" style="margin-top: 14px; padding: 12px 14px; background: rgba(0, 242, 254, 0.06); border: 1px dashed rgba(0, 242, 254, 0.3); border-radius: 10px; text-align: center;">
             <div style="font-size: 12px; color: #94a3b8; margin-bottom: 6px;">New Student or Need Verification Approval?</div>
-            <button type="button" class="btn btn-outline-cyan btn-sm w-100" id="btnGatewayOpenRegister" style="font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
+            <button type="button" class="btn btn-outline-cyan btn-sm w-100 trigger-voter-register" id="btnGatewayOpenRegister" style="font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;">
               <i class="fa-solid fa-address-card"></i> Self-Register as Voter / Check Verification Status
             </button>
           </div>
@@ -3355,10 +3355,14 @@
         <button type="button" class="btn btn-warning-gold" id="btnDeclareSimWinnerNow">
           <i class="fa-solid fa-flag-checkered"></i> Conclude & Tabulate Results Now
         </button>
+      </div>
+    </div>
+  </div>
+
   <!-- ========================================================================= -->
   <!-- MODAL: STUDENT VOTER SELF-REGISTRATION & STATUS VERIFICATION PORTAL      -->
   <!-- ========================================================================= -->
-  <div class="modal-overlay hidden" id="modalVoterSelfRegister">
+  <div class="modal-overlay hidden" id="modalVoterSelfRegister" style="display: none;">
     <div class="modal-box modal-lg vreg-modal-box">
       <div class="modal-header">
         <div class="modal-title-group">

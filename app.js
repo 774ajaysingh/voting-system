@@ -1093,7 +1093,7 @@ function initAuthGateway() {
 
         // 1. Strict Check: If student is NOT on roster, REJECT IMMEDIATELY!
         if (!student) {
-          const errMsg = `Student Roll Number '<strong>${studentId}</strong>' is not registered on the official electoral roll.<br>Please select an authorized profile from the <strong>Demo Voter Profiles</strong> below, or submit a Self-Registration application.`;
+          const errMsg = `Student Roll Number '<strong>${studentId}</strong>' is not registered on the official electoral roll.<br>Please select an authorized profile from the <strong>Demo Voter Profiles</strong> below, or <a href="#" class="trigger-voter-register" style="color: #00f2fe; text-decoration: underline; font-weight: 700;"><i class="fa-solid fa-address-card"></i> Self-Register as a New Voter</a>.`;
           showStudentAuthError("Voter Not Registered", errMsg);
           triggerInputShake(inputStudentId);
           return; // STRICTLY REJECT - DO NOT LOG IN!
@@ -6456,9 +6456,19 @@ function initVoterSelfRegistrationPortal() {
   triggerIds.forEach(id => {
     const btn = document.getElementById(id);
     if (btn) {
-      btn.addEventListener("click", () => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
         openVoterRegisterModal("register");
       });
+    }
+  });
+
+  // Global delegation for any trigger button or link across the portal
+  document.addEventListener("click", (e) => {
+    const trigger = e.target.closest("#btnGatewayOpenRegister, #btnHeaderVoterRegister, #btnBoothOpenRegister, .trigger-voter-register");
+    if (trigger) {
+      e.preventDefault();
+      openVoterRegisterModal("register");
     }
   });
 
@@ -6667,6 +6677,10 @@ function openVoterRegisterModal(initialTab = "register", queryRoll = null) {
   if (!modal) return;
 
   modal.classList.remove("hidden");
+  modal.style.display = "flex";
+  modal.style.visibility = "visible";
+  modal.style.opacity = "1";
+  modal.style.pointerEvents = "auto";
 
   const tabForm = document.getElementById("btnTabVregForm");
   const tabTrack = document.getElementById("btnTabVregTrack");
@@ -6693,7 +6707,10 @@ function openVoterRegisterModal(initialTab = "register", queryRoll = null) {
 
 function closeVoterRegisterModal() {
   const modal = document.getElementById("modalVoterSelfRegister");
-  if (modal) modal.classList.add("hidden");
+  if (modal) {
+    modal.classList.add("hidden");
+    modal.style.display = "none";
+  }
 }
 
 function renderVoterStatusLookup(query) {

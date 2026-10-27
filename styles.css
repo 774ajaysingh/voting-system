@@ -8337,10 +8337,23 @@ body:has(.modal-overlay:not(.hidden)) .floating-election-bar {
   vertical-align: middle;
 }
 
+/* Ensure modal overlays above login gateway overlay (z-index 10000) */
+#modalVoterSelfRegister,
+#modalInspectStudentId,
+#modalRejectVoter {
+  z-index: 20000 !important;
+}
+
+.hidden {
+  display: none !important;
+}
+
 /* Voter Self-Registration Modal Layout */
 .vreg-modal-box {
   max-width: 980px !important;
   width: 95%;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .vreg-modal-tabs {
