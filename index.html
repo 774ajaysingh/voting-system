@@ -780,6 +780,9 @@
             <button class="btn btn-primary-gradient btn-sm" id="btnOpenCreateElectionModal" title="Cast & Launch a Brand New Election">
               <i class="fa-solid fa-plus-circle"></i> Create New Election
             </button>
+            <button class="btn btn-emerald-gradient btn-sm" id="btnSimulate1000Election" title="Launch and simulate a full 1,000-voter election with 4 representatives from setup to results" style="font-weight: 700; box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);">
+              <i class="fa-solid fa-bolt"></i> Run 1,000-Voter Election (4 Candidates)
+            </button>
             <button class="btn btn-secondary-glass btn-sm" id="btnExportAuditCsv" title="Download Security Audit Trail in CSV format">
               <i class="fa-solid fa-file-csv"></i> Export Audit (CSV)
             </button>
@@ -2374,7 +2377,10 @@
       <div class="election-templates-box">
         <span class="tmpl-label"><i class="fa-solid fa-wand-magic-sparkles"></i> 1-Click Demo Templates:</span>
         <div class="tmpl-chips">
-          <button type="button" class="tmpl-chip active-tmpl" data-template="cr">
+          <button type="button" class="tmpl-chip active-tmpl" data-template="campus1000">
+            <i class="fa-solid fa-users-line"></i> 1,000-Voter Campus Election (4 Candidates)
+          </button>
+          <button type="button" class="tmpl-chip" data-template="cr">
             <i class="fa-solid fa-graduation-cap"></i> Dept Class Representative (CR)
           </button>
           <button type="button" class="tmpl-chip" data-template="sports">
@@ -2985,6 +2991,153 @@
           </button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: 1,000-VOTER LIVE ELECTION SIMULATION CONSOLE                      -->
+  <!-- ========================================================================= -->
+  <div class="modal-overlay hidden" id="modalSimulation1000">
+    <div class="modal-box sim-modal-box">
+      <div class="modal-header">
+        <div>
+          <div class="badge-pill-cyan"><i class="fa-solid fa-microchip"></i> LIVE HIGH-CONCURRENCY SIMULATION ENGINE</div>
+          <h3><i class="fa-solid fa-bolt text-emerald"></i> 1,000-Voter Election Simulation</h3>
+          <p>Real-time automated voting simulation across 4 nominated representatives and 5 academic branches.</p>
+        </div>
+        <button type="button" class="btn-close-modal" id="btnCloseSimulationModal">&times;</button>
+      </div>
+
+      <!-- Simulation Stepper -->
+      <div class="sim-stepper">
+        <div class="sim-step-item done" id="simStep1">
+          <div class="sim-step-dot"><i class="fa-solid fa-check"></i></div>
+          <span>1. Genesis Minted</span>
+        </div>
+        <div class="sim-step-item active" id="simStep2">
+          <div class="sim-step-dot">2</div>
+          <span>2. 1,000 Ballot Casts</span>
+        </div>
+        <div class="sim-step-item" id="simStep3">
+          <div class="sim-step-dot">3</div>
+          <span>3. Ledger Decoupling</span>
+        </div>
+        <div class="sim-step-item" id="simStep4">
+          <div class="sim-step-dot">4</div>
+          <span>4. Official Gazette</span>
+        </div>
+      </div>
+
+      <!-- Turnout Progress Card -->
+      <div class="sim-progress-card">
+        <div class="sim-progress-header">
+          <div>
+            <div style="font-size: 11px; text-transform: uppercase; color: #94a3b8; font-weight: 700;">Live Turnout Counter</div>
+            <div class="sim-votes-counter"><span id="simVotesCount">0</span> <span style="font-size: 16px; color: #64748b; font-weight: 400;">/ 1,000 Electorate</span></div>
+          </div>
+          <span class="sim-turnout-badge" id="simTurnoutPct">0.0% Turnout</span>
+        </div>
+        <div class="sim-progress-bar">
+          <div class="sim-progress-fill" id="simProgressFill" style="width: 0%;"></div>
+        </div>
+      </div>
+
+      <!-- 4 Representatives Dynamic Tally -->
+      <div class="sim-cand-grid">
+        <div class="sim-cand-row">
+          <div class="sim-cand-meta">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80" alt="Aisha Khan">
+            <div class="sim-cand-name" style="color: #38bdf8;">Aisha Khan (CSE)</div>
+          </div>
+          <div class="sim-cand-bar-wrap">
+            <div class="sim-cand-bar-fill" id="simBarCand1" style="width: 0%; background: #38bdf8;"></div>
+          </div>
+          <div class="sim-cand-count" id="simVotesCand1" style="color: #38bdf8;">0 votes (0%)</div>
+        </div>
+
+        <div class="sim-cand-row">
+          <div class="sim-cand-meta">
+            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&auto=format&fit=crop&q=80" alt="Tanvi Malviya">
+            <div class="sim-cand-name" style="color: #8b5cf6;">Tanvi Malviya (IT)</div>
+          </div>
+          <div class="sim-cand-bar-wrap">
+            <div class="sim-cand-bar-fill" id="simBarCand2" style="width: 0%; background: #8b5cf6;"></div>
+          </div>
+          <div class="sim-cand-count" id="simVotesCand2" style="color: #8b5cf6;">0 votes (0%)</div>
+        </div>
+
+        <div class="sim-cand-row">
+          <div class="sim-cand-meta">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80" alt="Rohan Deshmukh">
+            <div class="sim-cand-name" style="color: #10b981;">Rohan Deshmukh (ME)</div>
+          </div>
+          <div class="sim-cand-bar-wrap">
+            <div class="sim-cand-bar-fill" id="simBarCand3" style="width: 0%; background: #10b981;"></div>
+          </div>
+          <div class="sim-cand-count" id="simVotesCand3" style="color: #10b981;">0 votes (0%)</div>
+        </div>
+
+        <div class="sim-cand-row">
+          <div class="sim-cand-meta">
+            <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&auto=format&fit=crop&q=80" alt="Arjun Reddy">
+            <div class="sim-cand-name" style="color: #f59e0b;">Arjun Reddy (ECE)</div>
+          </div>
+          <div class="sim-cand-bar-wrap">
+            <div class="sim-cand-bar-fill" id="simBarCand4" style="width: 0%; background: #f59e0b;"></div>
+          </div>
+          <div class="sim-cand-count" id="simVotesCand4" style="color: #f59e0b;">0 votes (0%)</div>
+        </div>
+
+        <div class="sim-cand-row">
+          <div class="sim-cand-meta">
+            <div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(239, 68, 68, 0.2); display: flex; align-items: center; justify-content: center; color: #ef4444; font-weight: 700; font-size: 11px;">NOTA</div>
+            <div class="sim-cand-name" style="color: #ef4444;">None Of The Above</div>
+          </div>
+          <div class="sim-cand-bar-wrap">
+            <div class="sim-cand-bar-fill" id="simBarCand5" style="width: 0%; background: #ef4444;"></div>
+          </div>
+          <div class="sim-cand-count" id="simVotesCand5" style="color: #ef4444;">0 votes (0%)</div>
+        </div>
+      </div>
+
+      <!-- Department Turnout Breakdown -->
+      <div class="sim-dept-grid">
+        <div class="sim-dept-box">
+          <div class="sim-dept-code">CSE (340)</div>
+          <div class="sim-dept-count" id="simDeptCSE">0 / 340</div>
+        </div>
+        <div class="sim-dept-box">
+          <div class="sim-dept-code">ECE (260)</div>
+          <div class="sim-dept-count" id="simDeptECE">0 / 260</div>
+        </div>
+        <div class="sim-dept-box">
+          <div class="sim-dept-code">ME (180)</div>
+          <div class="sim-dept-count" id="simDeptME">0 / 180</div>
+        </div>
+        <div class="sim-dept-box">
+          <div class="sim-dept-code">IT (140)</div>
+          <div class="sim-dept-count" id="simDeptIT">0 / 140</div>
+        </div>
+        <div class="sim-dept-box">
+          <div class="sim-dept-code">CE (80)</div>
+          <div class="sim-dept-count" id="simDeptCE">0 / 80</div>
+        </div>
+      </div>
+
+      <!-- Live Terminal Log -->
+      <div class="sim-terminal-ticker" id="simTerminalLogs">
+        <div>[SYSTEM READY] 1,000 voter simulation console initialized. Waiting for trigger...</div>
+      </div>
+
+      <!-- Actions -->
+      <div class="modal-actions-dual" style="margin-top: 10px;">
+        <button type="button" class="btn btn-secondary-glass" id="btnFastForwardSim">
+          <i class="fa-solid fa-forward-fast"></i> Fast Forward Simulation
+        </button>
+        <button type="button" class="btn btn-warning-gold" id="btnDeclareSimWinnerNow">
+          <i class="fa-solid fa-flag-checkered"></i> Conclude & Tabulate Results Now
+        </button>
+      </div>
     </div>
   </div>
 

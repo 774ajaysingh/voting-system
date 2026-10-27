@@ -1754,6 +1754,14 @@ function initAdminDashboard() {
     });
   }
 
+  const btnSim1000 = document.getElementById("btnSimulate1000Election");
+  if (btnSim1000) {
+    btnSim1000.addEventListener("click", () => {
+      run1000PeopleElectionSimulation();
+    });
+  }
+
+  init1000SimulationModalControls();
   initInstantEndElectionControls();
   initElectionScheduleManager();
   initAdminScrutinyDesk();
@@ -4285,6 +4293,226 @@ function renderPriorityChart() {
 }
 
 /* ==========================================================================
+   1,000-VOTER LIVE ELECTION SIMULATION ENGINE
+   ========================================================================== */
+let simulationInterval = null;
+const simProgressState = {
+  currentVotes: 0,
+  targetVotes: 924,
+  totalEligible: 1000,
+  candVotes: [0, 0, 0, 0, 0], // Aisha, Tanvi, Rohan, Arjun, NOTA
+  targetCandVotes: [386, 278, 164, 72, 24],
+  deptVotes: { CSE: 0, ECE: 0, ME: 0, IT: 0, CE: 0 },
+  targetDeptVotes: { CSE: 318, ECE: 238, ME: 162, IT: 132, CE: 74 },
+  deptTotals: { CSE: 340, ECE: 260, ME: 180, IT: 140, CE: 80 }
+};
+
+function init1000SimulationModalControls() {
+  const modal = document.getElementById("modalSimulation1000");
+  const btnClose = document.getElementById("btnCloseSimulationModal");
+  const btnFast = document.getElementById("btnFastForwardSim");
+  const btnDeclare = document.getElementById("btnDeclareSimWinnerNow");
+
+  if (btnClose) {
+    btnClose.addEventListener("click", () => {
+      if (simulationInterval) clearInterval(simulationInterval);
+      if (modal) modal.classList.add("hidden");
+    });
+  }
+
+  if (btnFast) {
+    btnFast.addEventListener("click", () => {
+      finishSimulationTurnout(true);
+    });
+  }
+
+  if (btnDeclare) {
+    btnDeclare.addEventListener("click", () => {
+      finishSimulationTurnout(true);
+    });
+  }
+}
+
+function setSimStep(step) {
+  for (let i = 1; i <= 4; i++) {
+    const el = document.getElementById(`simStep${i}`);
+    if (el) {
+      el.classList.remove("active", "done");
+      if (i < step) el.classList.add("done");
+      else if (i === step) el.classList.add("active");
+    }
+  }
+}
+
+function updateSimulationUI() {
+  const elCount = document.getElementById("simVotesCount");
+  const elPct = document.getElementById("simTurnoutPct");
+  const elFill = document.getElementById("simProgressFill");
+
+  const votes = simProgressState.currentVotes;
+  const total = simProgressState.totalEligible;
+  const pct = ((votes / total) * 100).toFixed(1);
+
+  if (elCount) elCount.textContent = votes.toLocaleString();
+  if (elPct) elPct.textContent = `${pct}% Turnout`;
+  if (elFill) elFill.style.width = `${pct}%`;
+
+  // Candidate bars
+  const candTotals = simProgressState.candVotes;
+  candTotals.forEach((cv, idx) => {
+    const barEl = document.getElementById(`simBarCand${idx + 1}`);
+    const countEl = document.getElementById(`simVotesCand${idx + 1}`);
+    const share = votes > 0 ? ((cv / votes) * 100).toFixed(1) : "0.0";
+    if (barEl) barEl.style.width = `${share}%`;
+    if (countEl) countEl.textContent = `${cv} votes (${share}%)`;
+  });
+
+  // Department counts
+  for (const dept in simProgressState.deptVotes) {
+    const deptEl = document.getElementById(`simDept${dept}`);
+    if (deptEl) {
+      deptEl.textContent = `${simProgressState.deptVotes[dept]} / ${simProgressState.deptTotals[dept]}`;
+    }
+  }
+}
+
+function run1000PeopleElectionSimulation() {
+  // 1. Initialize Election State for 1,000 Electorate with 4 Candidates
+  const tmpl = ELECTION_TEMPLATES.campus1000;
+  applyNewElectionOffline({
+    title: tmpl.title,
+    id: tmpl.id,
+    position: tmpl.position,
+    durationHours: 12,
+    totalEligible: 1000,
+    candidates: tmpl.candidates
+  });
+
+  // Switch to admin tab to monitor live progress
+  switchTab("tab-admin");
+
+  // Open Simulation Modal
+  const modal = document.getElementById("modalSimulation1000");
+  if (modal) modal.classList.remove("hidden");
+
+  // Reset state
+  simProgressState.currentVotes = 0;
+  simProgressState.candVotes = [0, 0, 0, 0, 0];
+  simProgressState.deptVotes = { CSE: 0, ECE: 0, ME: 0, IT: 0, CE: 0 };
+  updateSimulationUI();
+  setSimStep(2);
+
+  const ticker = document.getElementById("simTerminalLogs");
+  if (ticker) {
+    ticker.innerHTML = `
+      <div><span style="color:#10b981;">[GENESIS]</span> Block #0 minted for ELEX-1000-MAIN. Merkle Root: 0x8a9bf4c012...</div>
+      <div><span style="color:#00f2fe;">[POLLING OPEN]</span> 1,000 voter biometric tokens synchronized. Polling started across 5 departments.</div>
+    `;
+  }
+
+  showToast("⚡ 1,000-Voter Election simulation started! Live polling underway...", "info");
+
+  if (simulationInterval) clearInterval(simulationInterval);
+
+  let tick = 0;
+  simulationInterval = setInterval(() => {
+    tick++;
+    const stepIncrement = Math.floor(Math.random() * 22) + 16; // 16 to 38 votes per tick
+    simProgressState.currentVotes = Math.min(simProgressState.targetVotes, simProgressState.currentVotes + stepIncrement);
+
+    const ratio = simProgressState.currentVotes / simProgressState.targetVotes;
+    simProgressState.candVotes = simProgressState.targetCandVotes.map(target => Math.round(target * ratio));
+
+    for (const d in simProgressState.targetDeptVotes) {
+      simProgressState.deptVotes[d] = Math.round(simProgressState.targetDeptVotes[d] * ratio);
+    }
+
+    // Append live ticker event
+    if (tick % 2 === 0 && ticker) {
+      const depts = ["CSE", "ECE", "ME", "IT", "CE"];
+      const randDept = depts[Math.floor(Math.random() * depts.length)];
+      const randHash = "0x" + Math.random().toString(16).substr(2, 8) + "...";
+      const div = document.createElement("div");
+      div.innerHTML = `<span style="color:#00f2fe;">[MINT]</span> Batch #${tick} committed: ${simProgressState.currentVotes} votes • ${randDept} booth • Proof: ${randHash}`;
+      ticker.appendChild(div);
+      if (ticker.childNodes.length > 7) ticker.removeChild(ticker.firstChild);
+    }
+
+    updateSimulationUI();
+
+    if (simProgressState.currentVotes >= simProgressState.targetVotes) {
+      clearInterval(simulationInterval);
+      simulationInterval = null;
+      finishSimulationTurnout(false);
+    }
+  }, 80);
+}
+
+function finishSimulationTurnout(immediate = false) {
+  if (simulationInterval) {
+    clearInterval(simulationInterval);
+    simulationInterval = null;
+  }
+
+  simProgressState.currentVotes = simProgressState.targetVotes;
+  simProgressState.candVotes = [...simProgressState.targetCandVotes];
+  simProgressState.deptVotes = { ...simProgressState.targetDeptVotes };
+  updateSimulationUI();
+  setSimStep(3);
+
+  const ticker = document.getElementById("simTerminalLogs");
+  if (ticker) {
+    const div = document.createElement("div");
+    div.innerHTML = `<span style="color:#10b981; font-weight:bold;">[TABULATION SEALED]</span> 924 / 1,000 ballots cryptographically verified. Zero double votes. Total turnout: 92.4%.`;
+    ticker.appendChild(div);
+  }
+
+  // Update live candidates and department state
+  if (APP_STATE.candidates && APP_STATE.candidates.length >= 4) {
+    APP_STATE.candidates[0].votes = 386; // Aisha Khan
+    APP_STATE.candidates[1].votes = 278; // Tanvi Malviya
+    APP_STATE.candidates[2].votes = 164; // Rohan Deshmukh
+    APP_STATE.candidates[3].votes = 72;  // Arjun Reddy
+    if (APP_STATE.candidates[4]) APP_STATE.candidates[4].votes = 24; // NOTA
+  }
+
+  APP_STATE.departments = [
+    { name: "Computer Science (CSE)", code: "CSE", total: 340, voted: 318 },
+    { name: "Electronics & Comm (ECE)", code: "ECE", total: 260, voted: 238 },
+    { name: "Mechanical Eng (ME)", code: "ME", total: 180, voted: 162 },
+    { name: "Information Tech (IT)", code: "IT", total: 140, voted: 132 },
+    { name: "Civil Engineering (CE)", code: "CE", total: 80, voted: 74 }
+  ];
+
+  renderAdminCharts();
+  renderBallotCandidates();
+  updateTurnoutMetrics();
+
+  // Audit log
+  if (APP_STATE.logs) {
+    APP_STATE.logs.unshift({
+      id: Date.now(),
+      timestamp: new Date().toLocaleTimeString(),
+      type: "ELECTION_SIMULATION_COMPLETED",
+      details: "1,000-Voter Election simulation concluded. 924 ballots cast (92.4% turnout) across 4 candidates + NOTA.",
+      ip: "127.0.0.1",
+      isSuspicious: false
+    });
+    renderAuditLogTable(APP_STATE.logs);
+  }
+
+  const delay = immediate ? 200 : 1200;
+  setTimeout(() => {
+    setSimStep(4);
+    const modal = document.getElementById("modalSimulation1000");
+    if (modal) modal.classList.add("hidden");
+
+    instantEndElectionAndDeclareResults();
+    showToast("🎉 1,000-Voter Election officially completed! Winner declared in ceremony.", "success");
+  }, delay);
+}
+
+/* ==========================================================================
    5. WINNER CEREMONY MODAL & CELEBRATION FANFARE
    ========================================================================== */
 let confettiInterval = null;
@@ -4313,7 +4541,8 @@ function openWinnerCeremony() {
   const runnerUp = candidates[1];
   const margin = winner.votes - (runnerUp ? runnerUp.votes : 0);
   const totalVotes = candidates.reduce((acc, c) => acc + c.votes, 0);
-  const turnoutPct = Math.round((totalVotes / 1250) * 100 * 10) / 10;
+  const totalEligible = APP_STATE.election?.totalEligible || 1000;
+  const turnoutPct = Math.round((totalVotes / totalEligible) * 100 * 10) / 10;
 
   const showcase = document.getElementById("winnerShowcaseCard");
   if (showcase) {
@@ -4485,6 +4714,43 @@ function initExportTools() {
    ELECTION CREATION & BROADCAST WIZARD (ADMIN)
    ========================================================================== */
 const ELECTION_TEMPLATES = {
+  campus1000: {
+    title: "College Student Council Elections 2026",
+    id: "ELEX-1000-MAIN",
+    position: "President (Student Council)",
+    duration: "12",
+    voters: "1000",
+    candidates: [
+      {
+        name: "Aisha Khan",
+        department: "CSE",
+        tagline: "24/7 Innovation Labs, Coding Leagues & Wi-Fi 6 Upgrades",
+        avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80",
+        color: "#38bdf8"
+      },
+      {
+        name: "Tanvi Malviya",
+        department: "IT",
+        tagline: "Career Incubator, Tech Placement Sprints & Redressal Desk",
+        avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&auto=format&fit=crop&q=80",
+        color: "#8b5cf6"
+      },
+      {
+        name: "Rohan Deshmukh",
+        department: "ME",
+        tagline: "Smart Library Pods, Equipment Renewal & Sports Arena",
+        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80",
+        color: "#10b981"
+      },
+      {
+        name: "Arjun Reddy",
+        department: "ECE",
+        tagline: "Industry Mentorship, Hardware Incubators & Inclusive Campus Life",
+        avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&auto=format&fit=crop&q=80",
+        color: "#f59e0b"
+      }
+    ]
+  },
   cr: {
     title: "Department Class Representative Election 2026",
     id: "ELEX-CR-2026",
@@ -4612,6 +4878,17 @@ function initCreateElectionWizard() {
 
   const openModal = () => {
     if (modal) modal.style.display = "flex";
+    const activeChip = document.querySelector(".tmpl-chip.active-tmpl");
+    const key = activeChip ? activeChip.getAttribute("data-template") : "campus1000";
+    const tmpl = ELECTION_TEMPLATES[key] || ELECTION_TEMPLATES.campus1000;
+    if (tmpl) {
+      document.getElementById("inputCreateElectionTitle").value = tmpl.title;
+      document.getElementById("inputCreateElectionId").value = tmpl.id;
+      document.getElementById("selectCreateElectionPosition").value = tmpl.position;
+      document.getElementById("selectCreateElectionDuration").value = tmpl.duration;
+      document.getElementById("inputCreateElectionVoters").value = tmpl.voters;
+      currentCandidateDrafts = JSON.parse(JSON.stringify(tmpl.candidates));
+    }
     renderCandidateEditorRows();
   };
 

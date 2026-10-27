@@ -109,6 +109,11 @@
    - Persistent ambient ticker displaying ongoing and upcoming elections, live status pills, and remaining polling time.
    - Modal notification center with badge alerts for official CEC circulars, schedule changes, and nomination announcements.
 
+15. **⚡ 1,000-Voter High-Concurrency Election Simulation Engine:**
+   - **Full Lifecycle Simulation:** 1-click execution simulating an election for **1,000 eligible voters** competing across **4 nominated representatives** + constitutional NOTA.
+   - **Live Real-Time Stepper:** Automates **Genesis Minting**, **1,000 Ballot Casts** with realistic multi-department distribution (CSE: 340, ECE: 260, ME: 180, IT: 140, CE: 80), **Cryptographic Ledger Mining**, and **Official Tabulation Ceremony**.
+   - **Dynamic Counters & Charts:** Real-time animated progress bars, live terminal logs, and automatic transition to the **Winner Declaration Ceremony** declaring the elected President with certified victory margin and official Gazette Certificate.
+
 ---
 
 ## 🚀 Quick Start (Run Locally)

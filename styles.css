@@ -7686,5 +7686,227 @@ body:has(.modal-overlay:not(.hidden)) .floating-election-bar {
   transform: translateY(-1px);
 }
 
+/* ==========================================================================
+   1,000-VOTER LIVE ELECTION SIMULATION MODAL
+   ========================================================================== */
+.sim-modal-box {
+  max-width: 760px;
+  width: 94vw;
+  background: rgba(8, 15, 33, 0.98);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.95), 0 0 35px rgba(16, 185, 129, 0.25);
+  border-radius: var(--radius-xl);
+  padding: 26px 30px;
+}
+
+.sim-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 18px 0 22px 0;
+  padding: 12px 18px;
+  background: rgba(4, 9, 23, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+}
+
+.sim-step-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+.sim-step-item.active {
+  color: #10b981;
+}
+
+.sim-step-item.done {
+  color: #00f2fe;
+}
+
+.sim-step-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+}
+
+.sim-step-item.active .sim-step-dot {
+  background: #10b981;
+  color: #000;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+}
+
+.sim-step-item.done .sim-step-dot {
+  background: #00f2fe;
+  color: #000;
+}
+
+.sim-progress-card {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin-bottom: 20px;
+}
+
+.sim-progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.sim-votes-counter {
+  font-size: 26px;
+  font-weight: 800;
+  font-family: monospace;
+  color: #fff;
+}
+
+.sim-turnout-badge {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid #10b981;
+  color: #10b981;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 13px;
+  font-family: monospace;
+}
+
+.sim-progress-bar {
+  width: 100%;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.sim-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00f2fe, #10b981);
+  border-radius: 8px;
+  transition: width 0.25s ease-out;
+  box-shadow: 0 0 15px rgba(0, 242, 254, 0.5);
+}
+
+.sim-cand-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.sim-cand-row {
+  background: rgba(4, 9, 23, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 10px 14px;
+  display: grid;
+  grid-template-columns: 180px 1fr 90px;
+  align-items: center;
+  gap: 14px;
+}
+
+.sim-cand-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sim-cand-meta img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.sim-cand-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sim-cand-bar-wrap {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.sim-cand-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.25s ease;
+}
+
+.sim-cand-count {
+  text-align: right;
+  font-family: monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: #e2e8f0;
+}
+
+.sim-dept-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.sim-dept-box {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 10px 8px;
+  text-align: center;
+}
+
+.sim-dept-code {
+  font-size: 11px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.sim-dept-count {
+  font-size: 14px;
+  font-weight: 800;
+  font-family: monospace;
+  color: #00f2fe;
+}
+
+.sim-terminal-ticker {
+  background: #020617;
+  border: 1px solid rgba(0, 242, 254, 0.25);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-family: monospace;
+  font-size: 11px;
+  color: #38bdf8;
+  height: 60px;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column-reverse;
+  margin-bottom: 20px;
+}
+
+
 
 
