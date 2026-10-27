@@ -12,7 +12,7 @@ import urllib.parse
 import hashlib
 import hmac
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 PORT = 5000
 
@@ -43,6 +43,8 @@ STATE = {
             "year": "3rd Year",
             "phone": "+91 98765 43210",
             "email": "aarav.22bcse101@college.edu",
+            "pin": "1234",
+            "password": "password123",
             "verified": False,
             "hasVoted": False,
             "otp": None,
@@ -56,6 +58,8 @@ STATE = {
             "year": "3rd Year",
             "phone": "+91 98765 43211",
             "email": "priya.22bece205@college.edu",
+            "pin": "1234",
+            "password": "password123",
             "verified": False,
             "hasVoted": False,
             "otp": None,
@@ -69,6 +73,8 @@ STATE = {
             "year": "3rd Year",
             "phone": "+91 98765 43212",
             "email": "aditya.22bit304@college.edu",
+            "pin": "1234",
+            "password": "password123",
             "verified": False,
             "hasVoted": True,
             "otp": None,
@@ -82,12 +88,22 @@ STATE = {
             "year": "3rd Year",
             "phone": "+91 98765 43213",
             "email": "simran.22bme412@college.edu",
+            "pin": "1234",
+            "password": "password123",
             "verified": False,
             "hasVoted": False,
             "otp": None,
             "otpExpires": 0,
             "receiptHash": None
         }
+    },
+    "admin": {
+        "username": "admin@college.edu",
+        "alias": "admin",
+        "password": "admin2026",
+        "name": "Dr. S. Ramanujan",
+        "title": "Chief Returning Officer",
+        "department": "College Election Commission"
     },
     # Candidates exactly matching Slide 5 "Smart Candidate Comparison Matrix"
     "candidates": [
@@ -178,6 +194,28 @@ STATE = {
                 "actionReadyScore": 80
             },
             "votes": 119
+        },
+        {
+            "id": "CAND-NOTA",
+            "name": "NOTA (None Of The Above)",
+            "position": "For President",
+            "department": "Campus-Wide",
+            "year": "Universal Option",
+            "avatar": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=400&auto=format&fit=crop&q=80",
+            "tagline": "Protest vote demanding council reform and fresh nominations",
+            "color": "#64748b",
+            "manifesto": {
+                "academic": "Rejection of proposed academic agendas; demands independent audit of teaching quality",
+                "infrastructure": "Demands direct student-elected infrastructure inspection committee",
+                "events": "Calls for transparent student-controlled club funding and budget referendum",
+                "welfare": "Demands 100% autonomous student grievance cell free of administrative delays",
+                "technology": "Demands open-source student portal code and data privacy compliance",
+                "placement": "Demands un-redacted college placement statistics and Tier-1 company invitations",
+                "previousWork": "Official democratic safeguard guaranteed by Election Commission charter",
+                "commitmentsCount": 0,
+                "actionReadyScore": 100
+            },
+            "votes": 38
         }
     ],
     # Anonymous Ballots: zero student identity link
@@ -190,6 +228,49 @@ STATE = {
             "timestamp": "2026-10-25T11:42:10Z",
             "verified": True
         }
+    },
+    # Tamper-Evident Merkle Blockchain Ledger
+    "blockchain": [
+        {
+            "index": 0,
+            "timestamp": "2026-10-25T08:00:00Z",
+            "data": {
+                "type": "GENESIS_BLOCK",
+                "electionId": "ELEX-2026-MAIN",
+                "authority": "College Election Commission",
+                "status": "SEALED",
+                "voterToken": "GENESIS-ROOT"
+            },
+            "previousHash": "0000000000000000000000000000000000000000000000000000000000000000",
+            "merkleRoot": "0x4a9b2c8f1e6d7a30e8c7b6a5d4f3e2d1c0b9a8f7e6d5c4b3a2f1e0d9c8b7a6f5",
+            "nonce": 1042,
+            "hash": "0b016b0ef8a6eb4a8afaa078f69c895584e6531ef890cf3bfef746dd943d2827",
+            "tampered": False
+        },
+        {
+            "index": 1,
+            "timestamp": "2026-10-25T11:42:10Z",
+            "data": {
+                "type": "BALLOT_SEAL",
+                "electionId": "ELEX-2026-MAIN",
+                "receiptHash": "0x7a89b4f321ec908d",
+                "voterToken": "0x89c7d8a6f3b4e2d1",
+                "dept": "IT"
+            },
+            "previousHash": "0b016b0ef8a6eb4a8afaa078f69c895584e6531ef890cf3bfef746dd943d2827",
+            "merkleRoot": "0x7a89b4f321ec908d",
+            "nonce": 2491,
+            "hash": "bdbf46034983ed4cf54e36127ecac8775af17fe7ed2275f44c4f52c6d379280d",
+            "tampered": False
+        }
+    ],
+    # Campus Priority Polling (Voice of Campus)
+    "campusPriorities": {
+        "Placements & Career Training": 310,
+        "High-Speed Wi-Fi & Labs": 245,
+        "Campus Infrastructure & Library": 180,
+        "Student Welfare & Mental Health": 140,
+        "Events, Hackathons & Sports": 95
     },
     # Audit and Security monitoring logs
     "auditLogs": [
@@ -230,6 +311,29 @@ STATE = {
 
 SECRET_KEY = b"CollegeVotingSystemSecretSalt2026"
 
+def compute_block_hash(index, prev_hash, timestamp, merkle_root, nonce):
+    raw = f"{index}:{prev_hash}:{timestamp}:{merkle_root}:{nonce}"
+    return hashlib.sha256(raw.encode()).hexdigest()
+
+def verify_blockchain_integrity():
+    for i in range(1, len(STATE["blockchain"])):
+        current = STATE["blockchain"][i]
+        prev = STATE["blockchain"][i - 1]
+        if current.get("tampered", False):
+            return False, i, f"Tamper flag actively detected on block #{i}"
+        if current["previousHash"] != prev["hash"]:
+            return False, i, f"Previous hash mismatch at block #{i}. Chain severed!"
+        expected_hash = compute_block_hash(
+            current["index"],
+            current["previousHash"],
+            current["timestamp"],
+            current["merkleRoot"],
+            current["nonce"]
+        )
+        if current["hash"] != expected_hash:
+            return False, i, f"Hash cryptographic signature invalid at block #{i}!"
+    return True, -1, "All chained blocks cryptographically verified"
+
 class VotingRequestHandler(http.server.SimpleHTTPRequestHandler):
     def end_headers(self):
         # Enable CORS and disable aggressive caching for API calls
@@ -268,6 +372,23 @@ class VotingRequestHandler(http.server.SimpleHTTPRequestHandler):
                 "totalEligible": STATE["election"]["totalEligible"],
                 "turnoutPercent": round((total_voted / STATE["election"]["totalEligible"]) * 100, 1),
                 "serverTime": datetime.now(timezone.utc).isoformat()
+            })
+            return
+
+        elif path == "/api/blockchain":
+            is_valid, bad_idx, reason = verify_blockchain_integrity()
+            self._send_json({
+                "blocks": STATE["blockchain"],
+                "isValid": is_valid,
+                "corruptedBlockIndex": bad_idx,
+                "reason": reason,
+                "totalBlocks": len(STATE["blockchain"])
+            })
+            return
+
+        elif path == "/api/campus-priorities":
+            self._send_json({
+                "priorities": STATE["campusPriorities"]
             })
             return
 
@@ -326,7 +447,115 @@ class VotingRequestHandler(http.server.SimpleHTTPRequestHandler):
         body = self._read_body()
         client_ip = self.client_address[0]
 
-        if path == "/api/auth/send-otp":
+        if path == "/api/auth/student-login":
+            student_id = body.get("studentId", "").strip().upper()
+            password = body.get("password", "").strip()
+            student = STATE["students"].get(student_id)
+            if not student:
+                STATE["auditLogs"].insert(0, {
+                    "id": len(STATE["auditLogs"]) + 1,
+                    "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                    "eventType": "LOGIN_FAILED",
+                    "details": f"Attempted login with unregistered Student ID: {student_id}",
+                    "ip": client_ip,
+                    "isSuspicious": True
+                })
+                self._send_json({"error": "Student ID not found in voter registration roster."}, 404)
+                return
+
+            valid_keys = [student_id.lower(), "1234", "password123", student.get("pin", "1234"), student.get("password", "password123")]
+            if password and password.lower() not in valid_keys:
+                STATE["auditLogs"].insert(0, {
+                    "id": len(STATE["auditLogs"]) + 1,
+                    "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                    "eventType": "LOGIN_FAILED",
+                    "details": f"Incorrect password attempt for Student ID: {student_id}",
+                    "ip": client_ip,
+                    "isSuspicious": True
+                })
+                self._send_json({"error": "Invalid student password/PIN. (Demo PIN: 1234)"}, 401)
+                return
+
+            STATE["auditLogs"].insert(0, {
+                "id": len(STATE["auditLogs"]) + 1,
+                "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "eventType": "STUDENT_LOGIN",
+                "details": f"Student voter authenticated: {student['name']} ({student_id})",
+                "ip": client_ip,
+                "isSuspicious": False
+            })
+
+            self._send_json({
+                "success": True,
+                "role": "student",
+                "user": {
+                    "studentId": student["studentId"],
+                    "name": student["name"],
+                    "department": student["department"],
+                    "year": student["year"],
+                    "phone": student["phone"],
+                    "email": student["email"],
+                    "hasVoted": student["hasVoted"],
+                    "receiptHash": student["receiptHash"]
+                }
+            })
+            return
+
+        elif path == "/api/auth/admin-login":
+            username = body.get("username", "").strip().lower()
+            password = body.get("password", "").strip()
+
+            admin = STATE["admin"]
+            valid_usernames = [admin["username"].lower(), admin["alias"].lower(), "admin", "admin@college.edu", "ec_officer"]
+            valid_passwords = [admin["password"], "admin2026", "admin123"]
+
+            if username in valid_usernames and password in valid_passwords:
+                STATE["auditLogs"].insert(0, {
+                    "id": len(STATE["auditLogs"]) + 1,
+                    "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                    "eventType": "ADMIN_LOGIN",
+                    "details": f"Election Commission Admin logged in ({admin['name']})",
+                    "ip": client_ip,
+                    "isSuspicious": False
+                })
+                self._send_json({
+                    "success": True,
+                    "role": "admin",
+                    "user": {
+                        "username": admin["username"],
+                        "name": admin["name"],
+                        "title": admin["title"],
+                        "department": admin["department"],
+                        "role": "admin"
+                    }
+                })
+            else:
+                STATE["auditLogs"].insert(0, {
+                    "id": len(STATE["auditLogs"]) + 1,
+                    "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                    "eventType": "ADMIN_LOGIN_FAILED",
+                    "details": f"Failed admin login attempt: '{username}'",
+                    "ip": client_ip,
+                    "isSuspicious": True
+                })
+                self._send_json({"error": "Invalid administrator username or security passkey."}, 401)
+            return
+
+        elif path == "/api/auth/logout":
+            role = body.get("role", "user")
+            identifier = body.get("identifier", "Unknown")
+            STATE["auditLogs"].insert(0, {
+                "id": len(STATE["auditLogs"]) + 1,
+                "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "eventType": "USER_LOGOUT",
+                "details": f"User logged out ({role}: {identifier})",
+                "ip": client_ip,
+                "isSuspicious": False
+            })
+            self._send_json({"success": True, "message": "Logged out successfully"})
+            return
+
+        elif path == "/api/auth/send-otp":
             student_id = body.get("studentId", "").strip().upper()
             student = STATE["students"].get(student_id)
             if not student:
@@ -492,6 +721,34 @@ class VotingRequestHandler(http.server.SimpleHTTPRequestHandler):
                 "isSuspicious": False
             })
 
+            # 8. Append Block to Blockchain Ledger
+            last_block = STATE["blockchain"][-1]
+            new_index = len(STATE["blockchain"])
+            nonce = int(time.time() * 1000) % 9000 + 1000
+            block_hash = compute_block_hash(new_index, last_block["hash"], now_iso, receipt_hash, nonce)
+            new_block = {
+                "index": new_index,
+                "timestamp": now_iso,
+                "data": {
+                    "type": "BALLOT_SEAL",
+                    "electionId": STATE["election"]["id"],
+                    "receiptHash": receipt_hash,
+                    "voterToken": ballot_token[:18],
+                    "dept": student["department"]
+                },
+                "previousHash": last_block["hash"],
+                "merkleRoot": receipt_hash,
+                "nonce": nonce,
+                "hash": block_hash,
+                "tampered": False
+            }
+            STATE["blockchain"].append(new_block)
+
+            # 9. Record campus priority if selected
+            chosen_priority = body.get("priority")
+            if chosen_priority and chosen_priority in STATE["campusPriorities"]:
+                STATE["campusPriorities"][chosen_priority] += 1
+
             self._send_json({
                 "success": True,
                 "message": "Your vote has been securely and anonymously recorded!",
@@ -502,9 +759,56 @@ class VotingRequestHandler(http.server.SimpleHTTPRequestHandler):
                     "department": student["department"],
                     "electionTitle": STATE["election"]["title"],
                     "timestamp": now_iso,
-                    "verificationStatus": "VALIDATED & SEALED"
+                    "verificationStatus": "VALIDATED & SEALED",
+                    "blockIndex": new_index,
+                    "blockHash": block_hash
                 }
             })
+            return
+
+        elif path == "/api/blockchain/tamper":
+            if len(STATE["blockchain"]) > 1:
+                target = STATE["blockchain"][1]
+                target["tampered"] = not target.get("tampered", False)
+                if target["tampered"]:
+                    target["data"]["receiptHash"] = "0xDEADBEEF00000000"
+                    target["merkleRoot"] = "0xDEADBEEF00000000"
+                    target["hash"] = "9999deadbeef9999deadbeef9999deadbeef9999deadbeef9999deadbeef9999"
+                    STATE["auditLogs"].insert(0, {
+                        "id": len(STATE["auditLogs"]) + 1,
+                        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                        "eventType": "TAMPER_ATTACK_DETECTED",
+                        "details": "Integrity alert: Block #1 data modified outside election ledger protocol!",
+                        "ip": client_ip,
+                        "isSuspicious": True
+                    })
+                else:
+                    target["data"]["receiptHash"] = "0x7a89b4f321ec908d"
+                    target["merkleRoot"] = "0x7a89b4f321ec908d"
+                    target["hash"] = "bdbf46034983ed4cf54e36127ecac8775af17fe7ed2275f44c4f52c6d379280d"
+                    target["tampered"] = False
+            is_valid, bad_idx, reason = verify_blockchain_integrity()
+            self._send_json({"success": True, "isValid": is_valid, "corruptedBlockIndex": bad_idx, "reason": reason})
+            return
+
+        elif path == "/api/blockchain/restore":
+            if len(STATE["blockchain"]) > 1:
+                target = STATE["blockchain"][1]
+                target["data"]["receiptHash"] = "0x7a89b4f321ec908d"
+                target["merkleRoot"] = "0x7a89b4f321ec908d"
+                target["hash"] = "bdbf46034983ed4cf54e36127ecac8775af17fe7ed2275f44c4f52c6d379280d"
+                target["tampered"] = False
+            is_valid, bad_idx, reason = verify_blockchain_integrity()
+            self._send_json({"success": True, "isValid": is_valid, "message": "Blockchain ledger integrity restored."})
+            return
+
+        elif path == "/api/campus-priorities/vote":
+            chosen = body.get("priority")
+            if chosen and chosen in STATE["campusPriorities"]:
+                STATE["campusPriorities"][chosen] += 1
+                self._send_json({"success": True, "priorities": STATE["campusPriorities"]})
+            else:
+                self._send_json({"error": "Invalid priority option"}, 400)
             return
 
         elif path == "/api/admin/toggle-election":
@@ -522,6 +826,186 @@ class VotingRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self._send_json({"success": True, "status": new_status})
             else:
                 self._send_json({"error": "Invalid status option"}, 400)
+            return
+
+        elif path == "/api/admin/create-election":
+            title = body.get("title", "").strip() or "Department Representative Elections 2026"
+            election_id = body.get("id", "").strip().upper() or f"ELEX-{datetime.now().strftime('%Y%m%d%H%M')}"
+            position = body.get("position", "For Representative")
+            duration_hours = float(body.get("durationHours", 6))
+            total_eligible = int(body.get("totalEligible", 500))
+            raw_candidates = body.get("candidates", [])
+
+            now_utc = datetime.now(timezone.utc)
+            end_utc = now_utc + timedelta(hours=duration_hours)
+
+            # 1. Update Election State
+            STATE["election"] = {
+                "id": election_id,
+                "title": title,
+                "subtitle": f"Official Ballot: {position}",
+                "status": "active",
+                "startTime": now_utc.isoformat(),
+                "endTime": end_utc.isoformat(),
+                "totalEligible": total_eligible,
+                "positions": [position]
+            }
+
+            # 2. Build Candidate List
+            new_candidates = []
+            if raw_candidates and len(raw_candidates) > 0:
+                for idx, c in enumerate(raw_candidates):
+                    cid = c.get("id") or f"CAND-0{idx + 1}"
+                    new_candidates.append({
+                        "id": cid,
+                        "name": c.get("name", f"Candidate {idx + 1}"),
+                        "position": f"For {position}",
+                        "department": c.get("department", "CSE"),
+                        "year": c.get("year", "3rd Year"),
+                        "avatar": c.get("avatar") or "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
+                        "tagline": c.get("tagline", "Dedicated to transparent student leadership"),
+                        "color": c.get("color") or ["#38bdf8", "#10b981", "#8b5cf6", "#f59e0b"][idx % 4],
+                        "manifesto": c.get("manifesto", {
+                            "academic": "Tutorial hours and mentorship",
+                            "infrastructure": "High-speed lab internet & modern tools",
+                            "events": "Department symposia & hackathons",
+                            "welfare": "Peer support and open door council",
+                            "technology": "Digital attendance & repository",
+                            "placement": "Industry connect & alumni talk",
+                            "previousWork": "Student Council Volunteer",
+                            "commitmentsCount": 8,
+                            "actionReadyScore": 85
+                        }),
+                        "votes": 0
+                    })
+            else:
+                new_candidates = [
+                    {
+                        "id": "CAND-01",
+                        "name": "Devansh Singhania",
+                        "position": f"For {position}",
+                        "department": "CSE",
+                        "year": "3rd Year",
+                        "avatar": "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&auto=format&fit=crop&q=80",
+                        "tagline": "Practical lab upgrades, hackathons, and transparent student representation",
+                        "color": "#38bdf8",
+                        "manifesto": {
+                            "academic": "Peer tutorials, lab access extension",
+                            "infrastructure": "Wi-Fi bandwidth upgrade, clean hydration points",
+                            "events": "Annual CodeQuest & inter-batch leagues",
+                            "welfare": "Direct student redressal channel",
+                            "technology": "Department git server & project showcase",
+                            "placement": "DSA bootcamps & mock interviews",
+                            "previousWork": "Organized HackCSE 2025 (400+ attendees)",
+                            "commitmentsCount": 9,
+                            "actionReadyScore": 88
+                        },
+                        "votes": 0
+                    },
+                    {
+                        "id": "CAND-02",
+                        "name": "Tanvi Malviya",
+                        "position": f"For {position}",
+                        "department": "IT",
+                        "year": "3rd Year",
+                        "avatar": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&auto=format&fit=crop&q=80",
+                        "tagline": "Research partnerships, career workshops, and inclusive campus life",
+                        "color": "#10b981",
+                        "manifesto": {
+                            "academic": "Research publication guidance & seminar series",
+                            "infrastructure": "Smart boards in seminar halls & 24/7 library",
+                            "events": "Startup showcase & open-source sprints",
+                            "welfare": "Student mental wellbeing desk",
+                            "technology": "Paperless assignment submission portal",
+                            "placement": "Core domain placement training",
+                            "previousWork": "Lead Developer in OpenSource Campus Club",
+                            "commitmentsCount": 11,
+                            "actionReadyScore": 84
+                        },
+                        "votes": 0
+                    }
+                ]
+
+            # Anchor NOTA
+            new_candidates.append({
+                "id": "CAND-NOTA",
+                "name": "None Of The Above (NOTA)",
+                "position": f"Constitutional Option",
+                "department": "All Departments",
+                "year": "Universal",
+                "avatar": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=400&auto=format&fit=crop&q=80",
+                "tagline": "Democratic rejection of all nominated candidates",
+                "color": "#ef4444",
+                "manifesto": {
+                    "academic": "Re-nomination directive if NOTA plurality",
+                    "infrastructure": "Democratic safeguard",
+                    "events": "Electoral reform",
+                    "welfare": "Expression of non-confidence",
+                    "technology": "Cryptographic ballot seal",
+                    "placement": "Institutional governance accountability",
+                    "previousWork": "Guaranteed by Constitution charter",
+                    "commitmentsCount": 0,
+                    "actionReadyScore": 100
+                },
+                "votes": 0
+            })
+            STATE["candidates"] = new_candidates
+
+            # 3. Reset Voter Roster & Ballots
+            for sid, s in STATE["students"].items():
+                s["hasVoted"] = False
+                s["verified"] = False
+                s["otp"] = None
+                s["receiptHash"] = None
+
+            STATE["votes"] = []
+            STATE["receipts"] = {}
+
+            # 4. Reset Priorities
+            for k in STATE["campusPriorities"]:
+                STATE["campusPriorities"][k] = 0
+
+            # 5. Mint New Genesis Block for New Election
+            merkle_data = f"GENESIS:{election_id}:{title}:{now_utc.isoformat()}"
+            merkle_root = hashlib.sha256(merkle_data.encode()).hexdigest()
+            genesis_block = {
+                "index": 0,
+                "timestamp": now_utc.isoformat(),
+                "data": {
+                    "type": "GENESIS_BLOCK",
+                    "electionId": election_id,
+                    "title": title,
+                    "position": position,
+                    "authority": "College Election Commission",
+                    "declaredCandidates": len(new_candidates),
+                    "status": "SEALED",
+                    "voterToken": "GENESIS-ROOT"
+                },
+                "previousHash": "0" * 64,
+                "merkleRoot": merkle_root,
+                "nonce": 1001,
+                "tampered": False
+            }
+            genesis_block["hash"] = compute_block_hash(genesis_block)
+            STATE["blockchain"] = [genesis_block]
+
+            # 6. Audit Trail
+            STATE["auditLogs"].insert(0, {
+                "id": len(STATE["auditLogs"]) + 1,
+                "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "eventType": "NEW_ELECTION_LAUNCHED",
+                "details": f"Election '{title}' (ID: {election_id}) launched by Admin. Genesis Block #0 minted.",
+                "ip": client_ip,
+                "isSuspicious": False
+            })
+
+            self._send_json({
+                "success": True,
+                "message": f"New election '{title}' successfully cast and launched!",
+                "election": STATE["election"],
+                "candidates": STATE["candidates"],
+                "blockchain": STATE["blockchain"]
+            })
             return
 
         elif path == "/api/admin/add-candidate":
@@ -574,7 +1058,72 @@ class VotingRequestHandler(http.server.SimpleHTTPRequestHandler):
                 s["hasVoted"] = False
                 s["verified"] = False
                 s["receiptHash"] = None
-            self._send_json({"success": True, "message": "Demo voter states reset for fresh test."})
+            # Keep genesis and initial block
+            STATE["blockchain"] = STATE["blockchain"][:2]
+            if len(STATE["blockchain"]) > 1:
+                STATE["blockchain"][1]["tampered"] = False
+                STATE["blockchain"][1]["data"]["receiptHash"] = "0x7a89b4f321ec908d"
+                STATE["blockchain"][1]["hash"] = "bdbf46034983ed4cf54e36127ecac8775af17fe7ed2275f44c4f52c6d379280d"
+            self._send_json({"success": True, "message": "Demo voter states and blockchain ledger reset for fresh test."})
+        elif path == "/api/admin/end-election-now":
+            STATE["election"]["status"] = "concluded"
+            STATE["auditLogs"].insert(0, {
+                "id": len(STATE["auditLogs"]) + 1,
+                "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "eventType": "ELECTION_CONCLUDED_BY_ADMIN",
+                "details": "Election was concluded on demand by Admin Dr. S. Ramanujan. Instant tabulation triggered.",
+                "ip": client_ip,
+                "isSuspicious": False
+            })
+            total_voted = sum(c["votes"] for c in STATE["candidates"])
+            sorted_cands = sorted(STATE["candidates"], key=lambda c: c["votes"], reverse=True)
+            self._send_json({
+                "success": True,
+                "message": "Election officially concluded by Chief Returning Officer.",
+                "winner": sorted_cands[0] if sorted_cands else None,
+                "totalVoted": total_voted,
+                "status": "concluded"
+            })
+            return
+
+        elif path == "/api/admin/grant-revote":
+            sid = body.get("studentId", "").strip().upper()
+            reason = body.get("reason", "TECHNICAL_GLITCH")
+            auth_ref = body.get("authRef", f"CEC/REV-2026/{int(time.time()) % 1000}")
+            student = STATE["students"].get(sid)
+            if not student:
+                self._send_json({"error": f"Student {sid} not found in voter roster."}, 404)
+                return
+
+            student["hasVoted"] = False
+            student["receiptHash"] = None
+            student["revoteGranted"] = True
+
+            STATE["auditLogs"].insert(0, {
+                "id": len(STATE["auditLogs"]) + 1,
+                "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "eventType": "REVOTE_CLEARANCE_GRANTED",
+                "details": f"Revote clearance granted for {student['name']} ({sid}). Order: {auth_ref}. Reason: {reason}.",
+                "ip": client_ip,
+                "isSuspicious": False
+            })
+
+            self._send_json({
+                "success": True,
+                "message": f"Revote clearance granted for {student['name']} ({sid}).",
+                "student": student
+            })
+            return
+
+        elif path == "/api/admin/update-timer":
+            closing_iso = body.get("closingTime")
+            if closing_iso:
+                STATE["election"]["endTime"] = closing_iso
+            self._send_json({
+                "success": True,
+                "message": "Election schedule updated successfully.",
+                "endTime": STATE["election"]["endTime"]
+            })
             return
 
         self._send_json({"error": "Endpoint not found"}, 404)

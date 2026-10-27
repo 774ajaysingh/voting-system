@@ -19,6 +19,189 @@
   <div class="bg-glow glow-purple"></div>
   <div class="bg-grid"></div>
 
+  <!-- ========================================================================= -->
+  <!-- DUAL-ROLE ELECTION AUTHENTICATION GATEWAY (LOGIN PAGE) -->
+  <!-- ========================================================================= -->
+  <div class="auth-gateway-overlay" id="authGatewayOverlay">
+    <div class="auth-gateway-container">
+      
+      <!-- Top Branding & Emblem -->
+      <div class="auth-brand-header">
+        <div class="auth-emblem">
+          <i class="fa-solid fa-check-to-slot"></i>
+        </div>
+        <div class="auth-pill-tag">PROJECT NO. 94 • B.TECH MINI PROJECT</div>
+        <h1 class="auth-system-title">Smart & Secure College Voting System</h1>
+        <p class="auth-system-sub">Unified Democratic Election Portal • Choose Your Access Role to Begin</p>
+      </div>
+
+      <!-- Main Login Gateway Card -->
+      <div class="auth-portal-card">
+        
+        <!-- Segmented Role Switcher -->
+        <div class="auth-role-tabs">
+          <button type="button" class="role-tab-btn active" id="tabRoleStudent" data-role="student">
+            <i class="fa-solid fa-user-graduate"></i>
+            <span>Student (Voter) Login</span>
+          </button>
+          <button type="button" class="role-tab-btn" id="tabRoleAdmin" data-role="admin">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>Admin & Election Team</span>
+          </button>
+        </div>
+
+        <!-- Role 1: Student Voter Portal -->
+        <div class="auth-role-panel active" id="panelRoleStudent">
+          <div class="role-panel-heading">
+            <div class="role-badge cyan-badge">
+              <i class="fa-solid fa-shield-check"></i> Eligible Student Portal
+            </div>
+            <h3>Student Voter Authentication</h3>
+            <p>Access the smart candidate comparison matrix, AI manifesto assistant, and secret digital ballot booth.</p>
+          </div>
+
+          <form id="formStudentAuth" class="auth-form">
+            <div class="form-group-custom">
+              <label for="inputStudentLoginId">
+                <i class="fa-solid fa-id-card"></i> Student Roll Number / ID:
+              </label>
+              <div class="input-with-icon">
+                <i class="fa-solid fa-user-tag input-icon"></i>
+                <input type="text" id="inputStudentLoginId" class="form-input-custom" placeholder="e.g. 22BCSE101" value="22BCSE101" required autocomplete="username">
+              </div>
+            </div>
+
+            <div class="form-group-custom">
+              <label for="inputStudentLoginPin">
+                <i class="fa-solid fa-key"></i> Student Security PIN / Password:
+              </label>
+              <div class="input-with-icon">
+                <i class="fa-solid fa-lock input-icon"></i>
+                <input type="password" id="inputStudentLoginPin" class="form-input-custom" placeholder="Enter PIN (Default: 1234)" value="1234" required autocomplete="current-password">
+                <button type="button" class="btn-toggle-eye" id="btnToggleStudentPin" title="Show/Hide PIN">
+                  <i class="fa-regular fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Quick Demo Student Voter Profiles -->
+            <div class="demo-roster-box">
+              <div class="demo-roster-title">
+                <i class="fa-solid fa-bolt"></i> 1-Click Demo Voter Profiles (for evaluation):
+              </div>
+              <div class="demo-chips-grid">
+                <button type="button" class="demo-chip-student active-demo" data-id="22BCSE101" data-pin="1234">
+                  <span class="d-name">Aarav Sharma</span>
+                  <span class="d-meta">22BCSE101 • CSE</span>
+                  <span class="d-tag green">Eligible</span>
+                </button>
+                <button type="button" class="demo-chip-student" data-id="22BECE205" data-pin="1234">
+                  <span class="d-name">Priya Nair</span>
+                  <span class="d-meta">22BECE205 • ECE</span>
+                  <span class="d-tag green">Eligible</span>
+                </button>
+                <button type="button" class="demo-chip-student" data-id="22BME412" data-pin="1234">
+                  <span class="d-name">Simran Kaur</span>
+                  <span class="d-meta">22BME412 • ME</span>
+                  <span class="d-tag green">Eligible</span>
+                </button>
+                <button type="button" class="demo-chip-student" data-id="22BIT304" data-pin="1234">
+                  <span class="d-name">Aditya Verma</span>
+                  <span class="d-meta">22BIT304 • IT</span>
+                  <span class="d-tag red">Already Voted</span>
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary-gradient w-100 btn-auth-submit" id="btnSubmitStudentLogin">
+              <i class="fa-solid fa-right-to-bracket"></i> Login to Student Voter Portal
+            </button>
+          </form>
+
+          <div class="auth-security-perks">
+            <div class="perk-item"><i class="fa-solid fa-fingerprint"></i> SMS OTP & Biometric HUD</div>
+            <div class="perk-item"><i class="fa-solid fa-user-secret"></i> Zero-Knowledge Anonymous Vote</div>
+            <div class="perk-item"><i class="fa-solid fa-link"></i> Cryptographic SHA-256 Receipt</div>
+          </div>
+        </div>
+
+        <!-- Role 2: Election Management Team (Admin) Portal -->
+        <div class="auth-role-panel" id="panelRoleAdmin" style="display: none;">
+          <div class="role-panel-heading">
+            <div class="role-badge purple-badge">
+              <i class="fa-solid fa-shield-halved"></i> Election Commission Roster
+            </div>
+            <h3>Election Management Team (Admin)</h3>
+            <p>Access centralized election control, real-time turnout analytics, blockchain sentinel, and winner tabulation.</p>
+          </div>
+
+          <form id="formAdminAuth" class="auth-form">
+            <div class="form-group-custom">
+              <label for="inputAdminLoginUser">
+                <i class="fa-solid fa-user-shield"></i> Officer Username / Email:
+              </label>
+              <div class="input-with-icon">
+                <i class="fa-solid fa-at input-icon"></i>
+                <input type="text" id="inputAdminLoginUser" class="form-input-custom" placeholder="admin@college.edu" value="admin@college.edu" required autocomplete="username">
+              </div>
+            </div>
+
+            <div class="form-group-custom">
+              <label for="inputAdminLoginPass">
+                <i class="fa-solid fa-key"></i> Administrative Security Key:
+              </label>
+              <div class="input-with-icon">
+                <i class="fa-solid fa-lock input-icon"></i>
+                <input type="password" id="inputAdminLoginPass" class="form-input-custom" placeholder="Passkey (Default: admin2026)" value="admin2026" required autocomplete="current-password">
+                <button type="button" class="btn-toggle-eye" id="btnToggleAdminPass" title="Show/Hide Key">
+                  <i class="fa-regular fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Quick Demo Admin Profile -->
+            <div class="demo-roster-box">
+              <div class="demo-roster-title">
+                <i class="fa-solid fa-bolt"></i> 1-Click Admin Access (for evaluation):
+              </div>
+              <div class="demo-chips-grid single-col">
+                <button type="button" class="demo-chip-admin active-demo" data-user="admin@college.edu" data-pass="admin2026">
+                  <div class="d-chip-inner">
+                    <i class="fa-solid fa-shield-halved chip-shield"></i>
+                    <div>
+                      <span class="d-name">Chief Returning Officer</span>
+                      <span class="d-meta">admin@college.edu • Passkey: <strong>admin2026</strong></span>
+                    </div>
+                  </div>
+                  <span class="d-tag purple">Admin Access</span>
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-purple-gradient w-100 btn-auth-submit" id="btnSubmitAdminLogin">
+              <i class="fa-solid fa-shield-halved"></i> Access Election Management Console
+            </button>
+          </form>
+
+          <div class="auth-security-perks">
+            <div class="perk-item"><i class="fa-solid fa-chart-pie"></i> Real-Time Turnout & Priority Analytics</div>
+            <div class="perk-item"><i class="fa-solid fa-sliders"></i> Lifecycle Controls (Pause / Resume / Tabulate)</div>
+            <div class="perk-item"><i class="fa-solid fa-cubes"></i> Blockchain Tamper Detection & Audit Trail</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Guest Observer Bypass -->
+      <div class="auth-guest-footer">
+        <button type="button" class="btn-guest-link" id="btnGuestBypass">
+          <i class="fa-solid fa-eye"></i> Or Explore Public Candidate Matrix as Guest Observer
+        </button>
+      </div>
+
+    </div>
+  </div>
+
   <!-- Top Navigation Header -->
   <header class="app-header">
     <div class="header-container">
@@ -32,19 +215,41 @@
         </div>
       </div>
 
-      <!-- Live Election Countdown & Status Badge -->
+      <!-- Live Election Countdown & User Session Status -->
       <div class="header-status-group">
         <div class="status-pill status-active" id="electionStatusPill">
           <span class="pulse-dot"></span>
           <span id="electionStatusText">LIVE ELECTION</span>
         </div>
+        
         <div class="timer-card">
           <i class="fa-regular fa-clock"></i>
           <span class="timer-label">Closing In:</span>
           <span class="timer-value" id="headerCountdown">05:42:18</span>
         </div>
-        <button class="btn btn-outline-cyan btn-sm" id="btnQuickDemoStudent" title="Quick Voter Demo Autofill">
-          <i class="fa-solid fa-user-check"></i> Demo Voter
+
+        <!-- User Session Indicator -->
+        <div class="user-session-chip student-session" id="userSessionChip">
+          <i class="fa-solid fa-user-graduate" id="userSessionIcon"></i>
+          <div class="session-info">
+            <span class="session-name" id="sessionUserName">Aarav Sharma</span>
+            <span class="session-role" id="sessionUserRole">22BCSE101 • CSE</span>
+          </div>
+          <span class="session-status-badge green" id="sessionStatusBadge">VOTER</span>
+        </div>
+
+        <!-- Election Commission Notice Bell -->
+        <button class="header-notice-btn" id="btnHeaderNoticeBell" title="Election Commission Notices & Circulars">
+          <i class="fa-solid fa-bell"></i>
+          <span class="header-notice-badge" id="headerNoticeBadge">4</span>
+        </button>
+
+        <!-- Auth Action Buttons -->
+        <button class="btn btn-outline-danger btn-sm" id="btnHeaderLogout" title="Sign out of current account">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+        </button>
+        <button class="btn btn-outline-cyan btn-sm" id="btnHeaderLogin" style="display: none;" title="Open Login Gateway">
+          <i class="fa-solid fa-right-to-bracket"></i> Login
         </button>
       </div>
     </div>
@@ -56,14 +261,23 @@
           <i class="fa-solid fa-table-columns"></i> Smart Candidate Matrix
           <span class="tab-badge">Slide 5</span>
         </button>
-        <button class="nav-tab" data-tab="tab-booth">
+        <button class="nav-tab" data-tab="tab-booth" id="tabNavBooth">
           <i class="fa-solid fa-person-booth"></i> Student Voting Booth
         </button>
-        <button class="nav-tab" data-tab="tab-admin">
+        <button class="nav-tab" data-tab="tab-notices" id="tabNavNotices">
+          <i class="fa-solid fa-bullhorn"></i> Notices & Elections
+          <span class="tab-badge" id="navNoticeBadge" style="background: rgba(245, 158, 11, 0.2); color: #f59e0b; border: 1px solid #f59e0b;">4 New</span>
+        </button>
+        <button class="nav-tab" data-tab="tab-admin" id="tabNavAdmin">
           <i class="fa-solid fa-chart-pie"></i> Admin & Analytics
+          <span class="tab-badge" id="adminLockBadge" style="background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid #ef4444; display: none;"><i class="fa-solid fa-lock"></i> Locked</span>
         </button>
         <button class="nav-tab" data-tab="tab-receipt-checker">
           <i class="fa-solid fa-receipt"></i> Verify Receipt
+        </button>
+        <button class="nav-tab" data-tab="tab-blockchain">
+          <i class="fa-solid fa-cubes-stacked"></i> Blockchain Ledger
+          <span class="tab-badge" style="background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid #10b981;">New</span>
         </button>
         <button class="nav-tab" data-tab="tab-project">
           <i class="fa-solid fa-circle-info"></i> Project & Team
@@ -71,6 +285,28 @@
       </div>
     </nav>
   </header>
+
+  <!-- Top Live Notice & Announcement Ticker Banner -->
+  <div class="top-notice-banner" id="topNoticeBanner">
+    <div class="tnb-container">
+      <div class="tnb-badge">
+        <span class="tnb-pulse"></span>
+        <i class="fa-solid fa-bullhorn"></i>
+        <span class="tnb-badge-text">OFFICIAL NOTICE</span>
+      </div>
+      <div class="tnb-content" id="tnbNoticeContent">
+        <span class="tnb-ref" id="tnbNoticeRef">Ref: CEC/NOT-2026/09</span>
+        <span class="tnb-text" id="tnbNoticeText">Extension of Polling Hours: Due to heavy student turnout, voting booths will remain open till 08:00 PM today.</span>
+      </div>
+      <div class="tnb-actions">
+        <button type="button" class="btn-tnb-nav" id="btnTnbPrev" title="Previous Notice"><i class="fa-solid fa-chevron-left"></i></button>
+        <span class="tnb-counter" id="tnbCounter">1/5</span>
+        <button type="button" class="btn-tnb-nav" id="btnTnbNext" title="Next Notice"><i class="fa-solid fa-chevron-right"></i></button>
+        <button type="button" class="btn-tnb-view" id="btnTnbViewAll"><i class="fa-solid fa-newspaper"></i> Notice Board</button>
+        <button type="button" class="btn-tnb-close" id="btnTnbDismiss" title="Dismiss Banner"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+    </div>
+  </div>
 
   <!-- Notification Toast Container -->
   <div class="toast-container" id="toastContainer"></div>
@@ -103,6 +339,49 @@
           </div>
         </div>
 
+        <!-- AI Manifesto Assistant & Feasibility Analyzer -->
+        <div class="ai-assistant-card">
+          <div class="ai-assistant-header">
+            <div class="ai-badge">
+              <i class="fa-solid fa-wand-magic-sparkles"></i> AI VOTER ASSISTANT & FEASIBILITY ENGINE
+            </div>
+            <h3>Ask the Ballot: Intelligent Candidate Manifesto Search</h3>
+            <p>Query candidate promises in natural language or let AI evaluate realistic delivery capability across campus council benchmarks.</p>
+          </div>
+
+          <div class="ai-search-row">
+            <div class="ai-search-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="inputAiQuery" placeholder="e.g. 'Who offers the best plan for tech placements?' or 'Who will fix hostel Wi-Fi?'" autocomplete="off">
+              <button class="btn btn-primary-gradient btn-sm" id="btnRunAiQuery">
+                <i class="fa-solid fa-brain"></i> Analyze Manifestos
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick AI Prompt Chips -->
+          <div class="ai-prompt-chips">
+            <span class="chips-label"><i class="fa-solid fa-bolt text-amber"></i> Quick Prompts:</span>
+            <button type="button" class="prompt-chip" data-query="Who has the best plan for tech placements, coding bootcamps & mock interviews?">
+              💼 Placement & Careers
+            </button>
+            <button type="button" class="prompt-chip" data-query="Which candidate will upgrade campus Wi-Fi, computer labs and library study spaces?">
+              📶 Wi-Fi & Labs
+            </button>
+            <button type="button" class="prompt-chip" data-query="Who provides the best student welfare, mental health support and safety programs?">
+              🤝 Student Welfare & Safety
+            </button>
+            <button type="button" class="prompt-chip" data-query="Who has the strongest previous track record and past leadership experience?">
+              🏆 Proven Leadership
+            </button>
+          </div>
+
+          <!-- Dynamic AI Result Box -->
+          <div class="ai-result-panel hidden" id="aiResultPanel">
+            <!-- Dynamically populated by JS -->
+          </div>
+        </div>
+
         <!-- Filter / Candidate Multi-Select Bar -->
         <div class="candidate-selector-bar">
           <div class="selector-instructions">
@@ -113,7 +392,7 @@
             <!-- Dynamically generated toggles -->
           </div>
           <button class="btn btn-primary-gradient btn-sm" id="btnOpenAddCandidateModal">
-            <i class="fa-solid fa-plus"></i> Add Candidate
+            <i class="fa-solid fa-graduation-cap"></i> Run as Candidate / Nominate
           </button>
         </div>
 
@@ -207,7 +486,6 @@
                 </div>
                 <small class="form-hint">Registered demo accounts: <code>22BCSE101</code> (Aarav), <code>22BECE205</code> (Priya), <code>22BME412</code> (Simran)</small>
               </div>
-
               <div class="form-row-2">
                 <div class="form-group">
                   <label for="selectDepartment"><i class="fa-solid fa-building-columns"></i> Department</label>
@@ -230,6 +508,19 @@
                 </div>
               </div>
 
+              <!-- Voice of Campus Priority Issue Poll -->
+              <div class="form-group">
+                <label for="selectCampusPriority"><i class="fa-solid fa-bullhorn text-amber"></i> Voice of the Campus (#1 Issue Priority):</label>
+                <select id="selectCampusPriority">
+                  <option value="Placements & Career Training">💼 Placements, Internships & Career Prep</option>
+                  <option value="High-Speed Wi-Fi & Labs">📶 High-Speed Campus Wi-Fi & Modern Labs</option>
+                  <option value="Campus Infrastructure & Library">🏛️ Campus Infrastructure & 24/7 Library</option>
+                  <option value="Student Welfare & Mental Health">🤝 Student Welfare, Counseling & Safety</option>
+                  <option value="Events, Hackathons & Sports">🎭 Tech Fests, Cultural Clubs & Sports Budget</option>
+                </select>
+                <small class="form-hint">Your selection updates the live student priority distribution chart in the Admin Dashboard.</small>
+              </div>
+
               <div class="security-notice-box">
                 <i class="fa-solid fa-shield-halved"></i>
                 <div>
@@ -246,38 +537,62 @@
           </div>
         </div>
 
-        <!-- STAGE 2: Dual Verification (OTP + QR) -->
+        <!-- STAGE 2: Multi-Factor Verification (OTP + QR + WebCam Biometric) -->
         <div class="booth-stage hidden" id="stageVerify">
           <div class="booth-glass-card">
             <div class="stage-header">
               <div class="stage-icon"><i class="fa-solid fa-shield-check"></i></div>
-              <h3>Step 2: Two-Factor Authentication</h3>
-              <p id="otpPromptMessage">A 6-digit security code has been sent to your registered college phone.</p>
+              <h3>Step 2: Two-Factor & Biometric Verification</h3>
+              <p id="otpPromptMessage">Choose your preferred institutional verification method to unlock your ballot.</p>
             </div>
 
-            <!-- OTP Simulation Box -->
-            <div class="otp-simulation-pill" id="demoOtpPill">
-              <i class="fa-solid fa-bell"></i>
-              <span>Demo SMS Simulator: Use test verification code <strong id="demoOtpCode">492108</strong></span>
-              <button class="btn btn-xs btn-cyan" id="btnAutofillOtp">Autofill</button>
+            <!-- Verification Method Switcher Tabs -->
+            <div class="verify-methods-bar">
+              <button type="button" class="method-btn active" id="btnMethodOtp">
+                <i class="fa-solid fa-mobile-screen"></i> SMS OTP Code
+              </button>
+              <button type="button" class="method-btn" id="btnMethodQr">
+                <i class="fa-solid fa-qrcode"></i> ID QR Badge
+              </button>
+              <button type="button" class="method-btn" id="btnMethodBiometric">
+                <i class="fa-solid fa-face-viewfinder"></i> WebCam Biometric HUD
+              </button>
             </div>
 
-            <form id="formVerifyOtp" class="booth-form">
-              <div class="form-group text-center">
-                <label for="inputOtpDigits">Enter 6-Digit OTP</label>
-                <div class="otp-input-wrapper">
-                  <input type="text" id="inputOtpDigits" maxlength="6" placeholder="• • • • • •" class="otp-box-large" required autocomplete="off">
-                </div>
-                <div class="otp-timer-row">
-                  <span class="text-muted"><i class="fa-regular fa-clock"></i> Expires in <span id="otpCountdown">04:59</span></span>
-                  <button type="button" class="btn-link" id="btnResendOtp">Resend OTP</button>
-                </div>
+            <!-- TAB 1: SMS OTP Verification -->
+            <div class="verify-subview" id="viewVerifyOtp">
+              <!-- OTP Simulation Box -->
+              <div class="otp-simulation-pill" id="demoOtpPill">
+                <i class="fa-solid fa-bell"></i>
+                <span>Demo SMS Simulator: Use test verification code <strong id="demoOtpCode">492108</strong></span>
+                <button class="btn btn-xs btn-cyan" id="btnAutofillOtp">Autofill</button>
               </div>
 
-              <div class="verification-alt-divider">
-                <span>OR VERIFY VIA QR BADGE</span>
-              </div>
+              <form id="formVerifyOtp" class="booth-form">
+                <div class="form-group text-center">
+                  <label for="inputOtpDigits">Enter 6-Digit OTP</label>
+                  <div class="otp-input-wrapper">
+                    <input type="text" id="inputOtpDigits" maxlength="6" placeholder="• • • • • •" class="otp-box-large" required autocomplete="off">
+                  </div>
+                  <div class="otp-timer-row">
+                    <span class="text-muted"><i class="fa-regular fa-clock"></i> Expires in <span id="otpCountdown">04:59</span></span>
+                    <button type="button" class="btn-link" id="btnResendOtp">Resend OTP</button>
+                  </div>
+                </div>
 
+                <div class="form-actions-row">
+                  <button type="button" class="btn btn-secondary-glass" id="btnBackToLogin">
+                    <i class="fa-solid fa-arrow-left"></i> Change ID
+                  </button>
+                  <button type="submit" class="btn btn-primary-gradient btn-lg">
+                    Verify & Unlock Ballot <i class="fa-solid fa-lock-open"></i>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- TAB 2: QR Badge Verification -->
+            <div class="verify-subview hidden" id="viewVerifyQr">
               <div class="qr-verification-section">
                 <div class="qr-card">
                   <div id="studentBadgeQr"></div>
@@ -287,16 +602,37 @@
                   <i class="fa-solid fa-qrcode"></i> Instant QR Badge Scan
                 </button>
               </div>
+            </div>
 
-              <div class="form-actions-row">
-                <button type="button" class="btn btn-secondary-glass" id="btnBackToLogin">
-                  <i class="fa-solid fa-arrow-left"></i> Change ID
-                </button>
-                <button type="submit" class="btn btn-primary-gradient btn-lg">
-                  Verify & Unlock Ballot <i class="fa-solid fa-lock-open"></i>
-                </button>
+            <!-- TAB 3: WebCam Biometric Liveness Scanner -->
+            <div class="verify-subview hidden" id="viewVerifyBiometric">
+              <div class="biometric-box-wrapper">
+                <div class="biometric-camera-frame">
+                  <video id="webcamVideo" autoplay playsinline muted></video>
+                  <canvas id="biometricCanvas" class="biometric-hud-canvas"></canvas>
+                  <div class="hud-target-brackets">
+                    <div class="bracket top-left"></div>
+                    <div class="bracket top-right"></div>
+                    <div class="bracket bottom-left"></div>
+                    <div class="bracket bottom-right"></div>
+                  </div>
+                  <div class="hud-laser-line"></div>
+                  <div class="hud-readout-pill" id="biometricHudStatus">
+                    <span class="pulse-dot"></span> Face Frame Aligned • Liveness Sensor Active
+                  </div>
+                </div>
+
+                <div class="biometric-actions-row">
+                  <button type="button" class="btn btn-secondary-glass btn-sm" id="btnToggleWebcam">
+                    <i class="fa-solid fa-video"></i> Start / Restart Camera
+                  </button>
+                  <button type="button" class="btn btn-emerald-gradient" id="btnCaptureBiometric">
+                    <i class="fa-solid fa-fingerprint"></i> Complete Face Scan & Unlock Ballot
+                  </button>
+                </div>
               </div>
-            </form>
+            </div>
+
           </div>
         </div>
 
@@ -390,6 +726,14 @@
                     <button class="btn btn-xs btn-outline-cyan" id="btnCopyHash"><i class="fa-solid fa-copy"></i> Copy</button>
                   </div>
                 </div>
+                <div class="receipt-item full-width receipt-block-box">
+                  <span class="r-label">Blockchain Block Index & Sealed Hash:</span>
+                  <div class="hash-row">
+                    <span class="badge-block-id" id="receiptBlockIndex">Block #2</span>
+                    <code id="receiptBlockHash">0000c3b8e7d6a5f4e3d2...</code>
+                    <button class="btn btn-xs btn-outline-purple" id="btnGoToBlockchain"><i class="fa-solid fa-cubes-stacked"></i> View Block</button>
+                  </div>
+                </div>
               </div>
 
               <div class="receipt-security-footer">
@@ -433,15 +777,122 @@
             <p>Monitor real-time student turnout, department trends, security audit trails, and manage election lifecycle.</p>
           </div>
           <div class="admin-actions-group">
+            <button class="btn btn-primary-gradient btn-sm" id="btnOpenCreateElectionModal" title="Cast & Launch a Brand New Election">
+              <i class="fa-solid fa-plus-circle"></i> Create New Election
+            </button>
+            <button class="btn btn-secondary-glass btn-sm" id="btnExportAuditCsv" title="Download Security Audit Trail in CSV format">
+              <i class="fa-solid fa-file-csv"></i> Export Audit (CSV)
+            </button>
+            <button class="btn btn-secondary-glass btn-sm" id="btnExportLedgerJson" title="Download Complete Blockchain Ledger in JSON format">
+              <i class="fa-solid fa-file-code"></i> Export Ledger (JSON)
+            </button>
             <button class="btn btn-secondary-glass btn-sm" id="btnResetVoters">
-              <i class="fa-solid fa-arrows-rotate"></i> Reset Demo Voters
+              <i class="fa-solid fa-arrows-rotate"></i> Reset Voters
             </button>
             <button class="btn btn-outline-purple btn-sm" id="btnToggleElectionState">
               <i class="fa-solid fa-pause"></i> Pause Election
             </button>
-            <button class="btn btn-danger-gradient btn-sm" id="btnCloseElection">
-              <i class="fa-solid fa-flag-checkered"></i> Close & Tabulate
+            <button class="btn btn-warning-gold btn-sm" id="btnInstantEndAndResults" title="Immediately conclude voting and declare verified results">
+              <i class="fa-solid fa-flag-checkered"></i> End Election & Declare Results Now
             </button>
+            <button class="btn btn-danger-gradient btn-sm" id="btnCloseElection">
+              <i class="fa-solid fa-trophy"></i> Close & Tabulate Winner
+            </button>
+          </div>
+        </div>
+
+        <!-- Active Election Broadcast Banner -->
+        <div class="active-election-banner">
+          <div class="aeb-left">
+            <div class="aeb-tag">
+              <span class="pulse-dot"></span>
+              <span>ACTIVE ELECTION BROADCAST</span>
+            </div>
+            <h3 id="adminCurrentElectionTitle">College Student Council Elections 2026</h3>
+            <div class="aeb-meta">
+              <span><i class="fa-solid fa-hashtag"></i> ID: <strong id="adminCurrentElectionId">ELEX-2026-MAIN</strong></span>
+              <span><i class="fa-solid fa-user-tie"></i> Position: <strong id="adminCurrentElectionPosition">President</strong></span>
+              <span><i class="fa-solid fa-users"></i> Pool: <strong id="adminCurrentElectionPool">1,250 Eligible</strong></span>
+              <span><i class="fa-solid fa-cubes"></i> Ledger: <strong id="adminCurrentElectionChain">Genesis Minted</strong></span>
+            </div>
+          </div>
+          <div class="aeb-right">
+            <button type="button" class="btn btn-primary-gradient btn-md" id="btnBannerCreateElection">
+              <i class="fa-solid fa-bullhorn"></i> Cast New Election
+            </button>
+          </div>
+        </div>
+
+        <!-- Specific Election Timer & Lifecycle Manager -->
+        <div class="admin-election-timer-manager-card" id="adminElectionTimerManager">
+          <div class="aetm-header">
+            <div class="aetm-title-group">
+              <div class="aetm-icon-ring"><i class="fa-solid fa-clock-rotate-left"></i></div>
+              <div>
+                <div class="badge-pill-cyan">PRECISION TIMING & LIFECYCLE</div>
+                <h3>Election-Specific Timer & Schedule Manager</h3>
+                <p class="text-muted">Configure live countdown clocks, extend polling hours, or conclude voting per individual election.</p>
+              </div>
+            </div>
+            <div class="aetm-badges">
+              <span class="election-timer-active-badge" id="aetmActiveElectionBadge">
+                <span class="pulse-dot"></span> Tracking: <strong id="aetmTrackedElectionName">Student Council Elections 2026</strong>
+              </span>
+            </div>
+          </div>
+
+          <div class="aetm-grid">
+            <!-- Select which election's timer to control -->
+            <div class="aetm-col">
+              <label class="aetm-label" for="selectTimerElection"><i class="fa-solid fa-list-check"></i> Target Election to Configure:</label>
+              <select id="selectTimerElection" class="form-input-custom aetm-select">
+                <option value="ELEX-2026-MAIN">Student Executive Council Elections 2026 (Live)</option>
+                <option value="ELEX-CR-2026">Department Class Representative (CR) Election 2026</option>
+                <option value="ELEX-SPORTS-CULT-2026">Annual Sports & Cultural Secretary 2026</option>
+                <option value="ELEX-ACM-TECH-2026">ACM Tech Society President 2026</option>
+                <option value="ELEX-HOSTEL-2026">Hostel Committee Representative 2026</option>
+              </select>
+              <div class="aetm-info-snippet" id="aetmElectionSummary">
+                <span><i class="fa-solid fa-circle-dot text-emerald"></i> Status: <strong id="aetmElectionStatus">Live Polling</strong></span>
+                <span><i class="fa-solid fa-users"></i> Eligible Electorate: <strong id="aetmElectionVoters">1,250 Students</strong></span>
+              </div>
+            </div>
+
+            <!-- Live Timer Display for that election -->
+            <div class="aetm-col aetm-clock-col">
+              <div class="aetm-clock-display">
+                <span class="aetm-clock-label">Time Remaining for Selected Election</span>
+                <div class="aetm-clock-digits" id="aetmDigitsDisplay">05:42:18</div>
+                <span class="aetm-clock-target" id="aetmClosingTarget">Closes Today at 08:00 PM IST</span>
+              </div>
+            </div>
+
+            <!-- Quick Adjustments & Date/Time Setter -->
+            <div class="aetm-col aetm-actions-col">
+              <label class="aetm-label"><i class="fa-solid fa-stopwatch"></i> Quick Adjust Duration for this Election:</label>
+              <div class="aetm-preset-buttons">
+                <button type="button" class="btn-timer-preset" data-add-mins="30">+30 Mins</button>
+                <button type="button" class="btn-timer-preset" data-add-mins="60">+1 Hour</button>
+                <button type="button" class="btn-timer-preset" data-add-mins="180">+3 Hours</button>
+                <button type="button" class="btn-timer-preset" data-add-mins="1440">+24 Hours</button>
+              </div>
+              
+              <div class="aetm-custom-row">
+                <input type="datetime-local" id="inputTimerCustomDateTime" class="form-input-custom aetm-datetime" title="Set specific closing date and time">
+                <button type="button" class="btn btn-primary-gradient btn-sm" id="btnApplyCustomTimer">
+                  <i class="fa-solid fa-check"></i> Set Timer
+                </button>
+              </div>
+
+              <div class="aetm-lifecycle-controls">
+                <button type="button" class="btn btn-outline-purple btn-sm" id="btnToggleTimerPause">
+                  <i class="fa-solid fa-pause"></i> Pause Timer
+                </button>
+                <button type="button" class="btn btn-warning-gold btn-sm" id="btnAdminEndElectionNow">
+                  <i class="fa-solid fa-flag-checkered"></i> End Now & Declare
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -492,7 +943,7 @@
           </div>
         </div>
 
-        <!-- Analytics Charts Row -->
+        <!-- Analytics Charts Row 1: Dept & Candidates -->
         <div class="charts-row">
           <!-- Chart 1: Department-wise Turnout -->
           <div class="chart-card">
@@ -513,13 +964,57 @@
             <div class="chart-card-header">
               <div>
                 <h4><i class="fa-solid fa-chart-pie"></i> Candidate Vote Distribution</h4>
-                <p>Live encrypted tally (Presidential Race)</p>
+                <p>Live encrypted tally (Presidential Race + NOTA)</p>
               </div>
               <span class="badge-live-pulse" id="tallyStatusBadge">Live Tally</span>
             </div>
             <div class="chart-canvas-container">
               <canvas id="candidateTallyChart"></canvas>
             </div>
+          </div>
+        </div>
+
+        <!-- Analytics Charts Row 2: Voice of Campus Issues Heatmap -->
+        <div class="charts-row single-chart-row">
+          <div class="chart-card priority-chart-card">
+            <div class="chart-card-header">
+              <div>
+                <h4><i class="fa-solid fa-bullhorn text-amber"></i> Voice of the Campus: Priority Issues Heatmap</h4>
+                <p>Real-time student polling on the top campus issues that decide their votes</p>
+              </div>
+              <span class="badge-dept-count">Campus Concerns</span>
+            </div>
+            <div class="chart-canvas-container" style="height: 240px;">
+              <canvas id="priorityChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- ========================================================================= -->
+        <!-- CANDIDATE NOMINATION SCRUTINY & FEASIBILITY SCORING DESK (CEC EVALUATION) -->
+        <!-- ========================================================================= -->
+        <div class="admin-scrutiny-card" id="adminScrutinyDesk">
+          <div class="audit-card-header">
+            <div>
+              <div class="badge-pill-purple"><i class="fa-solid fa-stamp"></i> CEC Statutory Scrutiny Desk</div>
+              <h4><i class="fa-solid fa-user-check"></i> Candidate Nomination Scrutiny & Feasibility Scoring</h4>
+              <p>Scrutinize new filings, evaluate teacher recommendations & portfolio track records, grade feasibility (0–100), and mint candidates to the ballot.</p>
+            </div>
+            <div class="scrutiny-filter-tabs">
+              <button type="button" class="btn btn-xs btn-outline-cyan active" data-scrutiny-filter="pending" id="tabScrutinyPending">
+                <i class="fa-solid fa-clock"></i> Pending Scrutiny (<span id="countScrutinyPending">2</span>)
+              </button>
+              <button type="button" class="btn btn-xs btn-outline-emerald" data-scrutiny-filter="approved" id="tabScrutinyApproved">
+                <i class="fa-solid fa-check-double"></i> Approved on Ballot (<span id="countScrutinyApproved">4</span>)
+              </button>
+              <button type="button" class="btn btn-xs btn-outline-danger" data-scrutiny-filter="rejected" id="tabScrutinyRejected">
+                <i class="fa-solid fa-ban"></i> Rejected (<span id="countScrutinyRejected">1</span>)
+              </button>
+            </div>
+          </div>
+
+          <div class="scrutiny-queue-grid" id="scrutinyQueueContainer">
+            <!-- Populated dynamically by JS -->
           </div>
         </div>
 
@@ -551,6 +1046,49 @@
               </thead>
               <tbody id="auditLogTbody">
                 <!-- Injected by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ========================================================================= -->
+        <!-- STUDENT VOTER ROLL & REVOTE AUTHORIZATION DESK                            -->
+        <!-- ========================================================================= -->
+        <div class="admin-revote-card" id="adminRevoteDesk">
+          <div class="audit-card-header">
+            <div>
+              <div class="badge-pill-cyan"><i class="fa-solid fa-shield-halved"></i> Voter Integrity & Exception Management</div>
+              <h4><i class="fa-solid fa-user-shield"></i> Student Voter Roll & Revote Authorization Desk</h4>
+              <p>Search registered students, inspect ballot casting status, and grant authorized revote/reset clearance for verified grievances or transmission errors.</p>
+            </div>
+            <div class="revote-search-group">
+              <div class="input-with-icon revote-search-input">
+                <i class="fa-solid fa-magnifying-glass input-icon"></i>
+                <input type="text" id="inputAdminVoterSearch" class="form-input-custom" placeholder="Search by Student PRN, Name, or Branch...">
+              </div>
+              <select id="selectVoterStatusFilter" class="form-input-custom revote-filter-select">
+                <option value="all">All Voter Records</option>
+                <option value="voted">Voted (Eligible for Revote)</option>
+                <option value="not_voted">Not Yet Voted</option>
+                <option value="revote_granted">Revote Authorized</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="audit-table-wrapper">
+            <table class="audit-table revote-table">
+              <thead>
+                <tr>
+                  <th>Roll / PRN</th>
+                  <th>Student Name</th>
+                  <th>Branch & Year</th>
+                  <th>Voting Status</th>
+                  <th>Receipt Hash / Verification</th>
+                  <th>Admin Revote Clearance</th>
+                </tr>
+              </thead>
+              <tbody id="voterRosterTbody">
+                <!-- Populated dynamically by JS -->
               </tbody>
             </table>
           </div>
@@ -592,7 +1130,102 @@
     </section>
 
     <!-- ========================================================================= -->
-    <!-- TAB 5: PROJECT BLUEPRINT, SLIDES & TEAM CREDITS                           -->
+    <!-- TAB 5: BLOCKCHAIN LEDGER EXPLORER & TAMPER ATTACK SIMULATOR (INNOVATION)  -->
+    <!-- ========================================================================= -->
+    <section class="tab-pane" id="tab-blockchain">
+      <div class="blockchain-container">
+        
+        <!-- Blockchain Header & Live Status -->
+        <div class="blockchain-header-card">
+          <div class="chain-header-info">
+            <div class="chain-icon-box">
+              <i class="fa-solid fa-cubes-stacked"></i>
+            </div>
+            <div>
+              <div class="badge-pill-emerald" id="blockchainStatusBadge">
+                <span class="pulse-dot"></span> <span id="blockchainStatusLabel">CHAIN INTEGRITY: CRYPTOGRAPHICALLY VALID</span>
+              </div>
+              <h2>Tamper-Evident Merkle Blockchain Ledger</h2>
+              <p>Every anonymous ballot token and digital receipt is permanently sealed into an immutable, cryptographically chained block ledger.</p>
+            </div>
+          </div>
+
+          <!-- Blockchain Metrics & Controls -->
+          <div class="blockchain-controls-group">
+            <div class="chain-metrics-summary">
+              <div class="chain-stat-pill">
+                <span class="cs-label">Blocks Chained:</span>
+                <span class="cs-val text-cyan" id="chainBlockCount">2 Blocks</span>
+              </div>
+              <div class="chain-stat-pill">
+                <span class="cs-label">Cryptography:</span>
+                <span class="cs-val text-purple">SHA-256 + Merkle HMAC</span>
+              </div>
+            </div>
+            <div class="chain-buttons-bar">
+              <button class="btn btn-danger-gradient btn-sm" id="btnSimulateBlockchainTamper">
+                <i class="fa-solid fa-bug"></i> Simulate Database Tamper Attack
+              </button>
+              <button class="btn btn-secondary-glass btn-sm" id="btnRestoreBlockchain">
+                <i class="fa-solid fa-shield-heart"></i> Restore Ledger Integrity
+              </button>
+              <button class="btn btn-outline-cyan btn-sm" id="btnExportBlockchainJson">
+                <i class="fa-solid fa-download"></i> Export Ledger JSON
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Forensic Tamper Alert Banner (Hidden by default, triggered on tamper attack) -->
+        <div class="forensic-alert-box hidden" id="forensicAlertBox">
+          <div class="forensic-alert-content">
+            <div class="alert-icon-ring">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <div>
+              <h4>CRITICAL TAMPER ATTACK DETECTED IN ELECTION LEDGER!</h4>
+              <p id="forensicAlertDetails">Block #1 payload was maliciously altered! Subsequent cryptographic hashes in the chain failed verification. The alteration was instantly isolated and mathematically rejected.</p>
+              <div class="forensic-hash-diff">
+                <div><span>Corrupted Block:</span> <code id="forensicBlockId">Block #1</code></div>
+                <div><span>Tamper Forensic Status:</span> <span class="text-amber" id="forensicReason">Payload data modified outside protocol</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Blocks Visualizer Sequence -->
+        <div class="blockchain-visualizer-section">
+          <div class="visualizer-header">
+            <div>
+              <h3><i class="fa-solid fa-link"></i> Live Chained Block Explorer</h3>
+              <p class="text-muted">Click on any block node to inspect its complete cryptographic tree, nonce, and Merkle root.</p>
+            </div>
+            <span class="badge-dept-count" id="chainNodeCountBadge">2 Sealed Nodes</span>
+          </div>
+
+          <div class="blockchain-nodes-track" id="blockchainNodesTrack">
+            <!-- Dynamically injected block cards and hash connector bridges by JS -->
+          </div>
+        </div>
+
+        <!-- Block Header & Merkle Payload Inspector Drawer -->
+        <div class="block-detail-inspector" id="blockDetailInspector">
+          <div class="inspector-card">
+            <div class="inspector-header">
+              <h4><i class="fa-solid fa-cube text-cyan"></i> Block Header & Merkle Payload Inspector</h4>
+              <button class="btn-close-modal" id="btnCloseInspector">&times;</button>
+            </div>
+            <div class="inspector-body" id="inspectorBody">
+              <div class="empty-inspector-text">Click on any block node in the chain above to inspect its cryptographic tree.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- TAB 6: PROJECT BLUEPRINT, SLIDES & TEAM CREDITS                           -->
     <!-- ========================================================================= -->
     <section class="tab-pane" id="tab-project">
       <div class="project-info-container">
@@ -762,81 +1395,858 @@
       </div>
     </section>
 
+    <!-- ========================================================================= -->
+    <!-- TAB: NOTICES & ELECTIONS HUB (CURRENT & UPCOMING ELECTIONS + NOTICE BOARD)  -->
+    <!-- ========================================================================= -->
+    <section class="tab-pane" id="tab-notices">
+      <div class="notices-hub-container">
+        
+        <!-- Hub Hero Header -->
+        <div class="hub-hero-card">
+          <div class="hub-hero-header">
+            <div class="hub-title-group">
+              <div class="hub-icon-box">
+                <i class="fa-solid fa-bullhorn"></i>
+              </div>
+              <div>
+                <div class="badge-pill-cyan">CENTRAL ELECTION COMMISSION • OFFICIAL BULLETIN</div>
+                <h2 class="hub-title">Election Notices & Polling Schedule Hub</h2>
+                <p class="hub-subtitle">Real-time status of ongoing voting, upcoming college council elections, and official circulars.</p>
+              </div>
+            </div>
+            
+            <div class="hub-header-actions">
+              <button type="button" class="btn btn-primary-gradient btn-sm" id="btnHubRunAsCandidate">
+                <i class="fa-solid fa-graduation-cap"></i> Run as Candidate / Nominate
+              </button>
+              <button type="button" class="btn btn-outline-cyan btn-sm" id="btnAdminBroadcastNotice" style="display: none;">
+                <i class="fa-solid fa-bullhorn"></i> Broadcast New Notice
+              </button>
+              <button type="button" class="btn btn-secondary-glass btn-sm" id="btnMarkAllNoticesRead">
+                <i class="fa-solid fa-check-double"></i> Mark All as Read
+              </button>
+            </div>
+          </div>
+
+          <!-- Quick Stats Highlights Strip -->
+          <div class="hub-stats-strip">
+            <div class="hub-stat-chip">
+              <span class="hub-stat-pulse"></span>
+              <div class="hub-stat-text">
+                <span class="hub-stat-val">1 Active Election</span>
+                <span class="hub-stat-lbl">Presidential Council Poll</span>
+              </div>
+            </div>
+            <div class="hub-stat-chip">
+              <i class="fa-solid fa-calendar-days text-cyan"></i>
+              <div class="hub-stat-text">
+                <span class="hub-stat-val" id="hubUpcomingCountVal">4 Scheduled</span>
+                <span class="hub-stat-lbl">Upcoming Campus Elections</span>
+              </div>
+            </div>
+            <div class="hub-stat-chip">
+              <i class="fa-solid fa-envelope-open-text text-amber"></i>
+              <div class="hub-stat-text">
+                <span class="hub-stat-val" id="hubUnreadNoticesVal">4 Unread</span>
+                <span class="hub-stat-lbl">Official Circulars</span>
+              </div>
+            </div>
+            <div class="hub-stat-chip">
+              <i class="fa-solid fa-shield-halved text-emerald"></i>
+              <div class="hub-stat-text">
+                <span class="hub-stat-val">HMAC-SHA256</span>
+                <span class="hub-stat-lbl">Cryptographic Receipts</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hub Sub-Navigation Filter Pills -->
+        <div class="hub-subnav-bar">
+          <div class="hub-subtabs">
+            <button type="button" class="hub-subtab active" data-subtab="subtab-ongoing">
+              <i class="fa-solid fa-check-to-slot"></i>
+              <span>Current Live Election</span>
+              <span class="subtab-pill-live">LIVE NOW</span>
+            </button>
+            <button type="button" class="hub-subtab" data-subtab="subtab-upcoming">
+              <i class="fa-solid fa-calendar-days"></i>
+              <span>Upcoming Elections</span>
+              <span class="subtab-count-badge" id="subtabUpcomingBadge">4</span>
+            </button>
+            <button type="button" class="hub-subtab" data-subtab="subtab-bulletin">
+              <i class="fa-solid fa-newspaper"></i>
+              <span>Official Notice Board</span>
+              <span class="subtab-count-badge amber" id="subtabNoticeBadge">5</span>
+            </button>
+            <button type="button" class="hub-subtab" data-subtab="subtab-timeline">
+              <i class="fa-solid fa-timeline"></i>
+              <span>Master Roadmap & Dates</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- SUBTAB 1: CURRENT LIVE ELECTION RADAR                              -->
+        <!-- =================================================================== -->
+        <div class="hub-subpanel active" id="subtab-ongoing">
+          <div class="live-election-radar-card">
+            
+            <div class="ler-header">
+              <div class="ler-left">
+                <div class="ler-badge-live">
+                  <span class="pulse-dot"></span> POLLS OPEN • ACTIVE BALLOT
+                </div>
+                <h3 class="ler-title" id="lerElectionTitle">College Student Council Elections 2026</h3>
+                <p class="ler-meta">
+                  <span><i class="fa-solid fa-barcode"></i> Code: <strong id="lerElectionId">ELEX-2026-MAIN</strong></span>
+                  <span><i class="fa-solid fa-user-tie"></i> Position: <strong id="lerElectionPosition">For President</strong></span>
+                  <span><i class="fa-solid fa-building-columns"></i> Authority: <strong>College Election Commission</strong></span>
+                </p>
+              </div>
+              <div class="ler-timer-box">
+                <div class="ler-timer-lbl"><i class="fa-regular fa-clock"></i> Voting Closes In:</div>
+                <div class="ler-timer-clock" id="lerCountdownClock">05:41:18</div>
+                <div class="ler-timer-sub">Auto-sealing ledger at closing hour</div>
+              </div>
+            </div>
+
+            <!-- Live Turnout & Ledger Status Strip -->
+            <div class="ler-turnout-block">
+              <div class="ler-turnout-head">
+                <div class="ler-th-title">
+                  <i class="fa-solid fa-chart-pie text-cyan"></i> Real-Time Turnout & Participation Rate
+                </div>
+                <div class="ler-th-stats">
+                  <span class="ler-votes-voted" id="lerVotedCount">850</span> / <span id="lerTotalPool">1,250</span> Eligible Students
+                  (<span class="ler-percentage" id="lerTurnoutPct">68.0%</span> Voted)
+                </div>
+              </div>
+              <div class="ler-progress-track">
+                <div class="ler-progress-fill" id="lerProgressBar" style="width: 68%;"></div>
+              </div>
+              <div class="ler-branch-chips" id="lerBranchChips">
+                <span class="branch-chip">CSE: <strong>71.1%</strong></span>
+                <span class="branch-chip">ECE: <strong>62.9%</strong></span>
+                <span class="branch-chip">ME: <strong>53.6%</strong></span>
+                <span class="branch-chip">IT: <strong>75.0%</strong></span>
+                <span class="branch-chip">CE: <strong>46.7%</strong></span>
+              </div>
+            </div>
+
+            <!-- Contesting Presidential Candidates Grid -->
+            <div class="ler-candidates-showcase">
+              <div class="ler-section-header">
+                <h4><i class="fa-solid fa-users"></i> Contesting Candidates on Ballot</h4>
+                <button type="button" class="btn btn-outline-cyan btn-xs" id="btnLerOpenMatrix">
+                  <i class="fa-solid fa-table-columns"></i> Compare in Matrix
+                </button>
+              </div>
+
+              <div class="ler-candidates-grid" id="lerCandidatesGrid">
+                <!-- Rendered dynamically by JavaScript -->
+              </div>
+            </div>
+
+            <!-- Security & Constitutional Guarantee -->
+            <div class="ler-security-bar">
+              <div class="lsb-item">
+                <i class="fa-solid fa-fingerprint text-cyan"></i>
+                <div>
+                  <strong>One Student → One Vote</strong>
+                  <span>Atomic database lock prevents double balloting</span>
+                </div>
+              </div>
+              <div class="lsb-item">
+                <i class="fa-solid fa-user-secret text-purple"></i>
+                <div>
+                  <strong>Zero-Knowledge Secrecy</strong>
+                  <span>Student identity never linked to candidate choices</span>
+                </div>
+              </div>
+              <div class="lsb-item">
+                <i class="fa-solid fa-cubes text-emerald"></i>
+                <div>
+                  <strong>Immutable Audit Receipt</strong>
+                  <span>SHA-256 cryptographic receipt verifiable on blockchain</span>
+                </div>
+              </div>
+              <div class="lsb-cta">
+                <button type="button" class="btn btn-primary-gradient" id="btnLerGoVote">
+                  <i class="fa-solid fa-person-booth"></i> Cast Your Ballot Now
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- SUBTAB 2: UPCOMING ELECTIONS DIRECTORY                             -->
+        <!-- =================================================================== -->
+        <div class="hub-subpanel" id="subtab-upcoming">
+          <div class="upcoming-header-banner">
+            <div>
+              <h3><i class="fa-solid fa-calendar-check text-cyan"></i> Upcoming College Elections Directory</h3>
+              <p>Preview scheduled council and departmental polls, view eligibility criteria, and set calendar reminders.</p>
+            </div>
+            <div class="upcoming-filter-chips">
+              <button type="button" class="up-filter-chip active" data-filter="all">All Contests</button>
+              <button type="button" class="up-filter-chip" data-filter="department">Department</button>
+              <button type="button" class="up-filter-chip" data-filter="council">Campus Council</button>
+              <button type="button" class="up-filter-chip" data-filter="club">Clubs & Tech</button>
+            </div>
+          </div>
+
+          <div class="upcoming-cards-grid" id="upcomingCardsGrid">
+            <!-- Dynamic upcoming election cards rendered here by JS -->
+          </div>
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- SUBTAB 3: OFFICIAL NOTICE BOARD & CIRCULARS                        -->
+        <!-- =================================================================== -->
+        <div class="hub-subpanel" id="subtab-bulletin">
+          <div class="bulletin-header-bar">
+            <div class="bulletin-search-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="inputNoticeSearch" placeholder="Search notices, reference codes, keywords...">
+            </div>
+            <div class="bulletin-filters">
+              <button type="button" class="btn-bulletin-filter active" data-cat="all">All Notices</button>
+              <button type="button" class="btn-bulletin-filter" data-cat="urgent">
+                <i class="fa-solid fa-triangle-exclamation text-amber"></i> Urgent Only
+              </button>
+              <button type="button" class="btn-bulletin-filter" data-cat="upcoming">Upcoming Elections</button>
+              <button type="button" class="btn-bulletin-filter" data-cat="guidelines">Guidelines</button>
+              <button type="button" class="btn-bulletin-filter" data-cat="technology">Receipts & Tech</button>
+            </div>
+          </div>
+
+          <div class="notices-list-container" id="noticesListContainer">
+            <!-- Dynamic notice items rendered by JS -->
+          </div>
+        </div>
+
+        <!-- =================================================================== -->
+        <!-- SUBTAB 4: MASTER ROADMAP & DATES                                   -->
+        <!-- =================================================================== -->
+        <div class="hub-subpanel" id="subtab-timeline">
+          <div class="timeline-hero">
+            <h3><i class="fa-solid fa-timeline text-purple"></i> 2026 Campus Election Master Roadmap</h3>
+            <p>Constitutional election phases established by the Central Election Commission and Student Affairs Office.</p>
+          </div>
+
+          <div class="election-timeline-wrapper">
+            <div class="timeline-stepper">
+              
+              <div class="timeline-step completed">
+                <div class="step-indicator"><i class="fa-solid fa-check"></i></div>
+                <div class="step-body">
+                  <div class="step-date">Oct 15, 2026 • Completed</div>
+                  <h4 class="step-title">Electoral Roll Scrutiny & Roll Number Publishing</h4>
+                  <p class="step-desc">Publication of preliminary voter roster across CSE, ECE, ME, IT, and CE departments. Digital eligibility verification established.</p>
+                </div>
+              </div>
+
+              <div class="timeline-step completed">
+                <div class="step-indicator"><i class="fa-solid fa-check"></i></div>
+                <div class="step-body">
+                  <div class="step-date">Oct 20, 2026 • Completed</div>
+                  <h4 class="step-title">Candidate Nomination & 8-Point Manifesto Submission</h4>
+                  <p class="step-desc">Filing of nomination forms and standardized manifesto commitments across Academic, Infrastructure, Events, Welfare, and Placements.</p>
+                </div>
+              </div>
+
+              <div class="timeline-step completed">
+                <div class="step-indicator"><i class="fa-solid fa-check"></i></div>
+                <div class="step-body">
+                  <div class="step-date">Oct 25, 2026 • Completed</div>
+                  <h4 class="step-title">Smart Candidate Comparison Matrix Launch</h4>
+                  <p class="step-desc">Public deployment of the Side-by-Side Candidate Matrix and AI Manifesto Search assistant for informed voter evaluation.</p>
+                </div>
+              </div>
+
+              <div class="timeline-step current">
+                <div class="step-indicator"><span class="step-pulse"></span><i class="fa-solid fa-bolt"></i></div>
+                <div class="step-body">
+                  <div class="step-date"><span class="badge-pill-cyan">TODAY • ACTIVE NOW</span> Oct 27, 2026 • 08:00 AM – 08:00 PM</div>
+                  <h4 class="step-title">Electronic Polling Booth Active (Presidential Election)</h4>
+                  <p class="step-desc">One-student-one-vote cryptographic digital balloting. Live turnout tracking, SHA-256 digital vote receipt generation.</p>
+                  <div class="step-action-row">
+                    <button type="button" class="btn btn-sm btn-cyan-glow" id="btnTimelineGoVote">
+                      <i class="fa-solid fa-person-booth"></i> Open Voting Booth
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="timeline-step upcoming">
+                <div class="step-indicator"><i class="fa-regular fa-clock"></i></div>
+                <div class="step-body">
+                  <div class="step-date">Oct 27, 2026 • 08:00 PM Sharp</div>
+                  <h4 class="step-title">Poll Closure & Blockchain Ledger Sealing</h4>
+                  <p class="step-desc">Automatic timer expiration seals the voting booth. Merkle roots calculated and sealed into permanent cryptographic archive.</p>
+                </div>
+              </div>
+
+              <div class="timeline-step upcoming">
+                <div class="step-indicator"><i class="fa-solid fa-trophy"></i></div>
+                <div class="step-body">
+                  <div class="step-date">Oct 28, 2026 • 10:00 AM</div>
+                  <h4 class="step-title">Central Tabulation & Official Gazette Declaration</h4>
+                  <p class="step-desc">Verification ceremony with confetti animation and publication of signed University Gazette Result Certificate.</p>
+                </div>
+              </div>
+
+              <div class="timeline-step upcoming">
+                <div class="step-indicator"><i class="fa-solid fa-calendar-plus"></i></div>
+                <div class="step-body">
+                  <div class="step-date">Nov 02, 2026 • 09:00 AM</div>
+                  <h4 class="step-title">Department Class Representative (CR) Elections</h4>
+                  <p class="step-desc">Departmental ballots activated for all branch class representatives.</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
   </main>
 
   <!-- ========================================================================= -->
-  <!-- MODAL: ADD CANDIDATE                                                      -->
+  <!-- MODAL: CANDIDATE NOMINATION & APPLICATION PORTAL ("RUN AS CANDIDATE")     -->
   <!-- ========================================================================= -->
   <div class="modal-overlay hidden" id="modalAddCandidate">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3><i class="fa-solid fa-user-plus text-cyan"></i> Add Candidate to Ballot</h3>
-        <button class="btn-close-modal" id="btnCloseAddCandidateModal">&times;</button>
+    <div class="modal-box nomination-modal-box">
+      <!-- Modal Header -->
+      <div class="nom-header">
+        <div class="nom-header-left">
+          <div class="nom-cec-badge">
+            <i class="fa-solid fa-building-columns"></i>
+          </div>
+          <div>
+            <div class="nom-pretitle"><span class="badge-pill-cyan">CENTRAL ELECTION COMMISSION</span> • STATUTORY FORM CEC-1A</div>
+            <h3 class="nom-title"><i class="fa-solid fa-graduation-cap text-cyan"></i> Candidate Nomination Portal</h3>
+            <p class="nom-subtitle">Official Filing for Student Executive Council • Academic Session 2026-27</p>
+          </div>
+        </div>
+        <div class="nom-header-right">
+          <button type="button" class="btn btn-outline-cyan btn-xs" id="btnNomDemoFill" title="Auto-populate sample verified candidate profile">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> 1-Click Demo Profile
+          </button>
+          <button type="button" class="btn-close-modal" id="btnCloseAddCandidateModal">&times;</button>
+        </div>
       </div>
-      <form id="formAddCandidate" class="modal-form">
-        <div class="form-row-2">
-          <div class="form-group">
-            <label for="candName">Candidate Full Name</label>
-            <input type="text" id="candName" placeholder="e.g. Tanya Singhal" required>
+
+      <!-- Stepper Indicator -->
+      <div class="nom-stepper">
+        <div class="nom-step-item active" data-step="1" id="nomStepTab1">
+          <div class="nom-step-num"><i class="fa-solid fa-id-card"></i></div>
+          <div class="nom-step-labels">
+            <span class="step-num-txt">Step 1</span>
+            <span class="step-title-txt">Eligibility Check</span>
           </div>
+        </div>
+        <div class="nom-step-line" id="nomStepLine1"></div>
+        <div class="nom-step-item" data-step="2" id="nomStepTab2">
+          <div class="nom-step-num"><i class="fa-solid fa-user-group"></i></div>
+          <div class="nom-step-labels">
+            <span class="step-num-txt">Step 2</span>
+            <span class="step-title-txt">Peer Endorsement</span>
+          </div>
+        </div>
+        <div class="nom-step-line" id="nomStepLine2"></div>
+        <div class="nom-step-item" data-step="3" id="nomStepTab3">
+          <div class="nom-step-num"><i class="fa-solid fa-scroll"></i></div>
+          <div class="nom-step-labels">
+            <span class="step-num-txt">Step 3</span>
+            <span class="step-title-txt">8-Point Manifesto</span>
+          </div>
+        </div>
+        <div class="nom-step-line" id="nomStepLine3"></div>
+        <div class="nom-step-item" data-step="4" id="nomStepTab4">
+          <div class="nom-step-num"><i class="fa-solid fa-signature"></i></div>
+          <div class="nom-step-labels">
+            <span class="step-num-txt">Step 4</span>
+            <span class="step-title-txt">Pledge & Review</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Form -->
+      <form id="formAddCandidate" class="nom-form">
+
+        <!-- STEP 1: IDENTITY & ELIGIBILITY PRE-SCREENING -->
+        <div class="nom-step-pane" id="nomStepPane1">
+          <div class="nom-info-banner">
+            <i class="fa-solid fa-shield-halved text-cyan"></i>
+            <div>
+              <strong>CEC Bylaw §4.1 Statutory Criteria:</strong>
+              Enrolled students with <strong>CGPA &ge; 6.50</strong>, minimum <strong>75% verified attendance</strong>, 0 active arrears, and clean proctorial disciplinary record are cleared to file nomination.
+            </div>
+          </div>
+
+          <div class="nom-section-title">
+            <i class="fa-solid fa-user-tag text-cyan"></i> 1. Candidate Personal & Contest Information
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="candName"><i class="fa-solid fa-user text-muted"></i> Full Name <span class="text-danger">*</span></label>
+              <input type="text" id="candName" placeholder="e.g. Devansh Singhania" required>
+            </div>
+            <div class="form-group">
+              <label for="candRollNo"><i class="fa-solid fa-address-card text-muted"></i> University Roll / PRN <span class="text-danger">*</span></label>
+              <input type="text" id="candRollNo" placeholder="e.g. 22BCSE105" required>
+            </div>
+          </div>
+
+          <div class="form-row-3">
+            <div class="form-group">
+              <label for="candPosition"><i class="fa-solid fa-sitemap text-muted"></i> Contesting Position <span class="text-danger">*</span></label>
+              <select id="candPosition" class="nom-select" required>
+                <option value="For President">President (Student Council)</option>
+                <option value="For Vice President">Vice President</option>
+                <option value="For General Secretary">General Secretary</option>
+                <option value="For Technical Secretary">Technical Secretary</option>
+                <option value="For Cultural Secretary">Cultural Secretary</option>
+                <option value="For Sports Secretary">Sports Secretary</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="candDept"><i class="fa-solid fa-building text-muted"></i> Department <span class="text-danger">*</span></label>
+              <select id="candDept" class="nom-select" required>
+                <option value="CSE">Computer Science & Engg (CSE)</option>
+                <option value="ECE">Electronics & Comm (ECE)</option>
+                <option value="MECH">Mechanical Engg (MECH)</option>
+                <option value="CIVIL">Civil Engg (CIVIL)</option>
+                <option value="IT">Information Tech (IT)</option>
+                <option value="EE">Electrical Engg (EE)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="candYear"><i class="fa-solid fa-calendar text-muted"></i> Current Year <span class="text-danger">*</span></label>
+              <select id="candYear" class="nom-select" required>
+                <option value="3rd Year">3rd Year (Batch 2022-26)</option>
+                <option value="2nd Year">2nd Year (Batch 2023-27)</option>
+                <option value="4th Year">4th Year (Batch 2021-25)</option>
+              </select>
+            </div>
+          </div>
+
           <div class="form-group">
-            <label for="candDept">Department & Year</label>
-            <input type="text" id="candDept" placeholder="e.g. CSE | 3rd Year" required>
+            <label for="candTagline"><i class="fa-solid fa-quote-left text-muted"></i> Campaign Vision Tagline <span class="text-danger">*</span></label>
+            <input type="text" id="candTagline" placeholder="e.g. Transparent leadership, 24/7 innovation labs, and student welfare first" required>
+          </div>
+
+          <!-- Avatar Selection -->
+          <div class="form-group">
+            <label><i class="fa-solid fa-image text-muted"></i> Choose Campaign Avatar / Photograph</label>
+            <div class="avatar-pick-row" id="avatarPickerRow">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80" class="avatar-option selected" data-url="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80" alt="Avatar 1">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80" class="avatar-option" data-url="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80" alt="Avatar 2">
+              <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80" class="avatar-option" data-url="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80" alt="Avatar 3">
+              <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&fit=crop&q=80" class="avatar-option" data-url="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&fit=crop&q=80" alt="Avatar 4">
+              <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&auto=format&fit=crop&q=80" class="avatar-option" data-url="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&auto=format&fit=crop&q=80" alt="Avatar 5">
+            </div>
+            <input type="hidden" id="candAvatarUrl" value="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80">
+          </div>
+
+          <div class="nom-section-title">
+            <i class="fa-solid fa-clipboard-check text-cyan"></i> 2. Academic & Disciplinary Pre-Screening Checks
+          </div>
+
+          <!-- Eligibility Parameters Live Row -->
+          <div class="eligibility-checks-grid">
+            <div class="eligibility-card" id="cardCheckCgpa">
+              <div class="ec-top">
+                <span class="ec-lbl">Cumulative CGPA</span>
+                <span class="ec-status-badge badge-passed" id="badgeCgpaStatus">PASSED</span>
+              </div>
+              <div class="ec-input-row">
+                <input type="number" id="nomCgpaInput" min="0" max="10" step="0.01" value="8.92" class="ec-num-input">
+                <span class="ec-suffix">/ 10.0</span>
+              </div>
+              <div class="ec-help" id="cgpaHelpText">Min 6.50 required • Candidate is in top decile</div>
+            </div>
+
+            <div class="eligibility-card" id="cardCheckAttendance">
+              <div class="ec-top">
+                <span class="ec-lbl">Verified Attendance</span>
+                <span class="ec-status-badge badge-passed" id="badgeAttendanceStatus">PASSED</span>
+              </div>
+              <div class="ec-input-row">
+                <input type="number" id="nomAttendanceInput" min="0" max="100" value="91" class="ec-num-input">
+                <span class="ec-suffix">%</span>
+              </div>
+              <div class="ec-help" id="attendanceHelpText">Min 75% required • 16% safety margin</div>
+            </div>
+
+            <div class="eligibility-card">
+              <div class="ec-top">
+                <span class="ec-lbl">Proctorial Clearance</span>
+                <span class="ec-status-badge badge-passed">CLEARED</span>
+              </div>
+              <div class="ec-static-val text-emerald"><i class="fa-solid fa-shield-halved"></i> Clean Record</div>
+              <div class="ec-help">Zero proctorial record or code violations</div>
+            </div>
+
+            <div class="eligibility-card">
+              <div class="ec-top">
+                <span class="ec-lbl">Arrears / Backlogs</span>
+                <span class="ec-status-badge badge-passed">0 BACKLOGS</span>
+              </div>
+              <div class="ec-static-val text-emerald"><i class="fa-solid fa-certificate"></i> Regular Status</div>
+              <div class="ec-help">All past semester credits cleared</div>
+            </div>
+          </div>
+
+          <!-- Realtime Gatekeeper Status Bar -->
+          <div class="nom-gatekeeper-alert" id="nomEligibilityGatekeeper">
+            <i class="fa-solid fa-circle-check text-emerald"></i>
+            <div class="gatekeeper-text">
+              <strong>CEC Pre-Screening Status: ELIGIBILITY APPROVED</strong>
+              <span>Candidate meets all statutory bylaws to submit formal nomination for Student Council Election 2026.</span>
+            </div>
+          </div>
+
+          <div class="modal-actions nom-actions">
+            <button type="button" class="btn btn-secondary-glass" id="btnCancelAddCandidate">Cancel</button>
+            <button type="button" class="btn btn-primary-gradient" id="btnNomNext1">
+              Next: Peer Endorsement <i class="fa-solid fa-arrow-right"></i>
+            </button>
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="candTagline">Vision Tagline</label>
-          <input type="text" id="candTagline" placeholder="e.g. Empowering students with cutting edge technology" required>
+        <!-- STEP 2: PEER ENDORSEMENTS (PROPOSER & SECONDER) -->
+        <div class="nom-step-pane hidden" id="nomStepPane2">
+          <div class="nom-info-banner">
+            <i class="fa-solid fa-people-arrows text-cyan"></i>
+            <div>
+              <strong>Constitutional Peer Endorsement Rule (§4.2):</strong>
+              Every candidacy requires one <strong>Proposer</strong> and one <strong>Seconder</strong> who are currently enrolled students from the university electoral roll.
+            </div>
+            <button type="button" class="btn btn-secondary-glass btn-xs" id="btnNomAutofillPeers" style="margin-left: auto; white-space: nowrap;">
+              <i class="fa-solid fa-user-check text-cyan"></i> Autofill Verified Peers
+            </button>
+          </div>
+
+          <div class="nom-peers-container">
+            <!-- Proposer Card -->
+            <div class="peer-card">
+              <div class="peer-card-header">
+                <div class="peer-role-tag"><i class="fa-solid fa-hand-holding-hand text-cyan"></i> Proposer (Peer 1)</div>
+                <span class="peer-verify-badge"><i class="fa-solid fa-circle-check"></i> Elector Active</span>
+              </div>
+              <div class="peer-body">
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label for="nomProposerName">Proposer Student Name</label>
+                    <input type="text" id="nomProposerName" value="Priya Nair" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="nomProposerRoll">Proposer Roll Number</label>
+                    <input type="text" id="nomProposerRoll" value="22BECE205" required>
+                  </div>
+                </div>
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label for="nomProposerDept">Department & Year</label>
+                    <input type="text" id="nomProposerDept" value="ECE • 3rd Year" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Digital Verification Stamp</label>
+                    <div class="peer-stamp-verified">
+                      <i class="fa-solid fa-fingerprint text-emerald"></i>
+                      <span>UID: STU-88219 • OTP Authentication Confirmed</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Seconder Card -->
+            <div class="peer-card">
+              <div class="peer-card-header">
+                <div class="peer-role-tag"><i class="fa-solid fa-user-check text-purple"></i> Seconder (Peer 2)</div>
+                <span class="peer-verify-badge"><i class="fa-solid fa-circle-check"></i> Elector Active</span>
+              </div>
+              <div class="peer-body">
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label for="nomSeconderName">Seconder Student Name</label>
+                    <input type="text" id="nomSeconderName" value="Simran Kaur" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="nomSeconderRoll">Seconder Roll Number</label>
+                    <input type="text" id="nomSeconderRoll" value="22BME412" required>
+                  </div>
+                </div>
+                <div class="form-row-2">
+                  <div class="form-group">
+                    <label for="nomSeconderDept">Department & Year</label>
+                    <input type="text" id="nomSeconderDept" value="Mechanical • 3rd Year" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Digital Verification Stamp</label>
+                    <div class="peer-stamp-verified">
+                      <i class="fa-solid fa-fingerprint text-emerald"></i>
+                      <span>UID: STU-91044 • OTP Authentication Confirmed</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-actions nom-actions">
+            <button type="button" class="btn btn-secondary-glass" id="btnNomBack2">
+              <i class="fa-solid fa-arrow-left"></i> Back to Step 1
+            </button>
+            <button type="button" class="btn btn-primary-gradient" id="btnNomNext2">
+              Next: 8-Point Manifesto <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
         </div>
 
-        <div class="manifesto-inputs-header">Standardized 8-Point Manifesto Categories</div>
-        <div class="form-row-2">
-          <div class="form-group">
-            <label>1. Academic Improvement</label>
-            <input type="text" id="mAcademic" placeholder="e.g. Coding bootcamps & doubt sessions" required>
+        <!-- STEP 3: 8-POINT STANDARDIZED MANIFESTO -->
+        <div class="nom-step-pane hidden" id="nomStepPane3">
+          <div class="nom-info-banner">
+            <i class="fa-solid fa-table-cells text-cyan"></i>
+            <div>
+              <strong>Slide 5 Standardized Matrix Requirement:</strong>
+              To prevent vague slogans, all candidates answer the exact 8 standardized categories below.
+            </div>
           </div>
-          <div class="form-group">
-            <label>2. Campus Infrastructure</label>
-            <input type="text" id="mInfra" placeholder="e.g. Library extension & 24/7 Wi-Fi" required>
+
+          <!-- Quick Template Chips -->
+          <div class="preset-templates-row">
+            <span class="preset-label"><i class="fa-solid fa-bolt text-amber"></i> Quick Presets:</span>
+            <button type="button" class="btn-preset-chip active" id="btnPresetTech">
+              <i class="fa-solid fa-laptop-code"></i> Tech & Innovation
+            </button>
+            <button type="button" class="btn-preset-chip" id="btnPresetWelfare">
+              <i class="fa-solid fa-heart-pulse"></i> Welfare & Campus Life
+            </button>
+            <button type="button" class="btn-preset-chip" id="btnPresetCareer">
+              <i class="fa-solid fa-briefcase"></i> Placement & Academics
+            </button>
           </div>
-        </div>
-        <div class="form-row-2">
-          <div class="form-group">
-            <label>3. Events & Clubs</label>
-            <input type="text" id="mEvents" placeholder="e.g. Inter-college hackathons & culture fest" required>
+
+          <div class="manifesto-grid-inputs">
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="mAcademic"><i class="fa-solid fa-graduation-cap text-cyan"></i> 1. Academic Improvement <span class="text-danger">*</span></label>
+                <input type="text" id="mAcademic" placeholder="e.g. AI-assisted peer tutoring, centralized exam notes repository, doubt hubs" required>
+              </div>
+              <div class="form-group">
+                <label for="mInfra"><i class="fa-solid fa-building-columns text-cyan"></i> 2. Campus Infrastructure <span class="text-danger">*</span></label>
+                <input type="text" id="mInfra" placeholder="e.g. 24/7 Library reading rooms, gigabit Wi-Fi across hostel wings" required>
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="mEvents"><i class="fa-solid fa-calendar-days text-cyan"></i> 3. Events & Clubs <span class="text-danger">*</span></label>
+                <input type="text" id="mEvents" placeholder="e.g. 36-hr National Hackathon, Inter-college Cultural Summit, e-Sports league" required>
+              </div>
+              <div class="form-group">
+                <label for="mWelfare"><i class="fa-solid fa-heart-pulse text-cyan"></i> 4. Student Welfare <span class="text-danger">*</span></label>
+                <input type="text" id="mWelfare" placeholder="e.g. 24/7 Anonymous mental health helpline, subsidized hygienic night cafeteria" required>
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="mTech"><i class="fa-solid fa-microchip text-cyan"></i> 5. Technology & Smart Campus <span class="text-danger">*</span></label>
+                <input type="text" id="mTech" placeholder="e.g. Single-sign-on Campus App, automated lab booking, digital grievance portal" required>
+              </div>
+              <div class="form-group">
+                <label for="mPlacement"><i class="fa-solid fa-briefcase text-cyan"></i> 6. Placement & Career Prep <span class="text-danger">*</span></label>
+                <input type="text" id="mPlacement" placeholder="e.g. FAANG alumni mentorship, weekly mock coding rounds, resume teardown workshops" required>
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="mPrevWork"><i class="fa-solid fa-award text-cyan"></i> 7. Track Record & Prior Leadership <span class="text-danger">*</span></label>
+                <input type="text" id="mPrevWork" placeholder="e.g. Lead Coordinator TechFest 2025 (800+ attendees), Class Representative 2 yrs" required>
+              </div>
+              <div class="form-group">
+                <label for="mActionReady">
+                  <i class="fa-solid fa-gauge-high text-cyan"></i> 8. Action-Ready Delivery Feasibility Score 
+                  <span class="action-ready-val" id="lblActionReadyVal">86%</span>
+                </label>
+                <div class="slider-with-meter">
+                  <input type="range" id="mActionReady" min="50" max="100" value="86" class="nom-range-slider">
+                  <span class="nom-feasibility-tag badge-passed" id="lblFeasibilityBadge">High Feasibility</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="form-group">
-            <label>4. Student Welfare</label>
-            <input type="text" id="mWelfare" placeholder="e.g. Student grievance desk & mental health" required>
-          </div>
-        </div>
-        <div class="form-row-2">
-          <div class="form-group">
-            <label>5. Technology</label>
-            <input type="text" id="mTech" placeholder="e.g. Mobile campus companion app" required>
-          </div>
-          <div class="form-group">
-            <label>6. Placement & Career</label>
-            <input type="text" id="mPlacement" placeholder="e.g. Mock interviews & resume reviews" required>
-          </div>
-        </div>
-        <div class="form-row-2">
-          <div class="form-group">
-            <label>7. Previous Work / Track Record</label>
-            <input type="text" id="mPrevWork" placeholder="e.g. Head of robotics club, organized fest" required>
-          </div>
-          <div class="form-group">
-            <label>8. Action-Ready Score (%)</label>
-            <input type="number" id="mActionReady" min="50" max="100" value="82" required>
+
+          <div class="modal-actions nom-actions">
+            <button type="button" class="btn btn-secondary-glass" id="btnNomBack3">
+              <i class="fa-solid fa-arrow-left"></i> Back to Step 2
+            </button>
+            <button type="button" class="btn btn-primary-gradient" id="btnNomNext3">
+              Next: Pledge & Review <i class="fa-solid fa-arrow-right"></i>
+            </button>
           </div>
         </div>
 
-        <div class="modal-actions">
-          <button type="button" class="btn btn-secondary-glass" id="btnCancelAddCandidate">Cancel</button>
-          <button type="submit" class="btn btn-primary-gradient">Add to Comparison Matrix</button>
+        <!-- STEP 4: REVIEW & UNDERTAKING -->
+        <div class="nom-step-pane hidden" id="nomStepPane4">
+          <div class="nom-review-grid">
+            <!-- Left: Live Preview Ballot Card -->
+            <div class="nom-preview-pane">
+              <div class="nom-preview-header">
+                <i class="fa-solid fa-eye text-cyan"></i> Live Ballot Card Preview
+              </div>
+              <div class="ballot-cand-card nom-live-card" id="nomLivePreviewCard">
+                <div class="selected-check-badge"><i class="fa-solid fa-check"></i></div>
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80" alt="Candidate" class="ballot-cand-avatar" id="prevCardAvatar">
+                <div class="cand-dept-tag" id="prevCardDept">CSE • 3rd Year</div>
+                <div class="ballot-cand-name" id="prevCardName">Devansh Singhania</div>
+                <div class="cand-post text-cyan" id="prevCardPost" style="font-size: 12px; font-weight: 700; margin-bottom: 4px;">For President</div>
+                <div class="ballot-cand-tagline" id="prevCardTagline">"Transparent leadership, 24/7 innovation labs, and student welfare first"</div>
+                <div class="gauge-circle" id="prevCardGauge" style="--score: 86; width: 44px; height: 44px; font-size: 12px; margin-top: 8px;">
+                  <span id="prevCardScore">86%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Code of Conduct & Honor Code Undertaking -->
+            <div class="nom-undertaking-pane">
+              <div class="undertaking-header">
+                <i class="fa-solid fa-file-contract text-cyan"></i> Model Code of Conduct & Undertaking
+              </div>
+
+              <div class="undertaking-checklist">
+                <label class="undertaking-item">
+                  <input type="checkbox" id="chkNomPledge1" checked required>
+                  <span class="chk-custom"></span>
+                  <span class="undertaking-label-text">
+                    <strong>Zero Defamation & Fair Campaigning:</strong>
+                    I pledge to run a clean, issue-based campaign devoid of personal attacks, religious/caste references, or intimidation.
+                  </span>
+                </label>
+
+                <label class="undertaking-item">
+                  <input type="checkbox" id="chkNomPledge2" checked required>
+                  <span class="chk-custom"></span>
+                  <span class="undertaking-label-text">
+                    <strong>Eco-Friendly Campus & Zero Paper Litter:</strong>
+                    I agree to use 100% digital campaigning and strictly abide by the CEC ceiling of &le; ₹5,000 campaign expenses.
+                  </span>
+                </label>
+
+                <label class="undertaking-item">
+                  <input type="checkbox" id="chkNomPledge3" checked required>
+                  <span class="chk-custom"></span>
+                  <span class="undertaking-label-text">
+                    <strong>Truth in Credentials:</strong>
+                    I affirm all stated CGPA, attendance, and manifesto commitments are accurate and subject to proctorial audit.
+                  </span>
+                </label>
+              </div>
+
+              <div class="digital-signature-box">
+                <label for="nomDigitalSignature"><i class="fa-solid fa-signature text-cyan"></i> Legal E-Signature (Type Full Name) <span class="text-danger">*</span></label>
+                <input type="text" id="nomDigitalSignature" placeholder="Type your full legal name to sign" required>
+                <div class="sig-hash-stamp">
+                  <i class="fa-solid fa-key"></i> HMAC-SHA256 Digital Timestamp: <code id="lblSignatureTimestamp">CEC-SEC-2026-TOKEN-AUTO</code>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-actions nom-actions">
+            <button type="button" class="btn btn-secondary-glass" id="btnNomBack4">
+              <i class="fa-solid fa-arrow-left"></i> Back to Step 3
+            </button>
+            <button type="submit" class="btn btn-primary-gradient" id="btnNomSubmitFinal">
+              <i class="fa-solid fa-stamp"></i> Seal & Submit Candidacy (CEC-1A)
+            </button>
+          </div>
         </div>
+
       </form>
+
+      <!-- STEP 5: POST-SUBMISSION CANDIDACY CERTIFICATE -->
+      <div class="nom-step-pane hidden" id="nomStepPane5">
+        <div class="nom-certificate-wrap">
+          <div class="cert-gold-border">
+            <div class="cert-inner">
+              <div class="cert-crest">
+                <i class="fa-solid fa-shield-halved"></i>
+              </div>
+              <div class="cert-authority">CENTRAL ELECTION COMMISSION • SCRUTINY COMMITTEE</div>
+              <h2 class="cert-title">PROVISIONAL CANDIDACY CLEARANCE CERTIFICATE</h2>
+              <div class="cert-ref-strip">
+                <span>NOMINATION FILE REF: <strong id="certFileRef">CEC-NOM-2026-049</strong></span>
+                <span>STATUS: <strong class="text-emerald">MINTED & VERIFIED</strong></span>
+              </div>
+
+              <div class="cert-body-grid">
+                <div class="cert-cand-photo-wrap">
+                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80" alt="Candidate" id="certCandAvatar" class="cert-cand-img">
+                  <div class="cert-cand-id-tag" id="certCandIdTag">CAND-05</div>
+                </div>
+                <div class="cert-cand-details">
+                  <h3 id="certCandName">Devansh Singhania</h3>
+                  <div class="cert-meta-line" id="certCandDept">CSE • 3rd Year | Roll No: 22BCSE105</div>
+                  <div class="cert-meta-line text-cyan" id="certCandPosition"><strong>Contesting:</strong> President (Student Council)</div>
+                  <div class="cert-tagline" id="certCandTagline">"Transparent leadership, 24/7 innovation labs, and student welfare first"</div>
+                  
+                  <div class="cert-metrics-row">
+                    <span class="cert-metric-pill"><i class="fa-solid fa-award text-amber"></i> CGPA: <strong id="certCgpa">8.92</strong></span>
+                    <span class="cert-metric-pill"><i class="fa-solid fa-clipboard-user text-cyan"></i> Attendance: <strong id="certAtt">91%</strong></span>
+                    <span class="cert-metric-pill"><i class="fa-solid fa-gauge-high text-emerald"></i> Feasibility: <strong id="certFeas">86%</strong></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="cert-endorsement-line">
+                <strong>Endorsed By:</strong> Proposer <span id="certProposer">Priya Nair (22BECE205)</span> &bull; Seconder <span id="certSeconder">Simran Kaur (22BME412)</span>
+              </div>
+
+              <div class="cert-footer-strip">
+                <div class="cert-stamp-box">
+                  <div class="cert-stamp-seal">
+                    <i class="fa-solid fa-stamp"></i>
+                    <span>CEC SCRUTINY APPROVED</span>
+                  </div>
+                </div>
+                <div class="cert-sig-box">
+                  <div class="cert-sig-line">Prof. R. K. Shrivastava</div>
+                  <div class="cert-sig-sub">Chief Returning Officer • CEC</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cert-actions-row">
+            <button type="button" class="btn btn-primary-gradient" id="btnNomViewMatrix">
+              <i class="fa-solid fa-table-cells"></i> Inspect in Candidate Matrix
+            </button>
+            <button type="button" class="btn btn-secondary-glass" id="btnNomGoToBooth">
+              <i class="fa-solid fa-box-archive"></i> Cast Vote in Booth
+            </button>
+            <button type="button" class="btn btn-outline-cyan" id="btnNomPrintCert" onclick="window.print()">
+              <i class="fa-solid fa-print"></i> Print Official Certificate
+            </button>
+            <button type="button" class="btn btn-secondary-glass" id="btnNomCloseModal">
+              <i class="fa-solid fa-xmark"></i> Close Portal
+            </button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -867,6 +2277,612 @@
           <i class="fa-solid fa-check"></i> Seal & Cast Ballot
         </button>
       </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: WINNER DECLARATION & OFFICIAL RESULTS CEREMONY                     -->
+  <!-- ========================================================================= -->
+  <div class="modal-overlay hidden" id="modalWinnerCeremony">
+    <div class="modal-box winner-ceremony-box">
+      <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+      <div class="winner-modal-content">
+        <div class="winner-trophy-ring">
+          <i class="fa-solid fa-trophy"></i>
+        </div>
+        <div class="badge-pill-cyan">CENTRAL ELECTION COMMISSION • OFFICIAL TABULATION</div>
+        <h2 class="winner-headline">Presidential Election Decided!</h2>
+        <p class="winner-sub">The cryptographic seals have been tallied. The elected candidate of the 2026 Student Council is:</p>
+        
+        <div class="winner-showcase-card" id="winnerShowcaseCard">
+          <!-- Populated by JS -->
+        </div>
+
+        <div class="winner-metrics-row" id="winnerMetricsRow">
+          <!-- Populated by JS -->
+        </div>
+
+        <div class="runner-up-table-wrapper" id="runnerUpTableWrapper">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Official University Gazette Certificate -->
+        <div class="gazette-document" id="gazetteCertificate">
+          <div class="gazette-header">
+            <i class="fa-solid fa-building-columns"></i>
+            <div>
+              <h3>INSTITUTE STUDENT COUNCIL • OFFICIAL GAZETTE</h3>
+              <span>CERTIFICATE OF CONSTITUTIONAL ELECTION RESULT</span>
+            </div>
+          </div>
+          <div class="gazette-body" id="gazetteDetails">
+            <!-- Dynamic decree statement -->
+          </div>
+          <div class="gazette-signatures">
+            <div class="sig-block">
+              <div class="sig-line"></div>
+              <span>Chief Returning Officer</span>
+            </div>
+            <div class="sig-block">
+              <div class="sig-line"></div>
+              <span>Dean of Student Affairs</span>
+            </div>
+            <div class="sig-block">
+              <div class="sig-seal">
+                <i class="fa-solid fa-stamp"></i> SEALED
+              </div>
+              <span>HMAC-SHA256 Authenticated</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-actions winner-actions">
+          <button class="btn btn-outline-cyan" id="btnPrintGazette">
+            <i class="fa-solid fa-print"></i> Print Official Certified Gazette
+          </button>
+          <button class="btn btn-secondary-glass" id="btnCloseWinnerModal">
+            Close Results View
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: CREATE & CAST NEW ELECTION (ADMIN WIZARD) -->
+  <!-- ========================================================================= -->
+  <div class="modal-overlay" id="modalCreateElection" style="display: none;">
+    <div class="modal-box create-election-box">
+      <div class="create-election-header">
+        <div class="ce-icon-ring">
+          <i class="fa-solid fa-bullhorn"></i>
+        </div>
+        <div class="ce-header-text">
+          <div class="badge-pill-cyan">CENTRAL ELECTION COMMISSION • BALLOT CREATOR</div>
+          <h2>Cast & Launch New Election</h2>
+          <p>Define contest scope, nominate candidate manifestos, and initialize a new tamper-evident blockchain ledger.</p>
+        </div>
+        <button type="button" class="btn-modal-close" id="btnCloseCreateElectionX" title="Close">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Quick 1-Click Election Templates -->
+      <div class="election-templates-box">
+        <span class="tmpl-label"><i class="fa-solid fa-wand-magic-sparkles"></i> 1-Click Demo Templates:</span>
+        <div class="tmpl-chips">
+          <button type="button" class="tmpl-chip active-tmpl" data-template="cr">
+            <i class="fa-solid fa-graduation-cap"></i> Dept Class Representative (CR)
+          </button>
+          <button type="button" class="tmpl-chip" data-template="sports">
+            <i class="fa-solid fa-trophy"></i> Sports & Cultural Secretary
+          </button>
+          <button type="button" class="tmpl-chip" data-template="acm">
+            <i class="fa-solid fa-code"></i> ACM Tech Club President
+          </button>
+        </div>
+      </div>
+
+      <form id="formCreateElection" class="create-election-form">
+        <!-- Section 1: Election Scope -->
+        <div class="form-row-2">
+          <div class="form-group-custom">
+            <label for="inputCreateElectionTitle"><i class="fa-solid fa-heading"></i> Election Title:</label>
+            <input type="text" id="inputCreateElectionTitle" class="form-input-custom" value="Department Class Representative Election 2026" required>
+          </div>
+          <div class="form-group-custom">
+            <label for="inputCreateElectionId"><i class="fa-solid fa-barcode"></i> Election ID / Code:</label>
+            <input type="text" id="inputCreateElectionId" class="form-input-custom" value="ELEX-CR-2026" required>
+          </div>
+        </div>
+
+        <div class="form-row-3">
+          <div class="form-group-custom">
+            <label for="selectCreateElectionPosition"><i class="fa-solid fa-user-tie"></i> Contest Position:</label>
+            <select id="selectCreateElectionPosition" class="form-input-custom">
+              <option value="Class Representative (CR)" selected>Class Representative (CR)</option>
+              <option value="President">Student Council President</option>
+              <option value="Vice President">Vice President</option>
+              <option value="Sports Secretary">Sports Secretary</option>
+              <option value="Cultural Secretary">Cultural Secretary</option>
+              <option value="Technical Lead">Technical Club Lead</option>
+            </select>
+          </div>
+          <div class="form-group-custom">
+            <label for="selectCreateElectionDuration"><i class="fa-regular fa-clock"></i> Voting Duration:</label>
+            <select id="selectCreateElectionDuration" class="form-input-custom">
+              <option value="2">2 Hours (Speed Poll)</option>
+              <option value="6" selected>6 Hours (Standard)</option>
+              <option value="12">12 Hours (Half Day)</option>
+              <option value="24">24 Hours (Full Day)</option>
+              <option value="72">3 Days</option>
+            </select>
+          </div>
+          <div class="form-group-custom">
+            <label for="inputCreateElectionVoters"><i class="fa-solid fa-users"></i> Eligible Voter Count:</label>
+            <input type="number" id="inputCreateElectionVoters" class="form-input-custom" value="450" min="10" max="10000" required>
+          </div>
+        </div>
+
+        <!-- Section 2: Nominated Candidates -->
+        <div class="candidate-builder-section">
+          <div class="builder-header">
+            <div>
+              <h4><i class="fa-solid fa-users-viewfinder"></i> Nominated Candidates</h4>
+              <p class="text-muted">Enter candidate details and campaign taglines for the ballot matrix.</p>
+            </div>
+            <button type="button" class="btn btn-outline-cyan btn-xs" id="btnAddCandidateRow">
+              <i class="fa-solid fa-user-plus"></i> Add Candidate
+            </button>
+          </div>
+
+          <div class="candidates-editor-grid" id="candidatesEditorGrid">
+            <!-- Dynamic candidate cards rendered here by JavaScript -->
+          </div>
+
+          <div class="nota-auto-note">
+            <i class="fa-solid fa-shield-halved text-emerald"></i>
+            <span><strong>Constitutional Safeguard:</strong> <em>"None Of The Above" (NOTA)</em> is permanently anchored as the final ballot choice to preserve democratic protest rights.</span>
+          </div>
+        </div>
+
+        <!-- Section 3: Cryptographic Blockchain Minting Notice -->
+        <div class="blockchain-mint-notice">
+          <div class="bmn-icon"><i class="fa-solid fa-cubes-stacked"></i></div>
+          <div class="bmn-text">
+            <strong>Blockchain Genesis Minting & Roster Clearance:</strong>
+            <p>Broadcasting this election will mint a fresh <strong>Genesis Block #0</strong> on the immutable ledger, zero out previous tallies, and reset all student voter participation states for clean democratic execution.</p>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="modal-actions-dual">
+          <button type="button" class="btn btn-secondary-glass" id="btnCancelCreateElection">
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary-gradient btn-lg" id="btnSubmitNewElection">
+            <i class="fa-solid fa-rocket"></i> Launch & Broadcast Election
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- FLOATING SMART ELECTION & NOTIFICATION HUD BAR                            -->
+  <!-- ========================================================================= -->
+  <aside class="floating-election-bar" id="floatingElectionBar" aria-label="Election Status and Notifications Hub">
+    <div class="feb-inner">
+      
+      <!-- Section 1: Live Election Indicator & Countdown -->
+      <div class="feb-section feb-live" id="febLiveSection" title="Click to view Active Election details" role="button" tabindex="0">
+        <div class="feb-beacon-dot"></div>
+        <div class="feb-live-info">
+          <div class="feb-tag-row">
+            <span class="feb-status-tag">LIVE NOW</span>
+            <span class="feb-election-name" id="febElectionTitle">College Student Council Elections 2026</span>
+          </div>
+          <div class="feb-metrics-row">
+            <span class="feb-metric" id="febCountdownText"><i class="fa-regular fa-clock"></i> 05:41:18</span>
+            <span class="feb-sep">•</span>
+            <span class="feb-metric" id="febTurnoutText"><i class="fa-solid fa-chart-pie"></i> 68.0% Voted</span>
+            <div class="feb-mini-progress" title="Overall Turnout Rate">
+              <div class="feb-progress-fill" id="febTurnoutBar" style="width: 68%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="feb-divider"></div>
+
+      <!-- Section 2: Upcoming Elections Quick Pill -->
+      <button type="button" class="feb-pill-btn" id="btnFebUpcoming" title="View Upcoming Campus Elections (4 Scheduled)">
+        <div class="feb-icon-bubble cyan">
+          <i class="fa-solid fa-calendar-days"></i>
+        </div>
+        <div class="feb-btn-text">
+          <span class="feb-btn-label">UPCOMING (4)</span>
+          <span class="feb-btn-sub" id="febUpcomingSub">Dept CR Election (in 6d)</span>
+        </div>
+        <span class="feb-count-badge" id="febUpcomingCount">4</span>
+      </button>
+
+      <div class="feb-divider"></div>
+
+      <!-- Section 3: Official Notice Board Pill -->
+      <button type="button" class="feb-pill-btn" id="btnFebNotices" title="Open Election Commission Notices & Circulars">
+        <div class="feb-icon-bubble amber">
+          <i class="fa-solid fa-bell"></i>
+        </div>
+        <div class="feb-btn-text">
+          <span class="feb-btn-label">NOTICES</span>
+          <span class="feb-btn-sub" id="febNoticeSub">Polling Hours Extended</span>
+        </div>
+        <span class="feb-count-badge badge-unread" id="febNoticeBadge">4</span>
+      </button>
+
+      <!-- Section 4: Fast CTA & Controls -->
+      <div class="feb-actions-group">
+        <button type="button" class="btn btn-sm btn-cyan-glow" id="btnFebVoteNow" title="Go directly to Student Voting Booth">
+          <i class="fa-solid fa-person-booth"></i> Vote
+        </button>
+        <button type="button" class="feb-control-btn" id="btnFebExpandHub" title="Open Full Notices & Schedule Hub">
+          <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+        </button>
+        <button type="button" class="feb-control-btn feb-minimize-btn" id="btnFebToggleMinimize" title="Minimize to Corner Badge">
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+      </div>
+
+    </div>
+  </aside>
+
+  <!-- Floating Minimized Corner Badge Trigger (When user minimizes the bar) -->
+  <button type="button" class="floating-hub-badge hidden" id="floatingHubBadge" title="Expand Live Election & Notice HUD">
+    <div class="fhb-pulse"></div>
+    <i class="fa-solid fa-check-to-slot"></i>
+    <span class="fhb-text">LIVE ELECTION</span>
+    <span class="fhb-notice-count" id="fhbNoticeCount">4</span>
+  </button>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: OFFICIAL NOTICE CIRCULAR DETAIL (GAZETTE VIEW)                     -->
+  <!-- ========================================================================= -->
+  <div class="modal-overlay hidden" id="modalNoticeDetail">
+    <div class="modal-box notice-detail-box">
+      <div class="notice-gazette-document">
+        
+        <!-- Official Crest Header -->
+        <div class="ngd-header">
+          <div class="ngd-emblem">
+            <i class="fa-solid fa-building-columns"></i>
+          </div>
+          <div class="ngd-header-text">
+            <h3>CENTRAL ELECTION COMMISSION • UNIVERSITY PORTAL</h3>
+            <span>OFFICIAL GAZETTED CIRCULAR & REGULATORY NOTIFICATION</span>
+          </div>
+          <button type="button" class="btn-modal-close" id="btnCloseNoticeDetail" title="Close Notice">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div class="ngd-meta-strip">
+          <div class="ngd-meta-item">
+            <span class="ngd-meta-lbl">REFERENCE NUMBER:</span>
+            <strong class="ngd-meta-val" id="ndModalRef">Ref: CEC/NOT-2026/09</strong>
+          </div>
+          <div class="ngd-meta-item">
+            <span class="ngd-meta-lbl">DATE ISSUED:</span>
+            <strong class="ngd-meta-val" id="ndModalDate">27 Oct 2026, 10:30 AM</strong>
+          </div>
+          <div class="ngd-meta-item">
+            <span class="ngd-meta-lbl">CLASSIFICATION:</span>
+            <span class="ngd-badge-cat" id="ndModalCategory">URGENT NOTICE</span>
+          </div>
+        </div>
+
+        <div class="ngd-body">
+          <h2 class="ngd-title" id="ndModalTitle">Extension of Polling Hours for CSE & ECE Departments</h2>
+          <div class="ngd-divider-line"></div>
+          
+          <div class="ngd-content" id="ndModalContent">
+            <!-- Populated by JavaScript -->
+          </div>
+
+          <!-- Official Signatory Seal Block -->
+          <div class="ngd-sign-block">
+            <div class="ngd-sig-left">
+              <div class="ngd-sig-line"></div>
+              <strong id="ndModalAuthor">Chief Returning Officer</strong>
+              <span>Central Election Commission • Campus Elections 2026</span>
+            </div>
+            <div class="ngd-sig-stamp">
+              <div class="ngd-stamp-inner">
+                <i class="fa-solid fa-stamp"></i>
+                <span>OFFICIALLY SEALED</span>
+                <small>HMAC-SHA256</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-actions ngd-actions">
+          <button type="button" class="btn btn-outline-cyan btn-sm" id="btnPrintNotice">
+            <i class="fa-solid fa-print"></i> Print Official Circular
+          </button>
+          <button type="button" class="btn btn-secondary-glass btn-sm" id="btnCopyNoticeLink">
+            <i class="fa-solid fa-link"></i> Copy Reference Link
+          </button>
+          <button type="button" class="btn btn-primary-gradient btn-sm" id="btnCloseNoticeDetailBtn">
+            Done Reading
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: BROADCAST NEW OFFICIAL NOTICE (ADMIN CONSOLE)                      -->
+  <!-- ========================================================================= -->
+  <div class="modal-overlay hidden" id="modalBroadcastNotice">
+    <div class="modal-box broadcast-notice-box">
+      <div class="modal-header">
+        <div class="ce-icon-ring">
+          <i class="fa-solid fa-bullhorn text-amber"></i>
+        </div>
+        <div>
+          <div class="badge-pill-cyan">ELECTION COMMISSION CONSOLE</div>
+          <h3>Broadcast New Official Notice</h3>
+          <p class="text-muted">Publish a campus-wide circular to the ticker, floating bar, and notice board.</p>
+        </div>
+        <button type="button" class="btn-close-modal" id="btnCloseBroadcastModal">&times;</button>
+      </div>
+
+      <form id="formBroadcastNotice" class="modal-form">
+        <div class="form-row-2">
+          <div class="form-group-custom">
+            <label for="inputNoticeTitle"><i class="fa-solid fa-heading"></i> Notice Title:</label>
+            <input type="text" id="inputNoticeTitle" class="form-input-custom" placeholder="e.g. Scrutiny Results for Sports Secretary Election" required>
+          </div>
+          <div class="form-group-custom">
+            <label for="inputNoticeRefCode"><i class="fa-solid fa-barcode"></i> Reference Code:</label>
+            <input type="text" id="inputNoticeRefCode" class="form-input-custom" value="Ref: CEC/NOT-2026/10" required>
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group-custom">
+            <label for="selectNoticeCategory"><i class="fa-solid fa-folder"></i> Category:</label>
+            <select id="selectNoticeCategory" class="form-input-custom">
+              <option value="urgent">🚨 Urgent / Breaking</option>
+              <option value="upcoming" selected>📅 Upcoming Election</option>
+              <option value="guidelines">📋 Rules & Model Code of Conduct</option>
+              <option value="technology">🛡️ Blockchain & Cryptography</option>
+              <option value="general">📢 General Circular</option>
+            </select>
+          </div>
+          <div class="form-group-custom">
+            <label for="inputNoticeSignatory"><i class="fa-solid fa-user-pen"></i> Signatory / Authority:</label>
+            <input type="text" id="inputNoticeSignatory" class="form-input-custom" value="Chief Returning Officer" required>
+          </div>
+        </div>
+
+        <div class="form-group-custom">
+          <label for="inputNoticeSummary"><i class="fa-solid fa-align-left"></i> Summary (for Ticker & Floating Bar):</label>
+          <input type="text" id="inputNoticeSummary" class="form-input-custom" placeholder="1-sentence highlight displayed in banners and floating bar..." required>
+        </div>
+
+        <div class="form-group-custom">
+          <label for="textareaNoticeContent"><i class="fa-solid fa-file-lines"></i> Full Circular Text:</label>
+          <textarea id="textareaNoticeContent" class="form-input-custom" rows="5" placeholder="Enter complete circular body, instructions for students, and directives..." required></textarea>
+        </div>
+
+        <div class="modal-actions-dual">
+          <button type="button" class="btn btn-secondary-glass" id="btnCancelBroadcastNotice">
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary-gradient" id="btnSubmitBroadcastNotice">
+            <i class="fa-solid fa-paper-plane"></i> Publish & Broadcast Live
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: CANDIDATE NOMINATION SCRUTINY & FEASIBILITY SCORING (CEC RUBRIC)   -->
+  <!-- ========================================================================= -->
+  <div class="modal-overlay hidden" id="modalCandidateScrutiny">
+    <div class="modal-box candidate-scrutiny-modal-box">
+      <div class="modal-header">
+        <div class="ce-icon-ring">
+          <i class="fa-solid fa-stamp text-purple"></i>
+        </div>
+        <div>
+          <div class="badge-pill-purple">CEC STATUTORY SCRUTINY & FEASIBILITY EVALUATION</div>
+          <h3>Candidate Feasibility & Scrutiny Dossier</h3>
+          <p class="text-muted">Evaluate faculty endorsements, leadership portfolio, statutory eligibility, and manifesto viability.</p>
+        </div>
+        <button type="button" class="btn-close-modal" id="btnCloseScrutinyModal">&times;</button>
+      </div>
+
+      <!-- Candidate Header Summary Card -->
+      <div class="csm-candidate-header">
+        <div class="csm-cand-profile">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80" alt="Candidate" class="csm-cand-avatar" id="csmCandAvatar">
+          <div>
+            <h3 id="csmCandName" style="color: #fff; font-size: 20px; font-weight: 700; margin-bottom: 2px;">Candidate Name</h3>
+            <div id="csmCandMeta" style="font-size: 13px; color: #94a3b8; margin-bottom: 6px;">22BCSE105 • Computer Science & Engg • 3rd Year</div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <span class="scrutiny-pos-badge" id="csmCandPost">For President</span>
+              <span class="badge-pill-cyan" style="font-size: 11px;" id="csmCandRef">Ref: CEC-NOM-2026-44</span>
+              <span class="scrutiny-status-pill pending" id="csmCandStatusBadge" style="position: static;">PENDING REVIEW</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="csm-composite-gauge-card">
+          <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8;">Feasibility Score</span>
+          <div class="csm-composite-number" id="csmCompositeScore">88<span style="font-size: 18px; color: #64748b;">/100</span></div>
+          <span class="ssb-grade-tag grade-aplus" id="csmGradeTag" style="font-size: 12px; margin-top: 4px;">GRADE A+ • HIGHLY FEASIBLE</span>
+        </div>
+      </div>
+
+      <!-- 4-Pillar Evaluation Rubric Form -->
+      <form id="formCandidateScrutinyRubric">
+        <div class="csm-rubric-grid">
+          
+          <!-- Pillar 1: Academic Standing & Bylaw Verification -->
+          <div class="csm-rubric-card">
+            <div class="csm-rc-head">
+              <span class="csm-rc-title"><i class="fa-solid fa-graduation-cap text-cyan"></i> 1. Academic & Disciplinary Standing</span>
+              <span class="csm-rc-score-badge" id="badgeScoreAcademic">24 / 25</span>
+            </div>
+            <div class="csm-rc-note" id="csmAcademicStats">
+              CGPA: <strong>8.92</strong> (Min: 6.50) • Attendance: <strong>91%</strong> (Min: 75%) • Zero Active Arrears • Clean Proctorial Record
+            </div>
+            <label style="font-size: 11px; color: #94a3b8;" for="sliderScoreAcademic">Academic Weightage Score (0 - 25):</label>
+            <input type="range" min="0" max="25" value="24" class="csm-slider" id="sliderScoreAcademic">
+          </div>
+
+          <!-- Pillar 2: Faculty Recommendation & Teacher Reviews -->
+          <div class="csm-rubric-card">
+            <div class="csm-rc-head">
+              <span class="csm-rc-title"><i class="fa-solid fa-chalkboard-user text-purple"></i> 2. Teacher Reviews & Faculty Clearance</span>
+              <span class="csm-rc-score-badge" id="badgeScoreFaculty">22 / 25</span>
+            </div>
+            <div class="csm-rc-note" id="csmTeacherReviewSnippet">
+              "Prof. Dr. Mehta (Mentor): Consistent classroom leadership, exemplary integrity in lab work, recommended for Student Council."
+            </div>
+            <label style="font-size: 11px; color: #94a3b8;" for="sliderScoreFaculty">Teacher Conduct & Feasibility Score (0 - 25):</label>
+            <input type="range" min="0" max="25" value="22" class="csm-slider" id="sliderScoreFaculty">
+          </div>
+
+          <!-- Pillar 3: Co-Curricular & Leadership Portfolio -->
+          <div class="csm-rubric-card">
+            <div class="csm-rc-head">
+              <span class="csm-rc-title"><i class="fa-solid fa-trophy text-amber"></i> 3. Portfolio & Co-Curricular Review</span>
+              <span class="csm-rc-score-badge" id="badgeScorePortfolio">21 / 25</span>
+            </div>
+            <div class="csm-rc-note" id="csmPortfolioSnippet">
+              Hackathon 1st Runner-up (2025) • Lead Organizer of TechFest • Student IEEE Chapter Member • 2 Open-source contributions
+            </div>
+            <label style="font-size: 11px; color: #94a3b8;" for="sliderScorePortfolio">Portfolio Strength & Execution Track Record (0 - 25):</label>
+            <input type="range" min="0" max="25" value="21" class="csm-slider" id="sliderScorePortfolio">
+          </div>
+
+          <!-- Pillar 4: Manifesto Practicality & Budget Viability -->
+          <div class="csm-rubric-card">
+            <div class="csm-rc-head">
+              <span class="csm-rc-title"><i class="fa-solid fa-scale-balanced text-emerald"></i> 4. Manifesto Viability & Jurisdiction</span>
+              <span class="csm-rc-score-badge" id="badgeScoreManifesto">21 / 25</span>
+            </div>
+            <div class="csm-rc-note" id="csmManifestoCheck">
+              Promises: Wi-Fi upgrades, 24/7 library pods, placement workshops. Validated within annual student council discretionary budget.
+            </div>
+            <label style="font-size: 11px; color: #94a3b8;" for="sliderScoreManifesto">Manifesto Feasibility & Deliverability Score (0 - 25):</label>
+            <input type="range" min="0" max="25" value="21" class="csm-slider" id="sliderScoreManifesto">
+          </div>
+
+        </div>
+
+        <!-- Scrutiny Officer Notes -->
+        <div class="form-group-custom" style="margin-bottom: 20px;">
+          <label for="textareaScrutinyRemarks"><i class="fa-solid fa-comment-dots"></i> Scrutiny Officer Official Remarks & Endorsement Notes:</label>
+          <textarea id="textareaScrutinyRemarks" class="form-input-custom" rows="2" placeholder="Enter administrative observations, conditions for ballot clearance, or faculty feedback notes..."></textarea>
+        </div>
+
+        <!-- Action Controls -->
+        <div class="modal-actions-dual" style="justify-content: space-between;">
+          <button type="button" class="btn btn-outline-danger" id="btnRejectCandidacy">
+            <i class="fa-solid fa-ban"></i> Reject / Flag Nomination
+          </button>
+          <div style="display: flex; gap: 10px;">
+            <button type="button" class="btn btn-secondary-glass" id="btnCancelScrutinyModal">
+              Close
+            </button>
+            <button type="button" class="btn btn-emerald-gradient" id="btnApproveCandidacy" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #fff; font-weight: 700; box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);">
+              <i class="fa-solid fa-stamp"></i> Approve & Mint to Ballot
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: AUTHORIZE STUDENT VOTER REVOTE / RESET PERMISSION                   -->
+  <!-- ========================================================================= -->
+  <div class="modal-overlay hidden" id="modalRevotePermission">
+    <div class="modal-box revote-modal-box">
+      <div class="modal-header">
+        <div class="ce-icon-ring" style="background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.4);">
+          <i class="fa-solid fa-arrows-rotate text-amber"></i>
+        </div>
+        <div>
+          <div class="badge-pill-cyan">CENTRAL ELECTION COMMISSION • OVERRIDE DESK</div>
+          <h3>Authorize Student Revote Clearance</h3>
+          <p class="text-muted">Grant statutory permission for a student to recast their ballot.</p>
+        </div>
+        <button type="button" class="btn-close-modal" id="btnCloseRevoteModal">&times;</button>
+      </div>
+
+      <div class="revote-warning-banner">
+        <i class="fa-solid fa-triangle-exclamation" style="font-size: 20px; color: #f59e0b;"></i>
+        <div>
+          <strong>Constitutional Safeguard:</strong> Granting revote clearance invalidates the previous vote record and issues a fresh one-time voting token to the voter. An immutable entry will be recorded in the security audit ledger.
+        </div>
+      </div>
+
+      <!-- Voter Target Info -->
+      <div style="background: rgba(4, 10, 26, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 14px 18px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <div style="font-size: 16px; font-weight: 700; color: #fff;" id="revoteTargetStudentName">Aditya Verma</div>
+          <div style="font-size: 12px; color: #94a3b8;" id="revoteTargetStudentMeta">PRN: 22BIT304 • Information Tech (IT) • 3rd Year</div>
+          <div style="font-size: 11px; color: #00f2fe; margin-top: 4px;" id="revoteTargetReceipt">Prior Receipt: 0x7a89b4f321ec908d</div>
+        </div>
+        <span class="status-badge-voted" id="revoteTargetCurrentStatus"><i class="fa-solid fa-check"></i> Has Voted</span>
+      </div>
+
+      <form id="formAuthorizeRevote">
+        <div class="form-group-custom">
+          <label for="selectRevoteReason"><i class="fa-solid fa-gavel"></i> Statutory Justification / Reason for Revote:</label>
+          <select id="selectRevoteReason" class="form-input-custom" required>
+            <option value="TECHNICAL_GLITCH">Verified Network / Device Glitch during Vote Transmission</option>
+            <option value="PROCTORIAL_APPEAL">Proctorial Verification Appeal Granted by Election Observer</option>
+            <option value="BIOMETRIC_DESYNC">Biometric / Authentication Desync Override</option>
+            <option value="ACCIDENTAL_MISCLICK">Documented Voter Written Grievance / Mis-selection Petition</option>
+            <option value="ADMIN_DIRECTIVE">Chief Returning Officer Constitutional Directive</option>
+          </select>
+        </div>
+
+        <div class="form-group-custom">
+          <label for="inputRevoteAuthRef"><i class="fa-solid fa-barcode"></i> Authorization Order Reference:</label>
+          <input type="text" id="inputRevoteAuthRef" class="form-input-custom" value="CEC/REV-2026/042" required>
+        </div>
+
+        <div class="form-group-custom">
+          <label for="textareaRevoteNotes"><i class="fa-solid fa-file-pen"></i> Administrative Justification Notes:</label>
+          <textarea id="textareaRevoteNotes" class="form-input-custom" rows="2" placeholder="Explain the factual basis for permitting this voter to re-vote..." required>Student reported browser disconnection right after OTP confirmation. Proctor confirmed vote parity discrepancy. Clearance granted under CEC Bylaw §8.3.</textarea>
+        </div>
+
+        <div style="margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+          <input type="checkbox" id="checkInvalidateOldReceipt" checked style="accent-color: #f59e0b; width: 16px; height: 16px;">
+          <label for="checkInvalidateOldReceipt" style="font-size: 12px; color: #cbd5e1; cursor: pointer;">
+            Cryptographically invalidate prior receipt and issue fresh ballot clearance to student
+          </label>
+        </div>
+
+        <div class="modal-actions-dual">
+          <button type="button" class="btn btn-secondary-glass" id="btnCancelRevoteModal">
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-warning-gold" id="btnConfirmRevoteAuthorization">
+            <i class="fa-solid fa-arrows-rotate"></i> Authorize Revote & Issue Ballot
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 
