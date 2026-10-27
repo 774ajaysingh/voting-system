@@ -1072,6 +1072,9 @@
                 <option value="not_voted">Not Yet Voted</option>
                 <option value="revote_granted">Revote Authorized</option>
               </select>
+              <button type="button" class="btn btn-primary-gradient" id="btnOpenAddVoterModal" style="display:inline-flex; align-items:center; gap:8px; white-space:nowrap; padding: 10px 18px; border-radius: 8px; font-weight:600; cursor:pointer;" title="Register and enroll a new student voter onto electoral roll">
+                <i class="fa-solid fa-user-plus"></i> Enroll New Voter
+              </button>
             </div>
           </div>
 
@@ -1084,7 +1087,7 @@
                   <th>Branch & Year</th>
                   <th>Voting Status</th>
                   <th>Receipt Hash / Verification</th>
-                  <th>Admin Revote Clearance</th>
+                  <th>Actions / Vote Clearance</th>
                 </tr>
               </thead>
               <tbody id="voterRosterTbody">
@@ -2880,6 +2883,105 @@
           </button>
           <button type="submit" class="btn btn-warning-gold" id="btnConfirmRevoteAuthorization">
             <i class="fa-solid fa-arrows-rotate"></i> Authorize Revote & Issue Ballot
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: ENROLL NEW VOTER (ADMIN DESK)                                      -->
+  <!-- ========================================================================= -->
+  <div class="modal-overlay hidden" id="modalAddVoter">
+    <div class="modal-box nomination-modal-box" style="max-width: 650px;">
+      <div class="modal-header">
+        <div>
+          <div class="badge-pill-cyan"><i class="fa-solid fa-id-card"></i> CEC Voter Roster Protocol</div>
+          <h3><i class="fa-solid fa-user-plus text-cyan"></i> Enroll New Student Voter</h3>
+          <p>Register an eligible student to the official electorate roll for multi-factor ballot authentication.</p>
+        </div>
+        <button type="button" class="btn-close-modal" id="btnCloseAddVoterModal">&times;</button>
+      </div>
+
+      <div class="revote-warning-banner" style="background: rgba(6, 182, 212, 0.1); border-color: rgba(6, 182, 212, 0.3);">
+        <i class="fa-solid fa-circle-info" style="font-size: 20px; color: #00f2fe;"></i>
+        <div>
+          <strong>Voter Onboarding:</strong> Enrolled students are immediately granted institutional voting credentials. They can verify via SMS OTP, contactless QR badge, or WebCam biometric liveness in the <strong>Voting Booth</strong>.
+        </div>
+      </div>
+
+      <form id="formAddVoter">
+        <div class="form-row-2">
+          <div class="form-group-custom">
+            <label for="inputNewVoterRoll"><i class="fa-solid fa-hashtag"></i> Student PRN / University Roll No:</label>
+            <input type="text" id="inputNewVoterRoll" class="form-input-custom" placeholder="e.g. 24BCSE501" required style="text-transform: uppercase;">
+          </div>
+          <div class="form-group-custom">
+            <label for="inputNewVoterName"><i class="fa-solid fa-user"></i> Full Legal Name:</label>
+            <input type="text" id="inputNewVoterName" class="form-input-custom" placeholder="e.g. Kabir Mehra" required>
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group-custom">
+            <label for="selectNewVoterDept"><i class="fa-solid fa-building-columns"></i> Department / Branch:</label>
+            <select id="selectNewVoterDept" class="form-input-custom" required>
+              <option value="CSE">Computer Science & Eng (CSE)</option>
+              <option value="ECE">Electronics & Comm (ECE)</option>
+              <option value="ME">Mechanical Eng (ME)</option>
+              <option value="IT">Information Tech (IT)</option>
+              <option value="CE">Civil Engineering (CE)</option>
+            </select>
+          </div>
+          <div class="form-group-custom">
+            <label for="selectNewVoterYear"><i class="fa-solid fa-graduation-cap"></i> Academic Year:</label>
+            <select id="selectNewVoterYear" class="form-input-custom" required>
+              <option value="1st Year">1st Year (B.Tech)</option>
+              <option value="2nd Year">2nd Year (B.Tech)</option>
+              <option value="3rd Year" selected>3rd Year (B.Tech)</option>
+              <option value="4th Year">4th Year (B.Tech)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group-custom">
+            <label for="inputNewVoterEmail"><i class="fa-solid fa-envelope"></i> Institutional Email:</label>
+            <input type="email" id="inputNewVoterEmail" class="form-input-custom" placeholder="e.g. kabir.24bcse501@college.edu">
+          </div>
+          <div class="form-group-custom">
+            <label for="inputNewVoterPhone"><i class="fa-solid fa-phone"></i> Mobile Number (for 2FA OTP):</label>
+            <input type="text" id="inputNewVoterPhone" class="form-input-custom" placeholder="e.g. +91 98765 00123" value="+91 98765 00123">
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-group-custom">
+            <label for="inputNewVoterPin"><i class="fa-solid fa-key"></i> Voter Security PIN / Passkey:</label>
+            <input type="text" id="inputNewVoterPin" class="form-input-custom" value="1234" required>
+          </div>
+          <div class="form-group-custom">
+            <label for="selectNewVoterVerifyStatus"><i class="fa-solid fa-shield-check"></i> Identity Verification Status:</label>
+            <select id="selectNewVoterVerifyStatus" class="form-input-custom">
+              <option value="VERIFIED">Institute ID & Biometrics Pre-Verified</option>
+              <option value="PENDING">Proctorial Document Check at Booth</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin: 16px 0 20px 0; display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.25); padding: 12px 16px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);">
+          <input type="checkbox" id="checkAutoSwitchToBooth" checked style="accent-color: #00f2fe; width: 18px; height: 18px; cursor: pointer;">
+          <label for="checkAutoSwitchToBooth" style="font-size: 13px; color: #e2e8f0; cursor: pointer;">
+            <strong>Launch Voting Booth immediately</strong> with this new student after registration to test casting their ballot
+          </label>
+        </div>
+
+        <div class="modal-actions-dual">
+          <button type="button" class="btn btn-secondary-glass" id="btnCancelAddVoterModal">
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary-gradient" id="btnConfirmAddVoter">
+            <i class="fa-solid fa-user-check"></i> Enroll to Electoral Roll
           </button>
         </div>
       </form>

@@ -1673,6 +1673,16 @@ function displayDigitalReceipt(receipt) {
     });
   }
 
+  // Synchronize voter state in MOCK_STUDENTS roster
+  if (receipt.studentId && typeof MOCK_STUDENTS !== "undefined" && MOCK_STUDENTS[receipt.studentId]) {
+    MOCK_STUDENTS[receipt.studentId].hasVoted = true;
+    MOCK_STUDENTS[receipt.studentId].receiptHash = receipt.receiptHash;
+    MOCK_STUDENTS[receipt.studentId].revoteGranted = false;
+    if (typeof renderVoterRosterTable === "function") {
+      renderVoterRosterTable();
+    }
+  }
+
   transitionBoothStage("stageReceipt", 4);
 }
 
@@ -2428,7 +2438,166 @@ function initAdminVoterRevoteDesk() {
     });
   }
 
+  initAddVoterModal();
   renderVoterRosterTable();
+}
+
+/* ==========================================================================
+   ENROLL NEW VOTER MODAL
+   ========================================================================== */
+function initAddVoterModal() {
+  const btnOpen = document.getElementById("btnOpenAddVoterModal");
+  const modal = document.getElementById("modalAddVoter");
+  const btnClose = document.getElementById("btnCloseAddVoterModal");
+  const btnCancel = document.getElementById("btnCancelAddVoterModal");
+  const form = document.getElementById("formAddVoter");
+
+  if (btnOpen) {
+    btnOpen.addEventListener("click", () => {
+      if (modal) modal.classList.remove("hidden");
+      // Auto-suggest next roll number
+      const rollInput = document.getElementById("inputNewVoterRoll");
+      if (rollInput && !rollInput.value) {
+        const randNum = Math.floor(Math.random() * 800) + 100;
+        rollInput.value = `24BCSE${randNum}`;
+      }
+    });
+  }
+
+  if (btnClose) btnClose.addEventListener("click", () => modal && modal.classList.add("hidden"));
+  if (btnCancel) btnCancel.addEventListener("click", () => modal && modal.classList.add("hidden"));
+
+  if (form) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const roll = document.getElementById("inputNewVoterRoll")?.value.trim().toUpperCase();
+      const name = document.getElementById("inputNewVoterName")?.value.trim();
+      const dept = document.getElementById("selectNewVoterDept")?.value || "CSE";
+      const year = document.getElementById("selectNewVoterYear")?.value || "3rd Year";
+      const email = document.getElementById("inputNewVoterEmail")?.value.trim() || `${roll.toLowerCase()}@college.edu`;
+      const phone = document.getElementById("inputNewVoterPhone")?.value.trim() || "+91 98765 00123";
+      const pin = document.getElementById("inputNewVoterPin")?.value.trim() || "1234";
+      const verifyStatus = document.getElementById("selectNewVoterVerifyStatus")?.value || "VERIFIED";
+      const autoSwitch = document.getElementById("checkAutoSwitchToBooth")?.checked ?? true;
+
+      if (!roll || !name) {
+        showToast("Please provide both Student PRN/Roll No and Full Name.", "error");
+        return;
+      }
+
+      if (MOCK_STUDENTS[roll]) {
+        showToast(`Student PRN ${roll} already exists on the voter roll!`, "error");
+        return;
+      }
+
+      const newStudent = {
+        studentId: roll,
+        name: name,
+        department: dept,
+        year: year,
+        email: email,
+        phone: phone,
+        pin: pin,
+        password: "password123",
+        verified: verifyStatus === "VERIFIED",
+        hasVoted: false,
+        receiptHash: null,
+        revoteGranted: false
+      };
+
+      // 1. Store in memory roster
+      MOCK_STUDENTS[roll] = newStudent;
+
+      // 2. Post to backend server if available
+      try {
+        fetch("/api/admin/add-voter", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newStudent)
+        }).catch(() => {});
+      } catch (err) {}
+
+      // 3. Increment total eligible count
+      if (APP_STATE.elections && APP_STATE.elections[APP_STATE.activeTimerElectionId]) {
+        APP_STATE.elections[APP_STATE.activeTimerElectionId].totalEligible += 1;
+      }
+
+      // 4. Log to Audit Trail
+      if (APP_STATE.logs) {
+        APP_STATE.logs.unshift({
+          id: APP_STATE.logs.length + 1,
+          timestamp: new Date().toLocaleTimeString(),
+          type: "VOTER_ENROLLED",
+          details: `New student voter enrolled: ${name} (${roll}) for ${dept} (${year}) by Admin Dr. S. Ramanujan.`,
+          ip: "127.0.0.1",
+          isSuspicious: false
+        });
+        renderAuditLogTable(APP_STATE.logs);
+      }
+
+      // 5. Broadcast to Notice Center
+      if (APP_STATE.campusNotices) {
+        APP_STATE.campusNotices.unshift({
+          id: `NOTIF-${Date.now()}`,
+          tag: "ELECTORAL ROLL",
+          title: `New Voter Enrolled: ${name} (${roll})`,
+          summary: `Student ${name} from ${dept} (${year}) has been officially registered and verified on the 2026 Electoral Roll.`,
+          time: "Just now",
+          badgeColor: "#00f2fe"
+        });
+        renderNoticeBadges();
+      }
+
+      // 6. Update UI
+      renderVoterRosterTable();
+      modal.classList.add("hidden");
+      form.reset();
+
+      showToast(`Student ${name} (${roll}) successfully enrolled to electoral roll!`, "success");
+
+      // 7. Auto-launch Voting Booth if requested
+      if (autoSwitch) {
+        setTimeout(() => {
+          launchBoothForStudent(roll);
+        }, 400);
+      }
+    });
+  }
+}
+
+/* ==========================================================================
+   LAUNCH VOTING BOOTH FOR STUDENT
+   ========================================================================== */
+function launchBoothForStudent(studentId) {
+  const student = MOCK_STUDENTS[studentId];
+  if (!student) return;
+
+  // 1. Switch tab to Voting Booth
+  switchTab("tab-booth");
+
+  // 2. Pre-fill login inputs
+  const inputSid = document.getElementById("inputStudentId");
+  const selectDept = document.getElementById("selectDepartment");
+  const selectYear = document.getElementById("selectYear");
+
+  if (inputSid) {
+    inputSid.value = student.studentId;
+    inputSid.classList.add("pulse-glow");
+    setTimeout(() => inputSid.classList.remove("pulse-glow"), 1500);
+  }
+  if (selectDept && student.department) selectDept.value = student.department;
+  if (selectYear && student.year) selectYear.value = student.year;
+
+  // 3. Reset booth to stage 1 (Login stage)
+  transitionBoothStage("stageLogin", 1);
+
+  // 4. Scroll smoothly to booth container
+  const boothSection = document.getElementById("tab-booth");
+  if (boothSection) {
+    boothSection.scrollIntoView({ behavior: "smooth" });
+  }
+
+  showToast(`Voter credentials loaded for ${student.name} (${student.studentId}). Click 'Proceed to Dual-Factor Verification' to cast vote!`, "info");
 }
 
 function renderVoterRosterTable() {
@@ -2489,7 +2658,11 @@ function renderVoterRosterTable() {
       `;
     }
 
-    let actionBtn = `<span style="color: #64748b; font-size: 11px;">Not voted</span>`;
+    let actionBtn = `
+      <button type="button" class="btn-quick-vote" data-sid="${s.studentId}" title="Launch Voting Booth and cast vote as ${s.name}">
+        <i class="fa-solid fa-vote-yea"></i> Vote in Booth
+      </button>
+    `;
     if (s.hasVoted) {
       actionBtn = `
         <button type="button" class="btn-grant-revote" data-sid="${s.studentId}">
@@ -2498,9 +2671,14 @@ function renderVoterRosterTable() {
       `;
     } else if (s.revoteGranted) {
       actionBtn = `
-        <button type="button" class="btn-grant-revote" data-sid="${s.studentId}" style="opacity: 0.85;">
-          <i class="fa-solid fa-user-pen"></i> Update Clearance
-        </button>
+        <div style="display: flex; gap: 6px; flex-wrap: wrap; align-items: center;">
+          <button type="button" class="btn-quick-vote" data-sid="${s.studentId}" title="Cast revote as ${s.name}">
+            <i class="fa-solid fa-vote-yea"></i> Cast Revote
+          </button>
+          <button type="button" class="btn-grant-revote" data-sid="${s.studentId}" style="opacity: 0.85;">
+            <i class="fa-solid fa-user-pen"></i> Update
+          </button>
+        </div>
       `;
     }
 
@@ -2513,10 +2691,16 @@ function renderVoterRosterTable() {
       <td>${actionBtn}</td>
     `;
 
+    // Handle vote now in booth click
+    const btnVote = tr.querySelector(".btn-quick-vote");
+    if (btnVote) {
+      btnVote.addEventListener("click", () => launchBoothForStudent(s.studentId));
+    }
+
     // Handle revote button click
-    const btn = tr.querySelector(".btn-grant-revote");
-    if (btn) {
-      btn.addEventListener("click", () => openRevotePermissionModal(s.studentId));
+    const btnRevote = tr.querySelector(".btn-grant-revote");
+    if (btnRevote) {
+      btnRevote.addEventListener("click", () => openRevotePermissionModal(s.studentId));
     }
 
     // Handle receipt click

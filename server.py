@@ -1126,6 +1126,63 @@ class VotingRequestHandler(http.server.SimpleHTTPRequestHandler):
             })
             return
 
+        elif path == "/api/admin/add-voter":
+            sid = body.get("studentId", "").strip().upper()
+            name = body.get("name", "").strip()
+            dept = body.get("department", "CSE").strip()
+            year = body.get("year", "3rd Year").strip()
+            email = body.get("email", f"{sid.lower()}@college.edu").strip()
+            phone = body.get("phone", "+91 98765 00000").strip()
+            pin = body.get("pin", "1234").strip()
+
+            if not sid or not name:
+                self._send_json({"error": "Student ID and Full Name are mandatory."}, 400)
+                return
+
+            if sid in STATE["students"]:
+                self._send_json({"error": f"Student ID '{sid}' is already registered on the voter roll."}, 409)
+                return
+
+            new_voter = {
+                "studentId": sid,
+                "name": name,
+                "department": dept,
+                "year": year,
+                "phone": phone,
+                "email": email,
+                "pin": pin,
+                "password": "password123",
+                "verified": False,
+                "hasVoted": False,
+                "otp": None,
+                "otpExpires": 0,
+                "receiptHash": None,
+                "revoteGranted": False
+            }
+            STATE["students"][sid] = new_voter
+            STATE["election"]["totalEligible"] += 1
+
+            for d in STATE["departments"]:
+                if d["code"] == dept:
+                    d["total"] += 1
+
+            STATE["auditLogs"].insert(0, {
+                "id": len(STATE["auditLogs"]) + 1,
+                "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "eventType": "VOTER_ENROLLED",
+                "details": f"New voter enrolled: {name} ({sid}) for {dept} ({year}) by Admin Dr. S. Ramanujan.",
+                "ip": client_ip,
+                "isSuspicious": False
+            })
+
+            self._send_json({
+                "success": True,
+                "message": f"Student {name} ({sid}) successfully enrolled to electoral roll.",
+                "voter": new_voter,
+                "totalEligible": STATE["election"]["totalEligible"]
+            })
+            return
+
         self._send_json({"error": "Endpoint not found"}, 404)
 
 if __name__ == "__main__":

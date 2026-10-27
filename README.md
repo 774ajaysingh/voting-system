@@ -85,8 +85,10 @@
      - ⚖️ **Manifesto Viability & Council Purview (0–25 pts):** Budget realism, student council charter alignment, execution feasibility.
    - **Live Composite Gauge & Letter Grades:** Interactive sliders compute real-time scores (`Grade A+`, `Grade A`, `Grade B`, `Grade C`) with one-click **"Approve & Mint to Ballot"** or **"Reject Nomination"** with official grounds.
 
-11. **🔄 Student Voter Roll & Revote / Reset Authorization Desk:**
-   - **Comprehensive Voter Directory:** Live searchable roll of institutional voters with status indicators (`All`, `Voted`, `Pending Cast`, `Revote Authorized`).
+11. **🔄 Student Voter Roll & Dynamic Voter Enrolment Desk:**
+   - **Enroll New Student Voter:** Administrators can register eligible students to the official voter roll on the fly via the **"Enroll New Voter"** modal, configuring Roll Number/PRN, Full Name, Department, Academic Year, Email, Mobile, and PIN.
+   - **Direct Booth Launch:** Includes a 1-click **"Vote in Booth"** action directly from the voter roster, immediately loading the student's credentials into the voting booth for testing and live casting.
+   - **Live Search & Filter:** Search registered students by PRN, Name, or Branch with status filters (`All`, `Voted`, `Pending Cast`, `Revote Authorized`).
    - **Statutory Revote Authorization:** Grants administrative clearance for a student to revote with auditable legal grounds:
      - Technical Glitch / Network Interruption during cast
      - Proctorial Appeal / Dual-Factor Discrepancy
