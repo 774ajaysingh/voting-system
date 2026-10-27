@@ -84,31 +84,81 @@
               </div>
             </div>
 
-            <!-- Quick Demo Student Voter Profiles -->
-            <div class="demo-roster-box">
-              <div class="demo-roster-title">
-                <i class="fa-solid fa-bolt"></i> 1-Click Demo Voter Profiles (for evaluation):
+            <!-- Dynamic Auth Error Alert Banner -->
+            <div id="studentAuthErrorBanner" class="auth-error-alert" style="display: none;">
+              <div class="auth-error-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+              <div class="auth-error-content">
+                <div class="auth-error-title" id="studentAuthErrorTitle">Authentication Failed</div>
+                <div class="auth-error-desc" id="studentAuthErrorDesc">Please check your Student Roll Number and Security PIN.</div>
               </div>
+            </div>
+
+            <!-- Quick Demo Student Voter Profiles -->
+            <div class="demo-roster-box" id="studentDemoRosterBox">
+              <div class="demo-roster-header">
+                <div class="demo-roster-title">
+                  <i class="fa-solid fa-bolt"></i> 1-Click Demo Voter Profiles (Select & Test):
+                </div>
+                <span class="demo-roster-hint">Default PIN: <strong>1234</strong></span>
+              </div>
+
+              <!-- Dropdown Selector Option for Demo Accounts -->
+              <div class="demo-quick-select-row">
+                <label for="selectDemoVoterProfile">
+                  <i class="fa-solid fa-user-check"></i> Choose from Authorized Demo Voter Accounts:
+                </label>
+                <select id="selectDemoVoterProfile" class="form-input-custom" style="padding: 8px 12px; font-size: 13px; height: 38px; cursor: pointer;">
+                  <option value="22BCSE101" data-pin="1234" selected>Aarav Sharma — 22BCSE101 (CSE, 3rd Yr) • Eligible</option>
+                  <option value="22BECE205" data-pin="1234">Priya Nair — 22BECE205 (ECE, 3rd Yr) • Eligible</option>
+                  <option value="22BME412" data-pin="1234">Simran Kaur — 22BME412 (ME, 3rd Yr) • Eligible</option>
+                  <option value="22BIT304" data-pin="1234">Aditya Verma — 22BIT304 (IT, 3rd Yr) • Already Voted</option>
+                </select>
+              </div>
+
               <div class="demo-chips-grid">
-                <button type="button" class="demo-chip-student active-demo" data-id="22BCSE101" data-pin="1234">
-                  <span class="d-name">Aarav Sharma</span>
-                  <span class="d-meta">22BCSE101 • CSE</span>
+                <button type="button" class="demo-chip-student active-demo" data-id="22BCSE101" data-pin="1234" title="Click to fill Aarav Sharma credentials">
+                  <div class="demo-chip-top">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" class="chip-avatar" alt="Aarav Sharma">
+                    <div>
+                      <span class="d-name">Aarav Sharma</span>
+                      <span class="d-meta">22BCSE101 • CSE</span>
+                    </div>
+                  </div>
                   <span class="d-tag green">Eligible</span>
+                  <span class="demo-chip-check"><i class="fa-solid fa-check"></i></span>
                 </button>
-                <button type="button" class="demo-chip-student" data-id="22BECE205" data-pin="1234">
-                  <span class="d-name">Priya Nair</span>
-                  <span class="d-meta">22BECE205 • ECE</span>
+                <button type="button" class="demo-chip-student" data-id="22BECE205" data-pin="1234" title="Click to fill Priya Nair credentials">
+                  <div class="demo-chip-top">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&auto=format&fit=crop&q=80" class="chip-avatar" alt="Priya Nair">
+                    <div>
+                      <span class="d-name">Priya Nair</span>
+                      <span class="d-meta">22BECE205 • ECE</span>
+                    </div>
+                  </div>
                   <span class="d-tag green">Eligible</span>
+                  <span class="demo-chip-check"><i class="fa-solid fa-check"></i></span>
                 </button>
-                <button type="button" class="demo-chip-student" data-id="22BME412" data-pin="1234">
-                  <span class="d-name">Simran Kaur</span>
-                  <span class="d-meta">22BME412 • ME</span>
+                <button type="button" class="demo-chip-student" data-id="22BME412" data-pin="1234" title="Click to fill Simran Kaur credentials">
+                  <div class="demo-chip-top">
+                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&auto=format&fit=crop&q=80" class="chip-avatar" alt="Simran Kaur">
+                    <div>
+                      <span class="d-name">Simran Kaur</span>
+                      <span class="d-meta">22BME412 • ME</span>
+                    </div>
+                  </div>
                   <span class="d-tag green">Eligible</span>
+                  <span class="demo-chip-check"><i class="fa-solid fa-check"></i></span>
                 </button>
-                <button type="button" class="demo-chip-student" data-id="22BIT304" data-pin="1234">
-                  <span class="d-name">Aditya Verma</span>
-                  <span class="d-meta">22BIT304 • IT</span>
+                <button type="button" class="demo-chip-student" data-id="22BIT304" data-pin="1234" title="Click to fill Aditya Verma credentials">
+                  <div class="demo-chip-top">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80" class="chip-avatar" alt="Aditya Verma">
+                    <div>
+                      <span class="d-name">Aditya Verma</span>
+                      <span class="d-meta">22BIT304 • IT</span>
+                    </div>
+                  </div>
                   <span class="d-tag red">Already Voted</span>
+                  <span class="demo-chip-check"><i class="fa-solid fa-check"></i></span>
                 </button>
               </div>
             </div>
@@ -144,6 +194,15 @@
           </div>
 
           <form id="formAdminAuth" class="auth-form">
+            <!-- Dynamic Admin Error Alert Banner -->
+            <div id="adminAuthErrorBanner" class="auth-error-alert" style="display: none;">
+              <div class="auth-error-icon"><i class="fa-solid fa-shield-halved"></i></div>
+              <div class="auth-error-content">
+                <div class="auth-error-title" id="adminAuthErrorTitle">Admin Access Denied</div>
+                <div class="auth-error-desc" id="adminAuthErrorDesc">Please check officer credentials.</div>
+              </div>
+            </div>
+
             <div class="form-group-custom">
               <label for="inputAdminLoginUser">
                 <i class="fa-solid fa-user-shield"></i> Officer Username / Email:
@@ -168,7 +227,7 @@
             </div>
 
             <!-- Quick Demo Admin Profile -->
-            <div class="demo-roster-box">
+            <div class="demo-roster-box" id="adminDemoRosterBox">
               <div class="demo-roster-title">
                 <i class="fa-solid fa-bolt"></i> 1-Click Admin Access (for evaluation):
               </div>

@@ -577,7 +577,30 @@ class VotingRequestHandler(http.server.SimpleHTTPRequestHandler):
         if path == "/api/auth/student-login":
             student_id = body.get("studentId", "").strip().upper()
             password = body.get("password", "").strip()
+
+            if not student_id:
+                self._send_json({"error": "Please enter your Student Roll Number / ID."}, 400)
+                return
+
             student = STATE["students"].get(student_id)
+            if not student:
+                # Also check registrationQueue for approved application
+                q_match = next((q for q in STATE.get("registrationQueue", []) if q.get("studentId", "").upper() == student_id), None)
+                if q_match and q_match.get("status") == "APPROVED":
+                    student = {
+                        "studentId": q_match["studentId"],
+                        "name": q_match["name"],
+                        "department": q_match["department"],
+                        "year": q_match["year"],
+                        "phone": q_match["phone"],
+                        "email": q_match["email"],
+                        "pin": q_match.get("pin", "1234"),
+                        "password": "password123",
+                        "hasVoted": False,
+                        "receiptHash": None
+                    }
+                    STATE["students"][student_id] = student
+
             if not student:
                 STATE["auditLogs"].insert(0, {
                     "id": len(STATE["auditLogs"]) + 1,
@@ -587,11 +610,15 @@ class VotingRequestHandler(http.server.SimpleHTTPRequestHandler):
                     "ip": client_ip,
                     "isSuspicious": True
                 })
-                self._send_json({"error": "Student ID not found in voter registration roster."}, 404)
+                self._send_json({"error": f"Student Roll Number '{student_id}' is not registered on the official electoral roll. Please choose an authorized Demo Voter Profile below, or submit a self-registration application."}, 404)
                 return
 
-            valid_keys = [student_id.lower(), "1234", "password123", student.get("pin", "1234"), student.get("password", "password123")]
-            if password and password.lower() not in valid_keys:
+            if not password:
+                self._send_json({"error": "Please enter your Student Security PIN / Password. (Default Demo PIN: 1234)"}, 400)
+                return
+
+            valid_keys = [student.get("pin", "1234"), student.get("password", "password123"), "1234"]
+            if password not in valid_keys:
                 STATE["auditLogs"].insert(0, {
                     "id": len(STATE["auditLogs"]) + 1,
                     "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -600,7 +627,7 @@ class VotingRequestHandler(http.server.SimpleHTTPRequestHandler):
                     "ip": client_ip,
                     "isSuspicious": True
                 })
-                self._send_json({"error": "Invalid student password/PIN. (Demo PIN: 1234)"}, 401)
+                self._send_json({"error": f"Incorrect Security PIN for {student['name']} ({student_id}). Default Demo PIN: 1234. Please try again or select a demo profile."}, 401)
                 return
 
             STATE["auditLogs"].insert(0, {

@@ -3457,18 +3457,107 @@ input:focus, select:focus {
 }
 
 /* Demo Rosters Box */
+/* Auth Error Alert Banner */
+.auth-error-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  border-left: 4px solid #ef4444;
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  color: #fca5a5;
+  font-size: 13px;
+  line-height: 1.45;
+  margin-bottom: 4px;
+  animation: errorSlideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes errorSlideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.auth-error-icon {
+  font-size: 18px;
+  color: #ef4444;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.auth-error-content {
+  flex: 1;
+}
+
+.auth-error-title {
+  font-weight: 700;
+  color: #f87171;
+  font-size: 13px;
+  margin-bottom: 2px;
+}
+
+.auth-error-desc {
+  color: #cbd5e1;
+  font-size: 12px;
+}
+
+.auth-error-desc strong {
+  color: #fff;
+}
+
+/* Input validation states */
+.form-input-custom.input-error {
+  border-color: #ef4444 !important;
+  background: rgba(239, 68, 68, 0.08) !important;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.35) !important;
+}
+
+/* Input Shake Animation */
+.input-shake {
+  animation: authShake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+@keyframes authShake {
+  10%, 90% { transform: translate3d(-2px, 0, 0); }
+  20%, 80% { transform: translate3d(3px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-5px, 0, 0); }
+  40%, 60% { transform: translate3d(5px, 0, 0); }
+}
+
+/* Demo Rosters Box */
 .demo-roster-box {
   background: rgba(255, 255, 255, 0.02);
   border: 1px dashed rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-md);
   padding: 14px 16px;
+  transition: all 0.3s ease;
+}
+
+.demo-roster-box.highlight-attention {
+  border-color: #00f2fe !important;
+  background: rgba(0, 242, 254, 0.07) !important;
+  box-shadow: 0 0 25px rgba(0, 242, 254, 0.35);
+  animation: demoPulseAttention 1.4s infinite;
+}
+
+@keyframes demoPulseAttention {
+  0% { box-shadow: 0 0 10px rgba(0, 242, 254, 0.2); }
+  50% { box-shadow: 0 0 25px rgba(0, 242, 254, 0.5); }
+  100% { box-shadow: 0 0 10px rgba(0, 242, 254, 0.2); }
+}
+
+.demo-roster-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
 
 .demo-roster-title {
   font-size: 12px;
   font-weight: 700;
   color: var(--text-muted);
-  margin-bottom: 10px;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -3476,6 +3565,29 @@ input:focus, select:focus {
 
 .demo-roster-title i {
   color: var(--accent-amber);
+}
+
+.demo-roster-hint {
+  font-size: 11px;
+  color: var(--primary-cyan);
+  background: rgba(0, 242, 254, 0.08);
+  border: 1px solid rgba(0, 242, 254, 0.25);
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.demo-quick-select-row {
+  margin-bottom: 10px;
+}
+
+.demo-quick-select-row label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 5px;
 }
 
 .demo-chips-grid {
@@ -3492,12 +3604,12 @@ input:focus, select:focus {
   background: rgba(15, 23, 42, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-sm);
-  padding: 8px 12px;
+  padding: 10px 12px;
   text-align: left;
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
   transition: all 0.2s ease;
   position: relative;
   font-family: inherit;
@@ -3516,14 +3628,54 @@ input:focus, select:focus {
 
 .demo-chip-student.active-demo {
   border-color: var(--primary-cyan);
-  background: rgba(0, 242, 254, 0.1);
-  box-shadow: 0 0 12px rgba(0, 242, 254, 0.2);
+  background: rgba(0, 242, 254, 0.12);
+  box-shadow: 0 0 16px rgba(0, 242, 254, 0.3);
 }
 
 .demo-chip-admin.active-demo {
   border-color: var(--accent-purple);
   background: rgba(139, 92, 246, 0.12);
   box-shadow: 0 0 12px rgba(139, 92, 246, 0.2);
+}
+
+.demo-chip-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chip-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+}
+
+.demo-chip-student.active-demo .chip-avatar {
+  border-color: var(--primary-cyan);
+  box-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+}
+
+.demo-chip-check {
+  display: none;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--primary-cyan);
+  color: #040814;
+  font-size: 10px;
+  font-weight: 800;
+  align-items: center;
+  justify-content: center;
+}
+
+.demo-chip-student.active-demo .demo-chip-check {
+  display: flex;
 }
 
 .d-chip-inner {

@@ -841,46 +841,204 @@ function initAuthGateway() {
     });
   }
 
-  // 1-Click Demo Voter Chips
+  // Student & Admin Auth Helpers
+  const studentAuthBanner = document.getElementById("studentAuthErrorBanner");
+  const studentAuthTitle = document.getElementById("studentAuthErrorTitle");
+  const studentAuthDesc = document.getElementById("studentAuthErrorDesc");
+  const adminAuthBanner = document.getElementById("adminAuthErrorBanner");
+  const adminAuthTitle = document.getElementById("adminAuthErrorTitle");
+  const adminAuthDesc = document.getElementById("adminAuthErrorDesc");
+  const studentDemoBox = document.getElementById("studentDemoRosterBox") || document.querySelector(".demo-roster-box");
+  const adminDemoBox = document.getElementById("adminDemoRosterBox");
+  const inputStudentId = document.getElementById("inputStudentLoginId");
+  const inputStudentPin = document.getElementById("inputStudentLoginPin");
+  const selectDemoProfile = document.getElementById("selectDemoVoterProfile");
   const studentChips = document.querySelectorAll(".demo-chip-student");
+
+  const showStudentAuthError = (title, desc) => {
+    if (studentAuthBanner && studentAuthTitle && studentAuthDesc) {
+      studentAuthTitle.textContent = title;
+      studentAuthDesc.innerHTML = desc;
+      studentAuthBanner.style.display = "flex";
+    }
+    showToast(desc.replace(/<[^>]+>/g, ""), "error");
+    if (studentDemoBox) {
+      studentDemoBox.classList.add("highlight-attention");
+      setTimeout(() => studentDemoBox.classList.remove("highlight-attention"), 3200);
+    }
+  };
+
+  const hideStudentAuthError = () => {
+    if (studentAuthBanner) studentAuthBanner.style.display = "none";
+  };
+
+  const showAdminAuthError = (title, desc) => {
+    if (adminAuthBanner && adminAuthTitle && adminAuthDesc) {
+      adminAuthTitle.textContent = title;
+      adminAuthDesc.innerHTML = desc;
+      adminAuthBanner.style.display = "flex";
+    }
+    showToast(desc.replace(/<[^>]+>/g, ""), "error");
+    if (adminDemoBox) {
+      adminDemoBox.classList.add("highlight-attention");
+      setTimeout(() => adminDemoBox.classList.remove("highlight-attention"), 3200);
+    }
+  };
+
+  const hideAdminAuthError = () => {
+    if (adminAuthBanner) adminAuthBanner.style.display = "none";
+  };
+
+  const triggerInputShake = (el) => {
+    if (!el) return;
+    el.classList.add("input-error", "input-shake");
+    el.focus();
+    setTimeout(() => {
+      el.classList.remove("input-shake");
+    }, 600);
+  };
+
+  // Helper to select a demo voter profile and synchronize all controls
+  const selectDemoVoterAccount = (id, pin, name, isUserClick = true) => {
+    hideStudentAuthError();
+    if (inputStudentId) {
+      inputStudentId.value = id;
+      inputStudentId.classList.remove("input-error", "input-shake");
+    }
+    if (inputStudentPin) {
+      inputStudentPin.value = pin || "1234";
+      inputStudentPin.classList.remove("input-error", "input-shake");
+    }
+
+    // Update active state on chips
+    studentChips.forEach(c => {
+      if (c.getAttribute("data-id") === id) {
+        c.classList.add("active-demo");
+      } else {
+        c.classList.remove("active-demo");
+      }
+    });
+
+    // Update dropdown selector if exists
+    if (selectDemoProfile && selectDemoProfile.value !== id) {
+      selectDemoProfile.value = id;
+    }
+
+    if (isUserClick && name) {
+      showToast(`Demo Profile Loaded: ${name} (${id}) • PIN: 1234 filled`, "info");
+    }
+  };
+
+  // 1-Click Demo Voter Chips Click Listener
   studentChips.forEach(chip => {
     chip.addEventListener("click", () => {
-      studentChips.forEach(c => c.classList.remove("active-demo"));
-      chip.classList.add("active-demo");
       const id = chip.getAttribute("data-id");
-      const pin = chip.getAttribute("data-pin");
-      const inputId = document.getElementById("inputStudentLoginId");
-      const inputPin = document.getElementById("inputStudentLoginPin");
-      if (inputId) inputId.value = id;
-      if (inputPin) inputPin.value = pin;
+      const pin = chip.getAttribute("data-pin") || "1234";
+      const name = chip.querySelector(".d-name") ? chip.querySelector(".d-name").textContent.trim() : id;
+      selectDemoVoterAccount(id, pin, name, true);
     });
   });
 
+  // Dropdown Selector for Demo Profiles
+  if (selectDemoProfile) {
+    selectDemoProfile.addEventListener("change", () => {
+      const selectedOption = selectDemoProfile.options[selectDemoProfile.selectedIndex];
+      const id = selectDemoProfile.value;
+      const pin = selectedOption ? selectedOption.getAttribute("data-pin") || "1234" : "1234";
+      const name = selectedOption ? selectedOption.text.split("—")[0].trim() : id;
+      selectDemoVoterAccount(id, pin, name, true);
+    });
+  }
+
+  // Clear errors and synchronize chips on manual student ID input
+  if (inputStudentId) {
+    inputStudentId.addEventListener("input", () => {
+      hideStudentAuthError();
+      inputStudentId.classList.remove("input-error", "input-shake");
+      const val = inputStudentId.value.trim().toUpperCase();
+      let matched = false;
+      studentChips.forEach(c => {
+        if (c.getAttribute("data-id").toUpperCase() === val) {
+          c.classList.add("active-demo");
+          matched = true;
+          if (selectDemoProfile) selectDemoProfile.value = c.getAttribute("data-id");
+        } else {
+          c.classList.remove("active-demo");
+        }
+      });
+      if (!matched && selectDemoProfile) {
+        // Unselected / custom ID
+      }
+    });
+  }
+
+  // Clear errors on PIN input
+  if (inputStudentPin) {
+    inputStudentPin.addEventListener("input", () => {
+      hideStudentAuthError();
+      inputStudentPin.classList.remove("input-error", "input-shake");
+    });
+  }
+
   // 1-Click Demo Admin Chips
   const adminChips = document.querySelectorAll(".demo-chip-admin");
+  const inputAdminUser = document.getElementById("inputAdminLoginUser");
+  const inputAdminPass = document.getElementById("inputAdminLoginPass");
+
   adminChips.forEach(chip => {
     chip.addEventListener("click", () => {
+      hideAdminAuthError();
       adminChips.forEach(c => c.classList.remove("active-demo"));
       chip.classList.add("active-demo");
       const user = chip.getAttribute("data-user");
       const pass = chip.getAttribute("data-pass");
-      const inputUser = document.getElementById("inputAdminLoginUser");
-      const inputPass = document.getElementById("inputAdminLoginPass");
-      if (inputUser) inputUser.value = user;
-      if (inputPass) inputPass.value = pass;
+      if (inputAdminUser) {
+        inputAdminUser.value = user;
+        inputAdminUser.classList.remove("input-error", "input-shake");
+      }
+      if (inputAdminPass) {
+        inputAdminPass.value = pass;
+        inputAdminPass.classList.remove("input-error", "input-shake");
+      }
+      showToast("Demo Admin Credentials Loaded (admin@college.edu / admin2026)", "info");
     });
   });
+
+  if (inputAdminUser) {
+    inputAdminUser.addEventListener("input", () => {
+      hideAdminAuthError();
+      inputAdminUser.classList.remove("input-error", "input-shake");
+    });
+  }
+  if (inputAdminPass) {
+    inputAdminPass.addEventListener("input", () => {
+      hideAdminAuthError();
+      inputAdminPass.classList.remove("input-error", "input-shake");
+    });
+  }
 
   // Student Login Form Submission
   const formStudentAuth = document.getElementById("formStudentAuth");
   if (formStudentAuth) {
     formStudentAuth.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const studentId = document.getElementById("inputStudentLoginId").value.trim().toUpperCase();
-      const pin = document.getElementById("inputStudentLoginPin").value.trim();
+      const studentId = inputStudentId ? inputStudentId.value.trim().toUpperCase() : "";
+      const pin = inputStudentPin ? inputStudentPin.value.trim() : "";
+
+      // Reset previous error states
+      hideStudentAuthError();
+      if (inputStudentId) inputStudentId.classList.remove("input-error", "input-shake");
+      if (inputStudentPin) inputStudentPin.classList.remove("input-error", "input-shake");
 
       if (!studentId) {
-        showToast("Please enter your Student Roll Number / ID", "warning");
+        showStudentAuthError("Missing Student Roll Number", "Please enter your official Student Roll Number or select a Demo Profile below.");
+        triggerInputShake(inputStudentId);
+        return;
+      }
+
+      if (!pin) {
+        showStudentAuthError("Missing Security PIN", "Please enter your Student Security PIN / Password (Default Demo PIN: <strong>1234</strong>).");
+        triggerInputShake(inputStudentPin);
         return;
       }
 
@@ -899,30 +1057,66 @@ function initAuthGateway() {
             user: data.user
           };
         } else {
-          showToast(data.error || "Authentication failed. Check your ID/PIN.", "error");
+          // Authentication Failed on Backend - DO NOT LOG IN
+          const errMsg = data.error || "Authentication failed. Check your Student ID and PIN.";
+          showStudentAuthError("Authentication Failed", errMsg);
+          if (errMsg.toLowerCase().includes("pin") || errMsg.toLowerCase().includes("password")) {
+            triggerInputShake(inputStudentPin);
+          } else {
+            triggerInputShake(inputStudentId);
+          }
           return;
         }
       } catch (err) {
-        // Standalone / Offline fallback
-        const mock = MOCK_STUDENTS[studentId];
-        if (mock) {
-          sessionData = {
-            role: "student",
-            user: { ...mock }
-          };
-        } else {
-          // Allow custom student ID in offline mode
-          sessionData = {
-            role: "student",
-            user: {
-              studentId: studentId,
-              name: "Student " + studentId,
-              department: "CSE",
-              year: "3rd Year",
-              hasVoted: false
-            }
-          };
+        // Standalone / Offline Verification Fallback
+        let student = MOCK_STUDENTS[studentId];
+
+        // Also check approved students in voter registration queue
+        if (!student && APP_STATE.voterRegistrationQueue) {
+          const approved = APP_STATE.voterRegistrationQueue.find(q => q.studentId.toUpperCase() === studentId && q.status === "APPROVED");
+          if (approved) {
+            student = {
+              studentId: approved.studentId,
+              name: approved.name,
+              department: approved.department,
+              year: approved.year,
+              phone: approved.phone,
+              email: approved.email,
+              pin: approved.pin || "1234",
+              password: "password123",
+              verified: true,
+              hasVoted: false,
+              receiptHash: null
+            };
+          }
         }
+
+        // 1. Strict Check: If student is NOT on roster, REJECT IMMEDIATELY!
+        if (!student) {
+          const errMsg = `Student Roll Number '<strong>${studentId}</strong>' is not registered on the official electoral roll.<br>Please select an authorized profile from the <strong>Demo Voter Profiles</strong> below, or submit a Self-Registration application.`;
+          showStudentAuthError("Voter Not Registered", errMsg);
+          triggerInputShake(inputStudentId);
+          return; // STRICTLY REJECT - DO NOT LOG IN!
+        }
+
+        // 2. Strict Check: Verify PIN
+        const validPins = [
+          student.pin || "1234",
+          student.password || "password123",
+          "1234"
+        ];
+
+        if (!validPins.includes(pin)) {
+          const errMsg = `Incorrect Security PIN for <strong>${student.name} (${studentId})</strong>.<br>Default Demo PIN is <strong>1234</strong>. Please try again or select a Demo Profile below.`;
+          showStudentAuthError("Invalid Security PIN", errMsg);
+          triggerInputShake(inputStudentPin);
+          return; // STRICTLY REJECT - DO NOT LOG IN!
+        }
+
+        sessionData = {
+          role: "student",
+          user: { ...student }
+        };
       }
 
       if (sessionData) {
@@ -954,11 +1148,17 @@ function initAuthGateway() {
   if (formAdminAuth) {
     formAdminAuth.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const username = document.getElementById("inputAdminLoginUser").value.trim();
-      const password = document.getElementById("inputAdminLoginPass").value.trim();
+      const username = inputAdminUser ? inputAdminUser.value.trim() : "";
+      const password = inputAdminPass ? inputAdminPass.value.trim() : "";
+
+      hideAdminAuthError();
+      if (inputAdminUser) inputAdminUser.classList.remove("input-error", "input-shake");
+      if (inputAdminPass) inputAdminPass.classList.remove("input-error", "input-shake");
 
       if (!username || !password) {
-        showToast("Please enter administrative username and passkey", "warning");
+        showAdminAuthError("Missing Administrative Credentials", "Please enter administrative username and security passkey.");
+        if (!username) triggerInputShake(inputAdminUser);
+        else triggerInputShake(inputAdminPass);
         return;
       }
 
@@ -977,19 +1177,24 @@ function initAuthGateway() {
             user: data.user
           };
         } else {
-          showToast(data.error || "Invalid officer username or passkey.", "error");
+          const errMsg = data.error || "Invalid officer username or passkey.";
+          showAdminAuthError("Access Denied", errMsg);
+          triggerInputShake(inputAdminPass);
           return;
         }
       } catch (err) {
         // Standalone fallback
-        if ((username === "admin@college.edu" || username === "admin") && (password === "admin2026" || password === "admin123")) {
+        const validUsers = ["admin@college.edu", "admin", "ec_officer"];
+        const validPass = ["admin2026", "admin123"];
+        if (validUsers.includes(username.toLowerCase()) && validPass.includes(password)) {
           sessionData = {
             role: "admin",
             user: { ...MOCK_ADMIN }
           };
         } else {
-          showToast("Invalid administrator credentials (Demo: admin@college.edu / admin2026)", "error");
-          return;
+          showAdminAuthError("Access Denied", "Invalid administrator credentials. (Demo Admin: <strong>admin@college.edu</strong> / Passkey: <strong>admin2026</strong>)");
+          triggerInputShake(inputAdminPass);
+          return; // DO NOT LOG IN
         }
       }
 
