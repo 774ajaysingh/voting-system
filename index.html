@@ -118,6 +118,14 @@
             </button>
           </form>
 
+          <!-- Voter Self-Registration & Status Check Gateway Link -->
+          <div class="auth-register-callout" style="margin-top: 14px; padding: 12px 14px; background: rgba(0, 242, 254, 0.06); border: 1px dashed rgba(0, 242, 254, 0.3); border-radius: 10px; text-align: center;">
+            <div style="font-size: 12px; color: #94a3b8; margin-bottom: 6px;">New Student or Need Verification Approval?</div>
+            <button type="button" class="btn btn-outline-cyan btn-sm w-100" id="btnGatewayOpenRegister" style="font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
+              <i class="fa-solid fa-address-card"></i> Self-Register as Voter / Check Verification Status
+            </button>
+          </div>
+
           <div class="auth-security-perks">
             <div class="perk-item"><i class="fa-solid fa-fingerprint"></i> SMS OTP & Biometric HUD</div>
             <div class="perk-item"><i class="fa-solid fa-user-secret"></i> Zero-Knowledge Anonymous Vote</div>
@@ -242,6 +250,11 @@
         <button class="header-notice-btn" id="btnHeaderNoticeBell" title="Election Commission Notices & Circulars">
           <i class="fa-solid fa-bell"></i>
           <span class="header-notice-badge" id="headerNoticeBadge">4</span>
+        </button>
+
+        <!-- Voter Self-Registration & Status Button -->
+        <button class="btn btn-outline-cyan btn-sm" id="btnHeaderVoterRegister" title="Self-Register as Student Voter or Check Verification Status">
+          <i class="fa-solid fa-address-card"></i> Register / Status
         </button>
 
         <!-- Auth Action Buttons -->
@@ -469,6 +482,57 @@
         <!-- STAGE 1: Student Login -->
         <div class="booth-stage" id="stageLogin">
           <div class="booth-glass-card">
+            
+            <!-- Active Election Scope & Constitutional Criteria Card -->
+            <div class="booth-election-scope-card" id="boothElectionScopeCard">
+              <div class="besc-header">
+                <div class="besc-badge">
+                  <span class="pulse-dot"></span>
+                  <span id="boothScopeBadgeText">ACTIVE ELECTION SCOPE & CRITERIA</span>
+                </div>
+                <div class="besc-status" id="boothScopeStatusPill">
+                  <i class="fa-solid fa-filter"></i> Branch Criteria Enforced
+                </div>
+              </div>
+              <div class="besc-body">
+                <div class="besc-title-row">
+                  <div>
+                    <h4 id="boothScopeElectionTitle" class="besc-election-title">Department Class Representative (CR) Election 2026</h4>
+                    <p id="boothScopeCriteriaDesc" class="besc-criteria-desc">
+                      <i class="fa-solid fa-circle-exclamation text-amber"></i> 
+                      <strong>Eligibility Rule:</strong> Strictly restricted to <strong>Computer Science & Eng (CSE)</strong> students only. Other branches are constitutionally blocked.
+                    </p>
+                  </div>
+                  <!-- Switch Election Dropdown (Quick Evaluation) -->
+                  <div class="besc-switcher">
+                    <label for="selectBoothElectionScope"><i class="fa-solid fa-shuffle"></i> Test Other Race:</label>
+                    <select id="selectBoothElectionScope" class="form-input-custom-sm">
+                      <option value="ELEX-CR-2026" selected>CSE Class Rep 2026 (CSE Only)</option>
+                      <option value="ELEX-2026-MAIN">Student Council 2026 (All Students)</option>
+                      <option value="ELEX-ECE-2026">ECE Tech Lead 2026 (ECE Only)</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="besc-chips" id="boothScopeChips">
+                  <span class="scope-chip restricted"><i class="fa-solid fa-lock"></i> Restricted: CSE Department Only</span>
+                  <span class="scope-chip verified-only"><i class="fa-solid fa-user-check"></i> Requires Approved Registration</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Ineligibility Warning Alert (Shows when branch or verification fails) -->
+            <div class="booth-ineligibility-alert hidden" id="boothEligibilityAlert">
+              <div class="bia-icon"><i class="fa-solid fa-ban"></i></div>
+              <div class="bia-content">
+                <h4 id="biaTitle">Electoral Scope Ineligibility Detected</h4>
+                <p id="biaMessage">You are registered under <strong>ECE</strong>. This election is strictly restricted to students of <strong>Computer Science & Engineering (CSE)</strong>. You cannot cast a ballot in this race.</p>
+                <div class="bia-actions">
+                  <button type="button" class="btn btn-sm btn-outline-cyan" id="biaBtnSelfRegister"><i class="fa-solid fa-address-card"></i> Self-Register / Check Status</button>
+                  <button type="button" class="btn btn-sm btn-secondary-glass" id="biaBtnDismiss"><i class="fa-solid fa-xmark"></i> Dismiss</button>
+                </div>
+              </div>
+            </div>
+
             <div class="stage-header">
               <div class="stage-icon"><i class="fa-solid fa-id-card"></i></div>
               <h3>Student Identity Verification</h3>
@@ -484,7 +548,7 @@
                     <i class="fa-solid fa-wand-magic-sparkles"></i> Try Demo ID
                   </button>
                 </div>
-                <small class="form-hint">Registered demo accounts: <code>22BCSE101</code> (Aarav), <code>22BECE205</code> (Priya), <code>22BME412</code> (Simran)</small>
+                <small class="form-hint">Registered demo accounts: <code>22BCSE101</code> (Aarav - CSE), <code>22BECE205</code> (Priya - ECE), <code>22BME412</code> (Simran - ME)</small>
               </div>
               <div class="form-row-2">
                 <div class="form-group">
@@ -533,6 +597,14 @@
                 <span>Proceed to Dual-Factor Verification</span>
                 <i class="fa-solid fa-arrow-right"></i>
               </button>
+
+              <!-- Self-Registration Prompt in Booth -->
+              <div class="booth-register-cta" style="margin-top: 16px; text-align: center; padding: 12px; background: rgba(255, 255, 255, 0.03); border: 1px dashed rgba(255, 255, 255, 0.15); border-radius: 8px;">
+                <span style="font-size: 13px; color: #94a3b8;">Not on the voter roster yet?</span>
+                <button type="button" class="btn-link-action" id="btnBoothOpenRegister" style="background: none; border: none; color: #00f2fe; font-weight: 600; cursor: pointer; text-decoration: underline; margin-left: 6px; font-size: 13px;">
+                  <i class="fa-solid fa-user-plus"></i> Self-Register Academic Details for Commission Verification &rarr;
+                </button>
+              </div>
             </form>
           </div>
         </div>
@@ -1049,6 +1121,93 @@
               </thead>
               <tbody id="auditLogTbody">
                 <!-- Injected by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ========================================================================= -->
+        <!-- VOTER REGISTRATION VERIFICATION DESK (ADMIN COMMISSION GROUP)            -->
+        <!-- ========================================================================= -->
+        <div class="admin-verification-card" id="adminVoterVerificationDesk">
+          <div class="audit-card-header">
+            <div>
+              <div class="badge-pill-cyan"><i class="fa-solid fa-user-check"></i> Electoral Roll Governance</div>
+              <h4><i class="fa-solid fa-users-viewfinder"></i> Voter Registration Verification Desk (Admin Group)</h4>
+              <p>Scrutinize student self-registration submissions, inspect uploaded academic credentials and identity proof, and approve or reject voter enrollment onto the official electoral roll.</p>
+            </div>
+            <div class="voter-reg-stats-group">
+              <div class="vreg-stat-chip amber">
+                <span class="vreg-num" id="countVoterRegPending">3</span>
+                <span class="vreg-lbl">Pending Review</span>
+              </div>
+              <div class="vreg-stat-chip emerald">
+                <span class="vreg-num" id="countVoterRegApproved">1</span>
+                <span class="vreg-lbl">Approved</span>
+              </div>
+              <div class="vreg-stat-chip rose">
+                <span class="vreg-num" id="countVoterRegRejected">1</span>
+                <span class="vreg-lbl">Rejected</span>
+              </div>
+              <div class="vreg-stat-chip cyan">
+                <span class="vreg-num" id="countVoterRegTotal">5</span>
+                <span class="vreg-lbl">Total Queue</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Controls & Filtering Bar -->
+          <div class="vreg-controls-bar">
+            <div class="vreg-tab-filters">
+              <button type="button" class="btn btn-xs btn-outline-amber active" id="tabVoterRegPending">
+                <i class="fa-solid fa-clock"></i> Pending Review (<span id="btnCountVoterRegPending">3</span>)
+              </button>
+              <button type="button" class="btn btn-xs btn-outline-emerald" id="tabVoterRegApproved">
+                <i class="fa-solid fa-circle-check"></i> Approved
+              </button>
+              <button type="button" class="btn btn-xs btn-outline-danger" id="tabVoterRegRejected">
+                <i class="fa-solid fa-ban"></i> Rejected
+              </button>
+              <button type="button" class="btn btn-xs btn-secondary-glass" id="tabVoterRegAll">
+                All Records
+              </button>
+            </div>
+
+            <div class="vreg-search-filters">
+              <div class="input-with-icon vreg-search-box">
+                <i class="fa-solid fa-magnifying-glass input-icon"></i>
+                <input type="text" id="inputAdminVoterRegSearch" class="form-input-custom-sm" placeholder="Filter by Name, Roll No...">
+              </div>
+              <select id="selectAdminVoterRegDept" class="form-input-custom-sm vreg-dept-select">
+                <option value="all">All Departments</option>
+                <option value="CSE">CSE</option>
+                <option value="ECE">ECE</option>
+                <option value="ME">ME</option>
+                <option value="IT">IT</option>
+                <option value="CE">CE</option>
+              </select>
+              <button type="button" class="btn btn-emerald-gradient btn-xs" id="btnBatchApprovePending" title="Approve all valid pending student applications into the active electoral roll">
+                <i class="fa-solid fa-check-double"></i> Batch Approve Pending
+              </button>
+            </div>
+          </div>
+
+          <!-- Queue Table -->
+          <div class="audit-table-wrapper">
+            <table class="audit-table vreg-table">
+              <thead>
+                <tr>
+                  <th>App ID / Time</th>
+                  <th>Student Applicant</th>
+                  <th>Department & Year</th>
+                  <th>Contact Info</th>
+                  <th>Student ID Proof</th>
+                  <th>Status</th>
+                  <th>Admin Commission Actions</th>
+                </tr>
+              </thead>
+              <tbody id="voterRegistrationTbody">
+                <!-- Dynamically populated by JS -->
               </tbody>
             </table>
           </div>
@@ -3136,6 +3295,272 @@
         </button>
         <button type="button" class="btn btn-warning-gold" id="btnDeclareSimWinnerNow">
           <i class="fa-solid fa-flag-checkered"></i> Conclude & Tabulate Results Now
+        </button>
+  <!-- ========================================================================= -->
+  <!-- MODAL: STUDENT VOTER SELF-REGISTRATION & STATUS VERIFICATION PORTAL      -->
+  <!-- ========================================================================= -->
+  <div class="modal-overlay hidden" id="modalVoterSelfRegister">
+    <div class="modal-box modal-lg vreg-modal-box">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <div class="modal-icon-badge cyan"><i class="fa-solid fa-address-card"></i></div>
+          <div>
+            <h3>Student Voter Registration & Verification Portal</h3>
+            <p>Register your official academic credentials for Election Commission review or track real-time verification status.</p>
+          </div>
+        </div>
+        <button type="button" class="btn-modal-close" id="btnCloseVoterRegisterModal" title="Close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <!-- Segmented Mode Switcher (Register vs Check Status) -->
+      <div class="vreg-modal-tabs">
+        <button type="button" class="vreg-tab-btn active" id="btnTabVregForm">
+          <i class="fa-solid fa-user-plus"></i> New Voter Registration
+        </button>
+        <button type="button" class="vreg-tab-btn" id="btnTabVregTrack">
+          <i class="fa-solid fa-magnifying-glass-chart"></i> Check Verification Status
+        </button>
+      </div>
+
+      <!-- TAB 1: Registration Form -->
+      <div class="vreg-modal-pane active" id="paneVregForm">
+        <div class="vreg-form-layout">
+          
+          <!-- Left: Input Form -->
+          <form id="formVoterSelfRegister" class="vreg-form">
+            <div class="vreg-quick-fill-bar">
+              <span><i class="fa-solid fa-bolt text-amber"></i> Quick Demo Auto-Fill:</span>
+              <button type="button" class="btn-demo-chip" id="btnFillDemoCseVoter">
+                <i class="fa-solid fa-laptop-code"></i> CSE Student (Tanmay)
+              </button>
+              <button type="button" class="btn-demo-chip" id="btnFillDemoEceVoter">
+                <i class="fa-solid fa-microchip"></i> ECE Student (Kavya)
+              </button>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="inputRegName"><i class="fa-solid fa-user"></i> Full Student Name:</label>
+                <input type="text" id="inputRegName" class="form-input-custom" placeholder="e.g. Tanmay Deshmukh" required>
+              </div>
+              <div class="form-group">
+                <label for="inputRegRollNo"><i class="fa-solid fa-id-badge"></i> Institute Roll No / PRN:</label>
+                <input type="text" id="inputRegRollNo" class="form-input-custom" placeholder="e.g. 22BCSE188" required uppercase>
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="selectRegDept"><i class="fa-solid fa-building-columns"></i> Academic Department:</label>
+                <select id="selectRegDept" class="form-input-custom">
+                  <option value="CSE">Computer Science & Engineering (CSE)</option>
+                  <option value="ECE">Electronics & Communication (ECE)</option>
+                  <option value="ME">Mechanical Engineering (ME)</option>
+                  <option value="IT">Information Technology (IT)</option>
+                  <option value="CE">Civil Engineering (CE)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="selectRegYear"><i class="fa-solid fa-graduation-cap"></i> Academic Year:</label>
+                <select id="selectRegYear" class="form-input-custom">
+                  <option value="3rd Year">3rd Year (B.Tech)</option>
+                  <option value="4th Year">4th Year (B.Tech)</option>
+                  <option value="2nd Year">2nd Year (B.Tech)</option>
+                  <option value="1st Year">1st Year (B.Tech)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="inputRegEmail"><i class="fa-solid fa-envelope"></i> College Email Address:</label>
+                <input type="email" id="inputRegEmail" class="form-input-custom" placeholder="e.g. student@college.edu" required>
+              </div>
+              <div class="form-group">
+                <label for="inputRegPhone"><i class="fa-solid fa-mobile-screen"></i> Mobile Number (for OTP):</label>
+                <input type="tel" id="inputRegPhone" class="form-input-custom" placeholder="+91 98765 00000" required>
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="inputRegPin"><i class="fa-solid fa-lock"></i> Set 4-Digit Security Voting PIN:</label>
+                <input type="password" id="inputRegPin" class="form-input-custom" placeholder="e.g. 4321" maxlength="6" value="1234" required>
+              </div>
+              <div class="form-group">
+                <label for="selectRegIdProofType"><i class="fa-solid fa-file-shield"></i> ID Proof Type:</label>
+                <select id="selectRegIdProofType" class="form-input-custom">
+                  <option value="COLLEGE_SMART_ID">Official College RFID Smart Card</option>
+                  <option value="ADMISSION_SLIP">Semester Fee / Admission Receipt</option>
+                  <option value="GOVT_PHOTO_ID">Govt Issued Aadhaar / Voter ID</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="vreg-notice-box">
+              <i class="fa-solid fa-shield-halved text-cyan"></i>
+              <div>
+                <strong>Commission Verification Policy:</strong>
+                Submissions are placed into the Election Commission review queue. Once your academic credentials and branch enrollment are verified, your status changes to <code>APPROVED</code> and your student ID is enrolled onto the official voter roster.
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary-gradient w-100 btn-lg" id="btnSubmitVoterReg">
+              <i class="fa-solid fa-paper-plane"></i> Submit Credentials for Admin Commission Review
+            </button>
+          </form>
+
+          <!-- Right: Live Holographic Student ID Preview -->
+          <div class="vreg-id-preview-col">
+            <div class="vreg-preview-title">
+              <i class="fa-solid fa-id-card-clip"></i> Real-Time Student ID Badge Proof
+            </div>
+            
+            <div class="student-hologram-card" id="studentHologramCard">
+              <div class="shc-header">
+                <div class="shc-emblem"><i class="fa-solid fa-building-columns"></i></div>
+                <div>
+                  <div class="shc-inst-name">INSTITUTE OF TECHNOLOGY</div>
+                  <div class="shc-badge-type">OFFICIAL STUDENT VOTER CREDENTIAL</div>
+                </div>
+              </div>
+              <div class="shc-body">
+                <div class="shc-avatar-box">
+                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80" alt="Student Photo" id="previewStudentPhoto">
+                  <span class="shc-chip-sim">CHIP-RFID</span>
+                </div>
+                <div class="shc-details">
+                  <div class="shc-name" id="previewStudentName">Tanmay Deshmukh</div>
+                  <div class="shc-meta-row">
+                    <span class="shc-lbl">PRN / ROLL:</span>
+                    <strong class="shc-val" id="previewStudentRoll">22BCSE188</strong>
+                  </div>
+                  <div class="shc-meta-row">
+                    <span class="shc-lbl">BRANCH:</span>
+                    <strong class="shc-val text-cyan" id="previewStudentDept">CSE • 3rd Year</strong>
+                  </div>
+                  <div class="shc-meta-row">
+                    <span class="shc-lbl">STATUS:</span>
+                    <strong class="shc-status amber" id="previewStudentStatusBadge">PENDING ADMIN VERIFICATION</strong>
+                  </div>
+                </div>
+              </div>
+              <div class="shc-footer">
+                <div class="shc-barcode-strip">
+                  <span>||||| ||| ||||||| |||| |||||| |||||||| |||||</span>
+                </div>
+                <div class="shc-watermark">CEC PROJECT 94 VERIFIED</div>
+              </div>
+            </div>
+
+            <div class="vreg-preview-hint">
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Dynamically generated preview of your attached digital identity badge submitted to the Returning Officer.
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- TAB 2: Check Verification Status -->
+      <div class="vreg-modal-pane" id="paneVregTrack" style="display: none;">
+        <div class="vreg-track-container">
+          <div class="vreg-track-search">
+            <label for="inputTrackRollNo"><i class="fa-solid fa-magnifying-glass"></i> Enter Your Institute Roll No / PRN to Check Status:</label>
+            <div class="input-with-button">
+              <input type="text" id="inputTrackRollNo" class="form-input-custom" placeholder="e.g. 22BCSE188, 22BECE244, 22BCSE101">
+              <button type="button" class="btn btn-primary-gradient" id="btnRunTrackStatus">
+                <i class="fa-solid fa-arrow-right"></i> Check Status
+              </button>
+            </div>
+            <div class="quick-samples">
+              <span>Try test records:</span>
+              <a href="#" class="sample-link-roll" data-roll="22BCSE188">22BCSE188 (Pending CSE)</a> • 
+              <a href="#" class="sample-link-roll" data-roll="22BECE244">22BECE244 (Pending ECE)</a> • 
+              <a href="#" class="sample-link-roll" data-roll="22BCSE101">22BCSE101 (Approved)</a>
+            </div>
+          </div>
+
+          <!-- Dynamic Result Display Container -->
+          <div class="vreg-track-result" id="trackResultDisplay">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: ADMIN COMMISSION REJECTION GROUNDS                                 -->
+  <!-- ========================================================================= -->
+  <div class="modal-overlay hidden" id="modalRejectVoter">
+    <div class="modal-box modal-md">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <div class="modal-icon-badge red"><i class="fa-solid fa-ban"></i></div>
+          <div>
+            <h3>Statutory Rejection of Voter Registration</h3>
+            <p>Specify the regulatory grounds under Election Commission rules for rejecting this student's application.</p>
+          </div>
+        </div>
+        <button type="button" class="btn-modal-close" id="btnCloseRejectVoterModal" title="Close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="reject-applicant-card" id="rejectApplicantPreview">
+        <!-- Injected by JS -->
+      </div>
+
+      <form id="formConfirmRejectVoter" class="booth-form">
+        <div class="form-group">
+          <label for="selectRejectReasonPreset"><i class="fa-solid fa-triangle-exclamation text-amber"></i> Regulatory Ground / Category:</label>
+          <select id="selectRejectReasonPreset" class="form-input-custom">
+            <option value="ID_PROOF_MISMATCH">Identity Proof Mismatch: Uploaded credentials do not correspond to University Registrar database</option>
+            <option value="DUPLICATE_REGISTRATION">Duplicate Registration: Student PRN already enrolled onto official electoral roll</option>
+            <option value="BRANCH_YEAR_INELIGIBLE">Academic Branch/Year Ineligible: Student is not actively enrolled in eligible semester</option>
+            <option value="PROCTORIAL_FLAG">Disciplinary / Proctorial Bar: Pending proctorial inquiry disqualifies voting rights</option>
+            <option value="CUSTOM">Other Administrative Grounds (specify below)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="textareaRejectRemarks"><i class="fa-solid fa-pen-to-square"></i> Commission Remarks to Student (visible in status lookup):</label>
+          <textarea id="textareaRejectRemarks" class="form-input-custom" rows="3" placeholder="Provide specific feedback on why application was rejected and remedy instructions..."></textarea>
+        </div>
+
+        <div class="modal-actions-dual">
+          <button type="button" class="btn btn-secondary-glass" id="btnCancelRejectVoterModal">Cancel</button>
+          <button type="submit" class="btn btn-danger-gradient" id="btnExecuteRejectVoter">
+            <i class="fa-solid fa-ban"></i> Confirm Statutory Rejection
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: INSPECT STUDENT ID CREDENTIAL PROOF                                -->
+  <!-- ========================================================================= -->
+  <div class="modal-overlay hidden" id="modalInspectStudentId">
+    <div class="modal-box modal-md">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <div class="modal-icon-badge cyan"><i class="fa-solid fa-id-card"></i></div>
+          <div>
+            <h3>Academic Identity Proof Inspection</h3>
+            <p>Election Commission verification of digital student credentials.</p>
+          </div>
+        </div>
+        <button type="button" class="btn-modal-close" id="btnCloseInspectIdModal" title="Close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div id="inspectIdContainer" style="padding: 10px 0;">
+        <!-- Injected by JS -->
+      </div>
+
+      <div class="modal-actions-dual" style="margin-top: 15px;">
+        <button type="button" class="btn btn-secondary-glass" id="btnCloseInspectIdBtn">Dismiss</button>
+        <button type="button" class="btn btn-emerald-gradient" id="btnApproveFromInspector">
+          <i class="fa-solid fa-check"></i> Approve & Enroll Student
         </button>
       </div>
     </div>

@@ -19,15 +19,104 @@ PORT = 5000
 # In-memory storage seeded with Slide 5 & Slide 10 project data
 STATE = {
     "election": {
-        "id": "ELEX-2026-MAIN",
-        "title": "College Student Council Elections 2026",
+        "id": "ELEX-CR-2026",
+        "title": "Department Class Representative (CR) Election 2026",
         "subtitle": "Project No. 94 - Online Voting System",
         "status": "active", # "active" | "paused" | "closed"
         "startTime": "2026-10-25T08:00:00Z",
         "endTime": "2026-10-26T20:00:00Z",
-        "totalEligible": 1250,
-        "positions": ["President"]
+        "totalEligible": 450,
+        "positions": ["Class Representative (CR)"],
+        "criteria": {
+            "scope": "DEPARTMENT_RESTRICTED",
+            "allowedDepartments": ["CSE"],
+            "allowedYears": ["3rd Year"],
+            "badge": "CSE ONLY",
+            "description": "Strictly restricted to 3rd Year Computer Science & Engineering (CSE) students only."
+        }
     },
+    "registrationQueue": [
+        {
+            "appId": "APP-2026-081",
+            "studentId": "22BCSE188",
+            "name": "Tanmay Deshmukh",
+            "department": "CSE",
+            "year": "3rd Year",
+            "email": "tanmay.22bcse188@college.edu",
+            "phone": "+91 98111 22334",
+            "pin": "1234",
+            "proofType": "COLLEGE_SMART_ID",
+            "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
+            "status": "PENDING",
+            "submittedAt": "Oct 27, 2026 10:45 AM",
+            "reviewedBy": None,
+            "reviewerRemarks": "Submitted online credentials. Pending document validation by Commission Officer."
+        },
+        {
+            "appId": "APP-2026-082",
+            "studentId": "22BECE244",
+            "name": "Kavya Sharma",
+            "department": "ECE",
+            "year": "3rd Year",
+            "email": "kavya.22bece244@college.edu",
+            "phone": "+91 98222 33445",
+            "pin": "1234",
+            "proofType": "COLLEGE_SMART_ID",
+            "photo": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80",
+            "status": "PENDING",
+            "submittedAt": "Oct 27, 2026 11:20 AM",
+            "reviewedBy": None,
+            "reviewerRemarks": "Identity card uploaded. Awaiting administrative clearance."
+        },
+        {
+            "appId": "APP-2026-083",
+            "studentId": "22BME450",
+            "name": "Harshil Patel",
+            "department": "ME",
+            "year": "3rd Year",
+            "email": "harshil.22bme450@college.edu",
+            "phone": "+91 98333 44556",
+            "pin": "1234",
+            "proofType": "ADMISSION_SLIP",
+            "photo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80",
+            "status": "PENDING",
+            "submittedAt": "Oct 27, 2026 11:55 AM",
+            "reviewedBy": None,
+            "reviewerRemarks": "Semester fee receipt submitted."
+        },
+        {
+            "appId": "APP-2026-079",
+            "studentId": "22BCSE101",
+            "name": "Aarav Sharma",
+            "department": "CSE",
+            "year": "3rd Year",
+            "email": "aarav.22bcse101@college.edu",
+            "phone": "+91 98765 43210",
+            "pin": "1234",
+            "proofType": "COLLEGE_SMART_ID",
+            "photo": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
+            "status": "APPROVED",
+            "submittedAt": "Oct 26, 2026 04:30 PM",
+            "reviewedBy": "Dr. S. Ramanujan (Chief Returning Officer)",
+            "reviewerRemarks": "Identity and active semester registration verified against University ERP database. Enrolled to official electoral roll."
+        },
+        {
+            "appId": "APP-2026-078",
+            "studentId": "22BCSE199",
+            "name": "Rahul Saxena",
+            "department": "CSE",
+            "year": "1st Year",
+            "email": "rahul.22bcse199@college.edu",
+            "phone": "+91 98444 55667",
+            "pin": "1234",
+            "proofType": "COLLEGE_SMART_ID",
+            "photo": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80",
+            "status": "REJECTED",
+            "submittedAt": "Oct 26, 2026 02:15 PM",
+            "reviewedBy": "Dr. S. Ramanujan (Chief Returning Officer)",
+            "reviewerRemarks": "Identity Proof Mismatch: Uploaded credentials do not correspond to University Registrar database."
+        }
+    ],
     "departments": [
         {"name": "Computer Science (CSE)", "code": "CSE", "total": 450, "voted": 320},
         {"name": "Electronics & Comm (ECE)", "code": "ECE", "total": 310, "voted": 195},
@@ -438,6 +527,44 @@ class VotingRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self._send_json({"found": False, "message": "Student ID not found in institute voter roster."}, 404)
             return
 
+        elif path == "/api/admin/registration-queue":
+            queue = STATE.get("registrationQueue", [])
+            self._send_json({
+                "queue": queue,
+                "total": len(queue),
+                "pending": len([q for q in queue if q.get("status") == "PENDING"]),
+                "approved": len([q for q in queue if q.get("status") == "APPROVED"]),
+                "rejected": len([q for q in queue if q.get("status") == "REJECTED"])
+            })
+            return
+
+        elif path == "/api/voter/registration-status":
+            query_params = urllib.parse.parse_qs(parsed.query)
+            q = (query_params.get("rollNo", [""])[0] or query_params.get("appId", [""])[0]).strip().upper()
+            
+            match = next((r for r in STATE.get("registrationQueue", []) if r.get("studentId", "").upper() == q or r.get("appId", "").upper() == q), None)
+            if match:
+                self._send_json({"found": True, "application": match})
+            elif q in STATE["students"]:
+                s = STATE["students"][q]
+                self._send_json({
+                    "found": True,
+                    "application": {
+                        "appId": "OFFICIAL-ENROLLED",
+                        "studentId": s["studentId"],
+                        "name": s["name"],
+                        "department": s["department"],
+                        "year": s["year"],
+                        "status": "APPROVED",
+                        "submittedAt": "Official University Roster",
+                        "reviewedBy": "Dr. S. Ramanujan (Chief Returning Officer)",
+                        "reviewerRemarks": "Verified on official electoral roll."
+                    }
+                })
+            else:
+                self._send_json({"found": False, "message": f"No registration application or roster entry found for '{q}'."}, 404)
+            return
+
         # Fallback to static files
         return super().do_GET()
 
@@ -557,6 +684,25 @@ class VotingRequestHandler(http.server.SimpleHTTPRequestHandler):
 
         elif path == "/api/auth/send-otp":
             student_id = body.get("studentId", "").strip().upper()
+            dept = body.get("department", "").strip()
+            year = body.get("year", "").strip()
+
+            # Check registration queue if student is pending or rejected
+            q_match = next((q for q in STATE.get("registrationQueue", []) if q.get("studentId", "").upper() == student_id), None)
+            if q_match:
+                if q_match.get("status") == "PENDING":
+                    self._send_json({
+                        "error": f"Registration Under Administrative Review: Application {q_match.get('appId')} is PENDING Election Commission verification. You will be authorized to vote once approved.",
+                        "pendingVerification": True
+                    }, 403)
+                    return
+                elif q_match.get("status") == "REJECTED":
+                    self._send_json({
+                        "error": f"Registration Disqualified: Your voter application was rejected by the Commission. Reason: {q_match.get('reviewerRemarks', 'Document mismatch')}.",
+                        "rejected": True
+                    }, 403)
+                    return
+
             student = STATE["students"].get(student_id)
             if not student:
                 STATE["auditLogs"].insert(0, {
@@ -567,13 +713,34 @@ class VotingRequestHandler(http.server.SimpleHTTPRequestHandler):
                     "ip": client_ip,
                     "isSuspicious": True
                 })
-                self._send_json({"error": "Student ID not found in voter registration roster."}, 404)
+                self._send_json({"error": "Student ID not found in certified voter registration roster. Please register via the Self-Registration Portal."}, 404)
                 return
 
-            if student["hasVoted"]:
+            if student.get("hasVoted") and not student.get("revoteGranted"):
                 self._send_json({
                     "error": "Our records show you have already cast your vote in this election. One Student = One Vote.",
                     "alreadyVoted": True
+                }, 403)
+                return
+
+            # Check Election Scope Criteria (e.g. CSE Only for CSE CR Election)
+            criteria = STATE["election"].get("criteria", {})
+            allowed_depts = criteria.get("allowedDepartments", ["ALL"])
+            student_dept = dept or student.get("department", "CSE")
+
+            if "ALL" not in allowed_depts and student_dept not in allowed_depts:
+                STATE["auditLogs"].insert(0, {
+                    "id": len(STATE["auditLogs"]) + 1,
+                    "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                    "eventType": "ELECTION_SCOPE_BLOCKED",
+                    "details": f"Student {student_id} from {student_dept} attempted to vote in {STATE['election']['title']} (restricted to {', '.join(allowed_depts)})",
+                    "ip": client_ip,
+                    "isSuspicious": False
+                })
+                self._send_json({
+                    "error": f"Electoral Scope Restriction: You are registered in Department of {student_dept}. The active election '{STATE['election']['title']}' is strictly restricted to students of {', '.join(allowed_depts)} only. You are constitutionally blocked from this race.",
+                    "scopeBlocked": True,
+                    "allowedDepartments": allowed_depts
                 }, 403)
                 return
 
@@ -1180,6 +1347,186 @@ class VotingRequestHandler(http.server.SimpleHTTPRequestHandler):
                 "message": f"Student {name} ({sid}) successfully enrolled to electoral roll.",
                 "voter": new_voter,
                 "totalEligible": STATE["election"]["totalEligible"]
+            })
+            return
+
+        elif path == "/api/voter/self-register":
+            name = body.get("name", "").strip()
+            student_id = body.get("studentId", "").strip().upper()
+            dept = body.get("department", "CSE").strip()
+            year = body.get("year", "3rd Year").strip()
+            email = body.get("email", "").strip()
+            phone = body.get("phone", "").strip()
+            pin = body.get("pin", "1234").strip()
+            proof_type = body.get("proofType", "COLLEGE_SMART_ID")
+
+            if not student_id or not name or not email:
+                self._send_json({"error": "Student Name, Roll Number, and Email are required."}, 400)
+                return
+
+            # Check if student already enrolled
+            if student_id in STATE["students"]:
+                self._send_json({"error": f"Student ID '{student_id}' is already enrolled on the official electoral roll."}, 400)
+                return
+
+            app_id = body.get("appId") or f"APP-2026-{int(time.time() % 1000):03d}"
+            application = {
+                "appId": app_id,
+                "studentId": student_id,
+                "name": name,
+                "department": dept,
+                "year": year,
+                "email": email,
+                "phone": phone,
+                "pin": pin,
+                "proofType": proof_type,
+                "photo": body.get("photo", "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80"),
+                "status": "PENDING",
+                "submittedAt": datetime.now().strftime("%b %d, %Y %I:%M %p"),
+                "reviewedBy": None,
+                "reviewerRemarks": "Application received via student self-registration portal. Pending Commission verification."
+            }
+
+            if "registrationQueue" not in STATE:
+                STATE["registrationQueue"] = []
+
+            # Check if pending application already exists
+            existing_app = next((q for q in STATE["registrationQueue"] if q.get("studentId") == student_id), None)
+            if existing_app and existing_app.get("status") == "PENDING":
+                self._send_json({
+                    "success": True,
+                    "appId": existing_app["appId"],
+                    "message": f"Application {existing_app['appId']} is already pending review for student {student_id}.",
+                    "application": existing_app
+                })
+                return
+
+            STATE["registrationQueue"].insert(0, application)
+
+            STATE["auditLogs"].insert(0, {
+                "id": len(STATE["auditLogs"]) + 1,
+                "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "eventType": "VOTER_REG_SUBMITTED",
+                "details": f"New voter self-registration submitted: {name} ({student_id}, {dept}). App ID: {app_id}",
+                "ip": client_ip,
+                "isSuspicious": False
+            })
+
+            self._send_json({
+                "success": True,
+                "message": f"Registration application {app_id} successfully submitted. Your application is queued for Election Commission verification.",
+                "appId": app_id,
+                "application": application
+            })
+            return
+
+        elif path == "/api/admin/verify-registration":
+            app_id = body.get("applicationId", "").strip()
+            action = body.get("action", "").strip().lower() # "approve" | "reject"
+            remarks = body.get("reviewerRemarks", "").strip()
+            reviewer = body.get("reviewer", "Dr. S. Ramanujan (Chief Returning Officer)").strip()
+
+            queue = STATE.get("registrationQueue", [])
+            app = next((q for q in queue if q.get("appId") == app_id), None)
+
+            if not app:
+                self._send_json({"error": f"Application ID '{app_id}' not found in verification queue."}, 404)
+                return
+
+            if action == "approve":
+                app["status"] = "APPROVED"
+                app["reviewedBy"] = reviewer
+                app["reviewerRemarks"] = remarks or "Verified against University Registrar records. Identity and department confirmed."
+
+                # Enroll onto official roster
+                sid = app["studentId"]
+                STATE["students"][sid] = {
+                    "studentId": sid,
+                    "name": app["name"],
+                    "department": app["department"],
+                    "year": app["year"],
+                    "phone": app["phone"],
+                    "email": app["email"],
+                    "pin": app.get("pin", "1234"),
+                    "password": "password123",
+                    "verified": True,
+                    "hasVoted": False,
+                    "otp": None,
+                    "otpExpires": 0,
+                    "receiptHash": None
+                }
+                STATE["election"]["totalEligible"] += 1
+
+                for d in STATE["departments"]:
+                    if d["code"] == app["department"]:
+                        d["total"] += 1
+
+                STATE["auditLogs"].insert(0, {
+                    "id": len(STATE["auditLogs"]) + 1,
+                    "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                    "eventType": "VOTER_APPROVED",
+                    "details": f"Voter {app['name']} ({sid}) APPROVED by {reviewer}. Added to electoral roll.",
+                    "ip": client_ip,
+                    "isSuspicious": False
+                })
+
+                self._send_json({
+                    "success": True,
+                    "message": f"Student {app['name']} ({sid}) officially approved and enrolled to electoral roll.",
+                    "application": app,
+                    "totalEligible": STATE["election"]["totalEligible"]
+                })
+                return
+
+            elif action == "reject":
+                app["status"] = "REJECTED"
+                app["reviewedBy"] = reviewer
+                app["reviewerRemarks"] = remarks or "Disqualified due to failure of academic identity verification."
+
+                # If student was in roster, unverify
+                sid = app["studentId"]
+                if sid in STATE["students"]:
+                    STATE["students"][sid]["verified"] = False
+
+                STATE["auditLogs"].insert(0, {
+                    "id": len(STATE["auditLogs"]) + 1,
+                    "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                    "eventType": "VOTER_REJECTED",
+                    "details": f"Application for {app['name']} ({sid}) REJECTED by {reviewer}. Reason: {app['reviewerRemarks']}",
+                    "ip": client_ip,
+                    "isSuspicious": True
+                })
+
+                self._send_json({
+                    "success": True,
+                    "message": f"Application {app_id} for {app['name']} was rejected on statutory grounds.",
+                    "application": app
+                })
+                return
+
+            else:
+                self._send_json({"error": "Action must be 'approve' or 'reject'"}, 400)
+                return
+
+        elif path == "/api/admin/set-election-criteria":
+            criteria = body.get("criteria", {})
+            election_id = body.get("electionId", STATE["election"].get("id"))
+            allowed_depts = body.get("allowedDepartments") or criteria.get("allowedDepartments", ["ALL"])
+            allowed_years = body.get("allowedYears") or criteria.get("allowedYears", ["ALL"])
+            desc = body.get("description") or criteria.get("description", "Voter criteria updated by Admin.")
+
+            STATE["election"]["criteria"] = {
+                "scope": "DEPARTMENT_RESTRICTED" if "ALL" not in allowed_depts else "UNIVERSAL",
+                "allowedDepartments": allowed_depts,
+                "allowedYears": allowed_years,
+                "badge": f"{', '.join(allowed_depts)} ONLY" if "ALL" not in allowed_depts else "ALL BRANCHES",
+                "description": desc
+            }
+
+            self._send_json({
+                "success": True,
+                "message": f"Election criteria updated successfully for {STATE['election']['title']}.",
+                "election": STATE["election"]
             })
             return
 

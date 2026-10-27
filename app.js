@@ -11,21 +11,50 @@ const APP_STATE = {
     closingTime: new Date(Date.now() + 5 * 3600 * 1000 + 42 * 60 * 1000 + 18 * 1000)
   },
   elections: {
+    "ELEX-CR-2026": {
+      id: "ELEX-CR-2026",
+      title: "Department Class Representative (CR) Election 2026",
+      position: "Branch Class Representatives (CR)",
+      status: "active",
+      totalEligible: 450,
+      closingTime: new Date(Date.now() + 6 * 24 * 3600 * 1000 + 6 * 3600 * 1000),
+      criteria: {
+        scope: "DEPARTMENT_RESTRICTED",
+        allowedDepartments: ["CSE"],
+        allowedYears: ["3rd Year"],
+        badge: "CSE ONLY",
+        description: "Strictly restricted to 3rd Year Computer Science & Engineering (CSE) students only."
+      }
+    },
     "ELEX-2026-MAIN": {
       id: "ELEX-2026-MAIN",
       title: "College Student Council Elections 2026",
       position: "President (Student Council)",
       status: "active",
       totalEligible: 1250,
-      closingTime: new Date(Date.now() + 5 * 3600 * 1000 + 42 * 60 * 1000 + 18 * 1000)
+      closingTime: new Date(Date.now() + 5 * 3600 * 1000 + 42 * 60 * 1000 + 18 * 1000),
+      criteria: {
+        scope: "UNIVERSAL",
+        allowedDepartments: ["ALL"],
+        allowedYears: ["ALL"],
+        badge: "ALL BRANCHES",
+        description: "Open to all verified enrolled students across all campus departments."
+      }
     },
-    "ELEX-CR-2026": {
-      id: "ELEX-CR-2026",
-      title: "Department Class Representative (CR) Election 2026",
-      position: "Branch Class Representatives (CR)",
-      status: "upcoming",
-      totalEligible: 850,
-      closingTime: new Date(Date.now() + 6 * 24 * 3600 * 1000 + 6 * 3600 * 1000)
+    "ELEX-ECE-2026": {
+      id: "ELEX-ECE-2026",
+      title: "ECE Technical Society Lead 2026",
+      position: "ECE Technical Lead & Lab Committee",
+      status: "active",
+      totalEligible: 310,
+      closingTime: new Date(Date.now() + 4 * 24 * 3600 * 1000),
+      criteria: {
+        scope: "DEPARTMENT_RESTRICTED",
+        allowedDepartments: ["ECE"],
+        allowedYears: ["ALL"],
+        badge: "ECE ONLY",
+        description: "Restricted strictly to Electronics & Communication Engineering (ECE) students."
+      }
     },
     "ELEX-SPORTS-CULT-2026": {
       id: "ELEX-SPORTS-CULT-2026",
@@ -33,7 +62,14 @@ const APP_STATE = {
       position: "Sports Secretary & Cultural Secretary",
       status: "upcoming",
       totalEligible: 1250,
-      closingTime: new Date(Date.now() + 12 * 24 * 3600 * 1000 + 4 * 3600 * 1000)
+      closingTime: new Date(Date.now() + 12 * 24 * 3600 * 1000 + 4 * 3600 * 1000),
+      criteria: {
+        scope: "UNIVERSAL",
+        allowedDepartments: ["ALL"],
+        allowedYears: ["ALL"],
+        badge: "ALL BRANCHES",
+        description: "Open to all verified enrolled students across all campus departments."
+      }
     },
     "ELEX-ACM-TECH-2026": {
       id: "ELEX-ACM-TECH-2026",
@@ -41,7 +77,14 @@ const APP_STATE = {
       position: "Technical Society Lead & Hackathon Coordinator",
       status: "upcoming",
       totalEligible: 620,
-      closingTime: new Date(Date.now() + 19 * 24 * 3600 * 1000 + 2 * 3600 * 1000)
+      closingTime: new Date(Date.now() + 19 * 24 * 3600 * 1000 + 2 * 3600 * 1000),
+      criteria: {
+        scope: "DEPARTMENT_RESTRICTED",
+        allowedDepartments: ["CSE", "IT"],
+        allowedYears: ["ALL"],
+        badge: "CSE & IT ONLY",
+        description: "Restricted to Computer Science (CSE) and Information Tech (IT) students."
+      }
     },
     "ELEX-HOSTEL-2026": {
       id: "ELEX-HOSTEL-2026",
@@ -49,10 +92,103 @@ const APP_STATE = {
       position: "Hostel Floor Representatives",
       status: "upcoming",
       totalEligible: 480,
-      closingTime: new Date(Date.now() + 26 * 24 * 3600 * 1000 + 5 * 3600 * 1000)
+      closingTime: new Date(Date.now() + 26 * 24 * 3600 * 1000 + 5 * 3600 * 1000),
+      criteria: {
+        scope: "UNIVERSAL",
+        allowedDepartments: ["ALL"],
+        allowedYears: ["ALL"],
+        badge: "HOSTEL RESIDENTS",
+        description: "Open to all hostel enrolled student residents."
+      }
     }
   },
-  activeTimerElectionId: "ELEX-2026-MAIN",
+  activeVotingElectionId: "ELEX-CR-2026", // Default to CSE Class Rep election to demonstrate department-restricted criteria
+  activeTimerElectionId: "ELEX-CR-2026",
+  voterRegFilter: "pending",
+  voterRegSearch: "",
+  voterRegDept: "all",
+  voterRegistrationQueue: [
+    {
+      appId: "APP-2026-081",
+      studentId: "22BCSE188",
+      name: "Tanmay Deshmukh",
+      department: "CSE",
+      year: "3rd Year",
+      email: "tanmay.22bcse188@college.edu",
+      phone: "+91 98111 22334",
+      pin: "1234",
+      proofType: "COLLEGE_SMART_ID",
+      photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
+      status: "PENDING",
+      submittedAt: "Oct 27, 2026 10:45 AM",
+      reviewedBy: null,
+      reviewerRemarks: "Submitted online credentials. Pending document validation by Commission Officer."
+    },
+    {
+      appId: "APP-2026-082",
+      studentId: "22BECE244",
+      name: "Kavya Sharma",
+      department: "ECE",
+      year: "3rd Year",
+      email: "kavya.22bece244@college.edu",
+      phone: "+91 98222 33445",
+      pin: "1234",
+      proofType: "COLLEGE_SMART_ID",
+      photo: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80",
+      status: "PENDING",
+      submittedAt: "Oct 27, 2026 11:20 AM",
+      reviewedBy: null,
+      reviewerRemarks: "Identity card uploaded. Awaiting administrative clearance."
+    },
+    {
+      appId: "APP-2026-083",
+      studentId: "22BME450",
+      name: "Harshil Patel",
+      department: "ME",
+      year: "3rd Year",
+      email: "harshil.22bme450@college.edu",
+      phone: "+91 98333 44556",
+      pin: "1234",
+      proofType: "ADMISSION_SLIP",
+      photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&auto=format&fit=crop&q=80",
+      status: "PENDING",
+      submittedAt: "Oct 27, 2026 11:55 AM",
+      reviewedBy: null,
+      reviewerRemarks: "Semester fee receipt submitted."
+    },
+    {
+      appId: "APP-2026-079",
+      studentId: "22BCSE101",
+      name: "Aarav Sharma",
+      department: "CSE",
+      year: "3rd Year",
+      email: "aarav.22bcse101@college.edu",
+      phone: "+91 98765 43210",
+      pin: "1234",
+      proofType: "COLLEGE_SMART_ID",
+      photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
+      status: "APPROVED",
+      submittedAt: "Oct 26, 2026 04:30 PM",
+      reviewedBy: "Dr. S. Ramanujan (Chief Returning Officer)",
+      reviewerRemarks: "Identity and active semester registration verified against University ERP database. Enrolled to official electoral roll."
+    },
+    {
+      appId: "APP-2026-078",
+      studentId: "22BCSE199",
+      name: "Rahul Saxena",
+      department: "CSE",
+      year: "1st Year",
+      email: "rahul.22bcse199@college.edu",
+      phone: "+91 98444 55667",
+      pin: "1234",
+      proofType: "COLLEGE_SMART_ID",
+      photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80",
+      status: "REJECTED",
+      submittedAt: "Oct 26, 2026 02:15 PM",
+      reviewedBy: "Dr. S. Ramanujan (Chief Returning Officer)",
+      reviewerRemarks: "Identity Proof Mismatch: Uploaded credentials do not correspond to University Registrar database."
+    }
+  ],
   candidateScrutinyQueue: [
     {
       id: "NOM-2026-044",
@@ -595,6 +731,10 @@ document.addEventListener("DOMContentLoaded", () => {
   initNoticeDetailModal();
   initBroadcastNoticeModal();
   initModals();
+  initVoterSelfRegistrationPortal();
+  initAdminVoterVerificationDesk();
+  initRejectVoterModal();
+  initBoothElectionScopeManager();
 });
 
 /* ==========================================================================
@@ -1355,11 +1495,27 @@ function initBoothHandlers() {
 
       if (!studentId) return;
 
+      // 1. Check voter registration status and election scope criteria
+      const eligibility = validateVoterEligibility(studentId, dept, year);
+      if (!eligibility.eligible) {
+        showBoothEligibilityAlert(eligibility.title, eligibility.message, eligibility.showRegisterCta);
+        showToast(eligibility.message, "error");
+        return;
+      }
+
+      // Hide any previous warning alert
+      hideBoothEligibilityAlert();
+
       try {
         const res = await fetch("/api/auth/send-otp", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ studentId, department: dept, year })
+          body: JSON.stringify({ 
+            studentId, 
+            department: dept, 
+            year,
+            electionId: APP_STATE.activeVotingElectionId || "ELEX-CR-2026"
+          })
         });
         const data = await res.json();
 
@@ -1369,22 +1525,23 @@ function initBoothHandlers() {
           document.getElementById("otpPromptMessage").textContent = data.message;
           transitionBoothStage("stageVerify", 2);
           generateStudentBadgeQr(studentId);
-          showToast("OTP generated and sent to student phone!", "success");
+          showToast(`Eligible voter verified! OTP sent to registered number.`, "success");
         } else {
+          showBoothEligibilityAlert("Authentication Blocked", data.error || "Authentication error", true);
           showToast(data.error || "Authentication error", "error");
         }
       } catch (err) {
         // Fallback for standalone demo
         APP_STATE.currentStudent = {
           studentId: studentId,
-          name: studentId === "22BCSE101" ? "Aarav Sharma" : "Student " + studentId,
+          name: (eligibility.student && eligibility.student.name) || (studentId === "22BCSE101" ? "Aarav Sharma" : "Student " + studentId),
           department: dept,
           year: year,
           hasVoted: false
         };
         transitionBoothStage("stageVerify", 2);
         generateStudentBadgeQr(studentId);
-        showToast("Demo dual-factor verification triggered", "info");
+        showToast("Dual-factor verification triggered for eligible voter!", "success");
       }
     });
   }
@@ -5867,3 +6024,1065 @@ function updateNoticeBadges() {
   }
 }
 
+/* ==========================================================================
+   ELECTION-SPECIFIC VOTER SCOPE & CRITERIA ENGINE (PROJECT NO. 94)
+   ========================================================================== */
+
+/**
+ * Validates whether a student is verified on the electoral roll and meets
+ * the department/year criteria configured for the active election race.
+ */
+function validateVoterEligibility(studentId, dept, year) {
+  const activeElId = APP_STATE.activeVotingElectionId || "ELEX-CR-2026";
+  const election = (APP_STATE.elections && APP_STATE.elections[activeElId]) || {
+    title: "Class Representative Election 2026",
+    criteria: { allowedDepartments: ["CSE"], allowedYears: ["3rd Year"] }
+  };
+  const criteria = election.criteria || { allowedDepartments: ["ALL"], allowedYears: ["ALL"] };
+
+  const sId = (studentId || "").trim().toUpperCase();
+  const student = MOCK_STUDENTS[sId];
+
+  // 1. Check if student already voted
+  if (student && student.hasVoted && !student.revoteGranted) {
+    return {
+      eligible: false,
+      title: "One Student → One Vote Protection",
+      message: `Our records confirm student ${sId} (${student.name}) has already cast their encrypted ballot in this election.`,
+      showRegisterCta: false
+    };
+  }
+
+  // 2. Check if student is on official verified roll
+  if (!student) {
+    // Check if student has a pending or rejected registration application in the queue
+    const regApp = (APP_STATE.voterRegistrationQueue || []).find(q => q.studentId.toUpperCase() === sId);
+
+    if (regApp) {
+      if (regApp.status === "PENDING") {
+        return {
+          eligible: false,
+          title: "Registration Under Administrative Review",
+          message: `Your voter application (${regApp.appId}) submitted on ${regApp.submittedAt} is PENDING Election Commission verification. Only students on the verified electoral roll may cast ballots.`,
+          showRegisterCta: true,
+          pendingApp: regApp
+        };
+      } else if (regApp.status === "REJECTED") {
+        return {
+          eligible: false,
+          title: "Voter Registration Disqualified",
+          message: `Your application (${regApp.appId}) was REJECTED by the Returning Officer. Statutory Grounds: ${regApp.reviewerRemarks || 'Credentials mismatch'}.`,
+          showRegisterCta: true,
+          rejectedApp: regApp
+        };
+      } else if (regApp.status === "APPROVED") {
+        // Enrolled! Auto-sync to MOCK_STUDENTS
+        MOCK_STUDENTS[sId] = {
+          studentId: sId,
+          name: regApp.name,
+          department: regApp.department,
+          year: regApp.year,
+          phone: regApp.phone,
+          email: regApp.email,
+          pin: regApp.pin || "1234",
+          verified: true,
+          hasVoted: false,
+          receiptHash: null
+        };
+      }
+    } else {
+      return {
+        eligible: false,
+        title: "Voter ID Not Found on Electoral Roll",
+        message: `Student Roll Number "${sId}" was not found on the certified college voter roster. Please self-register your academic details for administrative verification.`,
+        showRegisterCta: true
+      };
+    }
+  }
+
+  // 3. Department & Academic Scope Criteria Verification
+  const studentDept = dept || (student && student.department) || "CSE";
+  const studentYear = year || (student && student.year) || "3rd Year";
+
+  // Check Department Criteria
+  const allowedDepts = criteria.allowedDepartments || ["ALL"];
+  if (!allowedDepts.includes("ALL") && !allowedDepts.includes(studentDept)) {
+    return {
+      eligible: false,
+      title: "Electoral Scope Restriction: Branch Ineligible",
+      message: `You are registered under ${studentDept}. The active race "${election.title}" is strictly restricted to students of ${allowedDepts.join(", ")} only. You are constitutionally blocked from casting a vote in this race.`,
+      showRegisterCta: true
+    };
+  }
+
+  // Check Academic Year Criteria
+  const allowedYears = criteria.allowedYears || ["ALL"];
+  if (!allowedYears.includes("ALL") && !allowedYears.includes(studentYear)) {
+    return {
+      eligible: false,
+      title: "Academic Year Restriction",
+      message: `The active race "${election.title}" is restricted to ${allowedYears.join(", ")} students only.`,
+      showRegisterCta: false
+    };
+  }
+
+  return {
+    eligible: true,
+    student: student || MOCK_STUDENTS[sId]
+  };
+}
+
+function showBoothEligibilityAlert(title, message, showRegisterCta = true) {
+  const alertBox = document.getElementById("boothEligibilityAlert");
+  const elTitle = document.getElementById("biaTitle");
+  const elMsg = document.getElementById("biaMessage");
+  const btnReg = document.getElementById("biaBtnSelfRegister");
+
+  if (!alertBox) return;
+
+  if (elTitle) elTitle.textContent = title;
+  if (elMsg) elMsg.innerHTML = message;
+  if (btnReg) btnReg.style.display = showRegisterCta ? "inline-flex" : "none";
+
+  alertBox.classList.remove("hidden");
+  alertBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+function hideBoothEligibilityAlert() {
+  const alertBox = document.getElementById("boothEligibilityAlert");
+  if (alertBox) alertBox.classList.add("hidden");
+}
+
+function initBoothElectionScopeManager() {
+  const select = document.getElementById("selectBoothElectionScope");
+  if (select) {
+    select.value = APP_STATE.activeVotingElectionId || "ELEX-CR-2026";
+    select.addEventListener("change", () => {
+      APP_STATE.activeVotingElectionId = select.value;
+      syncBoothElectionScopeUI();
+      const el = APP_STATE.elections[select.value];
+      showToast(`Voting Booth switched to: ${el ? el.title : select.value}`, "info");
+    });
+  }
+
+  const btnDismiss = document.getElementById("biaBtnDismiss");
+  if (btnDismiss) {
+    btnDismiss.addEventListener("click", hideBoothEligibilityAlert);
+  }
+
+  const btnBiaReg = document.getElementById("biaBtnSelfRegister");
+  if (btnBiaReg) {
+    btnBiaReg.addEventListener("click", () => {
+      openVoterRegisterModal("track");
+    });
+  }
+
+  syncBoothElectionScopeUI();
+}
+
+function syncBoothElectionScopeUI() {
+  const activeElId = APP_STATE.activeVotingElectionId || "ELEX-CR-2026";
+  const election = (APP_STATE.elections && APP_STATE.elections[activeElId]) || {
+    title: "Department Class Representative (CR) Election 2026",
+    criteria: {
+      scope: "DEPARTMENT_RESTRICTED",
+      allowedDepartments: ["CSE"],
+      badge: "CSE ONLY",
+      description: "Strictly restricted to Computer Science & Eng (CSE) students only."
+    }
+  };
+  const criteria = election.criteria || { scope: "UNIVERSAL", allowedDepartments: ["ALL"] };
+
+  const elTitle = document.getElementById("boothScopeElectionTitle");
+  const elDesc = document.getElementById("boothScopeCriteriaDesc");
+  const elChips = document.getElementById("boothScopeChips");
+  const elBadge = document.getElementById("boothScopeBadgeText");
+  const elStatus = document.getElementById("boothScopeStatusPill");
+
+  if (elTitle) elTitle.textContent = election.title;
+  if (elDesc) {
+    if (criteria.scope === "DEPARTMENT_RESTRICTED") {
+      elDesc.innerHTML = `<i class="fa-solid fa-circle-exclamation text-amber"></i> <strong>Eligibility Rule:</strong> Strictly restricted to <strong>${criteria.allowedDepartments.join(", ")}</strong> students only. Other branches are constitutionally blocked.`;
+    } else {
+      elDesc.innerHTML = `<i class="fa-solid fa-globe text-cyan"></i> <strong>Universal Scope:</strong> Open to all verified enrolled students across all campus departments.`;
+    }
+  }
+
+  if (elStatus) {
+    if (criteria.scope === "DEPARTMENT_RESTRICTED") {
+      elStatus.innerHTML = `<i class="fa-solid fa-lock text-amber"></i> ${criteria.badge || criteria.allowedDepartments.join(', ')} Restricted`;
+    } else {
+      elStatus.innerHTML = `<i class="fa-solid fa-check text-emerald"></i> Universal Ballot Open`;
+    }
+  }
+
+  if (elChips) {
+    if (criteria.scope === "DEPARTMENT_RESTRICTED") {
+      elChips.innerHTML = `
+        <span class="scope-chip restricted"><i class="fa-solid fa-lock"></i> Restricted: ${criteria.badge || criteria.allowedDepartments.join(", ")} Only</span>
+        <span class="scope-chip verified-only"><i class="fa-solid fa-user-check"></i> Requires Approved Registration</span>
+      `;
+    } else {
+      elChips.innerHTML = `
+        <span class="scope-chip universal"><i class="fa-solid fa-globe"></i> Universal Enrollment (All Depts)</span>
+        <span class="scope-chip verified-only"><i class="fa-solid fa-user-check"></i> Requires Approved Registration</span>
+      `;
+    }
+  }
+
+  hideBoothEligibilityAlert();
+}
+
+/* ==========================================================================
+   STUDENT VOTER SELF-REGISTRATION PORTAL
+   ========================================================================== */
+
+function initVoterSelfRegistrationPortal() {
+  const modal = document.getElementById("modalVoterSelfRegister");
+  const btnClose = document.getElementById("btnCloseVoterRegisterModal");
+
+  // Trigger buttons across application
+  const triggerIds = [
+    "btnHeaderVoterRegister",
+    "btnGatewayOpenRegister",
+    "btnBoothOpenRegister"
+  ];
+
+  triggerIds.forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) {
+      btn.addEventListener("click", () => {
+        openVoterRegisterModal("register");
+      });
+    }
+  });
+
+  if (btnClose) {
+    btnClose.addEventListener("click", closeVoterRegisterModal);
+  }
+
+  if (modal) {
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeVoterRegisterModal();
+    });
+  }
+
+  // Segmented Tab Switching (Form vs Status Track)
+  const tabForm = document.getElementById("btnTabVregForm");
+  const tabTrack = document.getElementById("btnTabVregTrack");
+  const paneForm = document.getElementById("paneVregForm");
+  const paneTrack = document.getElementById("paneVregTrack");
+
+  if (tabForm && tabTrack && paneForm && paneTrack) {
+    tabForm.addEventListener("click", () => {
+      tabForm.classList.add("active");
+      tabTrack.classList.remove("active");
+      paneForm.style.display = "block";
+      paneTrack.style.display = "none";
+    });
+
+    tabTrack.addEventListener("click", () => {
+      tabTrack.classList.add("active");
+      tabForm.classList.remove("active");
+      paneForm.style.display = "none";
+      paneTrack.style.display = "block";
+    });
+  }
+
+  // Live Hologram ID Preview as user types
+  const inputName = document.getElementById("inputRegName");
+  const inputRoll = document.getElementById("inputRegRollNo");
+  const selectDept = document.getElementById("selectRegDept");
+  const selectYear = document.getElementById("selectRegYear");
+
+  const syncHologramPreview = () => {
+    const nameVal = inputName?.value.trim() || "Tanmay Deshmukh";
+    const rollVal = (inputRoll?.value.trim() || "22BCSE188").toUpperCase();
+    const deptVal = selectDept?.value || "CSE";
+    const yearVal = selectYear?.value || "3rd Year";
+
+    const elName = document.getElementById("previewStudentName");
+    const elRoll = document.getElementById("previewStudentRoll");
+    const elDept = document.getElementById("previewStudentDept");
+
+    if (elName) elName.textContent = nameVal;
+    if (elRoll) elRoll.textContent = rollVal;
+    if (elDept) elDept.textContent = `${deptVal} • ${yearVal}`;
+  };
+
+  [inputName, inputRoll, selectDept, selectYear].forEach(el => {
+    if (el) el.addEventListener("input", syncHologramPreview);
+  });
+
+  // Quick Demo Auto-Fill Buttons
+  const btnFillCse = document.getElementById("btnFillDemoCseVoter");
+  if (btnFillCse) {
+    btnFillCse.addEventListener("click", () => {
+      if (inputName) inputName.value = "Tanmay Deshmukh";
+      if (inputRoll) inputRoll.value = "22BCSE188";
+      if (selectDept) selectDept.value = "CSE";
+      if (selectYear) selectYear.value = "3rd Year";
+      const elEmail = document.getElementById("inputRegEmail");
+      const elPhone = document.getElementById("inputRegPhone");
+      const elPin = document.getElementById("inputRegPin");
+      if (elEmail) elEmail.value = "tanmay.22bcse188@college.edu";
+      if (elPhone) elPhone.value = "+91 98111 22334";
+      if (elPin) elPin.value = "1234";
+      syncHologramPreview();
+      showToast("Auto-filled sample CSE student credentials!", "info");
+    });
+  }
+
+  const btnFillEce = document.getElementById("btnFillDemoEceVoter");
+  if (btnFillEce) {
+    btnFillEce.addEventListener("click", () => {
+      if (inputName) inputName.value = "Kavya Sharma";
+      if (inputRoll) inputRoll.value = "22BECE244";
+      if (selectDept) selectDept.value = "ECE";
+      if (selectYear) selectYear.value = "3rd Year";
+      const elEmail = document.getElementById("inputRegEmail");
+      const elPhone = document.getElementById("inputRegPhone");
+      const elPin = document.getElementById("inputRegPin");
+      if (elEmail) elEmail.value = "kavya.22bece244@college.edu";
+      if (elPhone) elPhone.value = "+91 98222 33445";
+      if (elPin) elPin.value = "1234";
+      syncHologramPreview();
+      showToast("Auto-filled sample ECE student credentials!", "info");
+    });
+  }
+
+  // Handle Form Submission
+  const formReg = document.getElementById("formVoterSelfRegister");
+  if (formReg) {
+    formReg.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("inputRegName").value.trim();
+      const rollNo = document.getElementById("inputRegRollNo").value.trim().toUpperCase();
+      const dept = document.getElementById("selectRegDept").value;
+      const year = document.getElementById("selectRegYear").value;
+      const email = document.getElementById("inputRegEmail").value.trim();
+      const phone = document.getElementById("inputRegPhone").value.trim();
+      const pin = document.getElementById("inputRegPin").value.trim();
+      const proofType = document.getElementById("selectRegIdProofType").value;
+
+      if (!name || !rollNo || !email) {
+        showToast("Please provide all required registration fields.", "warning");
+        return;
+      }
+
+      // Check if roll already exists in queue
+      const existing = (APP_STATE.voterRegistrationQueue || []).find(q => q.studentId.toUpperCase() === rollNo);
+      if (existing && existing.status === "APPROVED") {
+        showToast(`Roll number ${rollNo} is already officially approved and enrolled on the electoral roll.`, "info");
+        openVoterRegisterModal("track", rollNo);
+        return;
+      }
+
+      const appId = "APP-2026-" + Math.floor(100 + Math.random() * 900);
+      const newApplication = {
+        appId: appId,
+        studentId: rollNo,
+        name: name,
+        department: dept,
+        year: year,
+        email: email,
+        phone: phone,
+        pin: pin || "1234",
+        proofType: proofType,
+        photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80",
+        status: "PENDING",
+        submittedAt: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + " " + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        reviewedBy: null,
+        reviewerRemarks: "Application received via student self-registration portal. Pending Commission verification."
+      };
+
+      if (!APP_STATE.voterRegistrationQueue) APP_STATE.voterRegistrationQueue = [];
+      APP_STATE.voterRegistrationQueue.unshift(newApplication);
+
+      // Try Backend POST
+      try {
+        await fetch("/api/voter/self-register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newApplication)
+        });
+      } catch (err) {
+        // Fallback gracefully in standalone
+      }
+
+      // Audit Log
+      if (APP_STATE.logs) {
+        APP_STATE.logs.unshift({
+          id: Date.now(),
+          timestamp: new Date().toLocaleTimeString(),
+          eventType: "VOTER_REG_SUBMITTED",
+          details: `Self-registration submitted by ${name} (${rollNo}, ${dept}). App ID: ${appId}`,
+          ip: "192.168.1.144",
+          isSuspicious: false
+        });
+        if (typeof renderAuditLogTable === "function") renderAuditLogTable(APP_STATE.logs);
+      }
+
+      // Sync Admin Queue Table
+      renderAdminVoterRegTable();
+
+      showToast(`Registration Application ${appId} submitted successfully! Switching to tracking...`, "success");
+
+      // Switch to Status Track View and query this roll
+      openVoterRegisterModal("track", rollNo);
+    });
+  }
+
+  // Live Status Tracker Actions
+  const btnTrack = document.getElementById("btnRunTrackStatus");
+  const inputTrack = document.getElementById("inputTrackRollNo");
+
+  if (btnTrack && inputTrack) {
+    btnTrack.addEventListener("click", () => {
+      renderVoterStatusLookup(inputTrack.value.trim());
+    });
+    inputTrack.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") renderVoterStatusLookup(inputTrack.value.trim());
+    });
+  }
+
+  document.querySelectorAll(".sample-link-roll").forEach(link => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const roll = link.getAttribute("data-roll");
+      if (inputTrack) inputTrack.value = roll;
+      renderVoterStatusLookup(roll);
+    });
+  });
+}
+
+function openVoterRegisterModal(initialTab = "register", queryRoll = null) {
+  const modal = document.getElementById("modalVoterSelfRegister");
+  if (!modal) return;
+
+  modal.classList.remove("hidden");
+
+  const tabForm = document.getElementById("btnTabVregForm");
+  const tabTrack = document.getElementById("btnTabVregTrack");
+  const paneForm = document.getElementById("paneVregForm");
+  const paneTrack = document.getElementById("paneVregTrack");
+  const inputTrack = document.getElementById("inputTrackRollNo");
+
+  if (initialTab === "track") {
+    if (tabTrack) tabTrack.classList.add("active");
+    if (tabForm) tabForm.classList.remove("active");
+    if (paneTrack) paneTrack.style.display = "block";
+    if (paneForm) paneForm.style.display = "none";
+    if (queryRoll && inputTrack) {
+      inputTrack.value = queryRoll;
+      renderVoterStatusLookup(queryRoll);
+    }
+  } else {
+    if (tabForm) tabForm.classList.add("active");
+    if (tabTrack) tabTrack.classList.remove("active");
+    if (paneForm) paneForm.style.display = "block";
+    if (paneTrack) paneTrack.style.display = "none";
+  }
+}
+
+function closeVoterRegisterModal() {
+  const modal = document.getElementById("modalVoterSelfRegister");
+  if (modal) modal.classList.add("hidden");
+}
+
+function renderVoterStatusLookup(query) {
+  const container = document.getElementById("trackResultDisplay");
+  if (!container) return;
+
+  const q = (query || "").trim().toUpperCase();
+  if (!q) {
+    container.innerHTML = `
+      <div style="text-align: center; padding: 24px; color: #64748b;">
+        Please enter an Institute Roll No or Application ID to inspect verification status.
+      </div>
+    `;
+    return;
+  }
+
+  // Lookup record in voterRegistrationQueue or MOCK_STUDENTS
+  let record = (APP_STATE.voterRegistrationQueue || []).find(r => 
+    r.studentId.toUpperCase() === q || r.appId.toUpperCase() === q
+  );
+
+  // If not in queue but in official roster
+  if (!record && MOCK_STUDENTS[q]) {
+    const s = MOCK_STUDENTS[q];
+    record = {
+      appId: "OFFICIAL-ENROLLED",
+      studentId: s.studentId,
+      name: s.name,
+      department: s.department,
+      year: s.year,
+      email: s.email,
+      phone: s.phone,
+      status: "APPROVED",
+      submittedAt: "Pre-verified University Roll",
+      reviewedBy: "Dr. S. Ramanujan (Chief Returning Officer)",
+      reviewerRemarks: "Pre-verified student record actively enrolled on official electoral roll."
+    };
+  }
+
+  if (!record) {
+    container.innerHTML = `
+      <div class="vreg-status-card" style="text-align: center; border-color: rgba(239, 68, 68, 0.4);">
+        <i class="fa-solid fa-circle-question" style="font-size: 36px; color: #f87171; margin-bottom: 12px;"></i>
+        <h4 style="color: #fca5a5; margin: 0 0 6px 0;">No Application Record Found for "${q}"</h4>
+        <p style="font-size: 13px; color: #94a3b8; margin-bottom: 16px;">
+          This roll number is not currently registered on the college voter list.
+        </p>
+        <button type="button" class="btn btn-outline-cyan btn-sm" onclick="openVoterRegisterModal('register')">
+          <i class="fa-solid fa-user-plus"></i> Submit New Voter Registration Application
+        </button>
+      </div>
+    `;
+    return;
+  }
+
+  const status = record.status || "PENDING";
+  let statusBadgeClass = "amber";
+  let statusBadgeText = "PENDING ADMIN VERIFICATION";
+  let p1Class = "pipe-step done";
+  let p2Class = "pipe-step active";
+  let p3Class = "pipe-step";
+
+  if (status === "APPROVED") {
+    statusBadgeClass = "emerald";
+    statusBadgeText = "VERIFIED & APPROVED";
+    p1Class = "pipe-step done";
+    p2Class = "pipe-step done";
+    p3Class = "pipe-step done";
+  } else if (status === "REJECTED") {
+    statusBadgeClass = "rose";
+    statusBadgeText = "REGISTRATION REJECTED";
+    p1Class = "pipe-step done";
+    p2Class = "pipe-step done";
+    p3Class = "pipe-step rejected";
+  }
+
+  container.innerHTML = `
+    <div class="vreg-status-card">
+      <div class="vreg-status-header">
+        <div>
+          <span style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Application Reference:</span>
+          <h4 style="margin: 2px 0 0 0; color: #fff; font-size: 18px; font-family: monospace;">${record.appId}</h4>
+        </div>
+        <span class="vreg-status-badge ${statusBadgeClass}">
+          <i class="fa-solid ${status === 'APPROVED' ? 'fa-circle-check' : (status === 'REJECTED' ? 'fa-ban' : 'fa-clock')}"></i>
+          ${statusBadgeText}
+        </span>
+      </div>
+
+      <!-- Applicant Details -->
+      <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 18px; padding-bottom: 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.08);">
+        <img src="${record.photo || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80'}" alt="${record.name}" style="width: 52px; height: 52px; border-radius: 50%; border: 2px solid #00f2fe; object-fit: cover;">
+        <div>
+          <div style="font-size: 16px; font-weight: 800; color: #fff;">${record.name}</div>
+          <div style="font-size: 12px; color: #94a3b8;">Roll No: <strong style="color: #00f2fe;">${record.studentId}</strong> • Dept: <strong style="color: #38bdf8;">${record.department}</strong> (${record.year})</div>
+          <div style="font-size: 11px; color: #64748b;">Submitted: ${record.submittedAt}</div>
+        </div>
+      </div>
+
+      <!-- 3-Step Verification Pipeline -->
+      <div class="vreg-pipeline">
+        <div class="${p1Class}">
+          <div class="pipe-dot"><i class="fa-solid fa-file-arrow-up"></i></div>
+          <div class="pipe-lbl">1. Submitted</div>
+          <div class="pipe-sub">Record Logged</div>
+        </div>
+        <div class="${p2Class}">
+          <div class="pipe-dot"><i class="fa-solid fa-graduation-cap"></i></div>
+          <div class="pipe-lbl">2. Branch Verification</div>
+          <div class="pipe-sub">${status === 'PENDING' ? 'Under Review' : 'ERP Matched'}</div>
+        </div>
+        <div class="${p3Class}">
+          <div class="pipe-dot"><i class="fa-solid ${status === 'REJECTED' ? 'fa-ban' : 'fa-check'}"></i></div>
+          <div class="pipe-lbl">3. Commission Decision</div>
+          <div class="pipe-sub">${status}</div>
+        </div>
+      </div>
+
+      <!-- Reviewer Remarks Box -->
+      <div class="vreg-remarks-box ${status === 'REJECTED' ? 'error' : ''}">
+        <div style="font-weight: 700; font-size: 11px; text-transform: uppercase; margin-bottom: 4px;">
+          <i class="fa-solid fa-shield-halved"></i> Election Commission Review Notes:
+        </div>
+        <div>${record.reviewerRemarks || 'Credentials queued for administrative audit.'}</div>
+        ${record.reviewedBy ? `<div style="margin-top: 6px; font-size: 11px; color: #94a3b8;">Reviewing Officer: <strong>${record.reviewedBy}</strong></div>` : ''}
+      </div>
+
+      <!-- Contextual Action -->
+      ${status === 'APPROVED' ? `
+        <div style="text-align: center; margin-top: 16px;">
+          <button type="button" class="btn btn-emerald-gradient btn-block btn-lg" onclick="launchBoothWithVoter('${record.studentId}')">
+            <i class="fa-solid fa-vote-yea"></i> Proceed to Student Voting Booth Now
+          </button>
+        </div>
+      ` : (status === 'PENDING' ? `
+        <div style="font-size: 12px; color: #fbbf24; text-align: center; padding: 6px;">
+          <i class="fa-solid fa-hourglass-half"></i> Verification typically takes 15-30 minutes during active voting hours.
+        </div>
+      ` : '')}
+    </div>
+  `;
+}
+
+function launchBoothWithVoter(studentId) {
+  closeVoterRegisterModal();
+  switchTab("tab-booth");
+  const idInput = document.getElementById("inputStudentId");
+  if (idInput) {
+    idInput.value = studentId;
+    showToast(`Voter ID ${studentId} loaded into booth!`, "success");
+  }
+}
+
+/* ==========================================================================
+   ADMIN GROUP VOTER REGISTRATION VERIFICATION DESK
+   ========================================================================== */
+
+function initAdminVoterVerificationDesk() {
+  const tabs = [
+    { btn: document.getElementById("tabVoterRegPending"), filter: "pending" },
+    { btn: document.getElementById("tabVoterRegApproved"), filter: "approved" },
+    { btn: document.getElementById("tabVoterRegRejected"), filter: "rejected" },
+    { btn: document.getElementById("tabVoterRegAll"), filter: "all" }
+  ];
+
+  tabs.forEach(t => {
+    if (t.btn) {
+      t.btn.addEventListener("click", () => {
+        tabs.forEach(o => o.btn && o.btn.classList.remove("active"));
+        t.btn.classList.add("active");
+        APP_STATE.voterRegFilter = t.filter;
+        renderAdminVoterRegTable();
+      });
+    }
+  });
+
+  const inputSearch = document.getElementById("inputAdminVoterRegSearch");
+  if (inputSearch) {
+    inputSearch.addEventListener("input", (e) => {
+      APP_STATE.voterRegSearch = e.target.value.trim().toLowerCase();
+      renderAdminVoterRegTable();
+    });
+  }
+
+  const selectDept = document.getElementById("selectAdminVoterRegDept");
+  if (selectDept) {
+    selectDept.addEventListener("change", (e) => {
+      APP_STATE.voterRegDept = e.target.value;
+      renderAdminVoterRegTable();
+    });
+  }
+
+  const btnBatch = document.getElementById("btnBatchApprovePending");
+  if (btnBatch) {
+    btnBatch.addEventListener("click", () => {
+      const pendingList = (APP_STATE.voterRegistrationQueue || []).filter(r => r.status === "PENDING");
+      if (pendingList.length === 0) {
+        showToast("No pending voter applications to approve.", "info");
+        return;
+      }
+
+      pendingList.forEach(r => {
+        approveVoterRegistration(r.appId, false);
+      });
+
+      renderAdminVoterRegTable();
+      renderVoterRosterTable();
+      showToast(`Batch approved ${pendingList.length} student registrations onto electoral roll!`, "success");
+    });
+  }
+
+  renderAdminVoterRegTable();
+}
+
+function renderAdminVoterRegTable() {
+  const tbody = document.getElementById("voterRegistrationTbody");
+  if (!tbody) return;
+
+  const queue = APP_STATE.voterRegistrationQueue || [];
+
+  // Update Stat Counters
+  const countPending = queue.filter(r => r.status === "PENDING").length;
+  const countApproved = queue.filter(r => r.status === "APPROVED").length;
+  const countRejected = queue.filter(r => r.status === "REJECTED").length;
+
+  const elPending = document.getElementById("countVoterRegPending");
+  const elBtnPending = document.getElementById("btnCountVoterRegPending");
+  const elApproved = document.getElementById("countVoterRegApproved");
+  const elRejected = document.getElementById("countVoterRegRejected");
+  const elTotal = document.getElementById("countVoterRegTotal");
+
+  if (elPending) elPending.textContent = countPending;
+  if (elBtnPending) elBtnPending.textContent = countPending;
+  if (elApproved) elApproved.textContent = countApproved;
+  if (elRejected) elRejected.textContent = countRejected;
+  if (elTotal) elTotal.textContent = queue.length;
+
+  // Filter queue
+  const filter = APP_STATE.voterRegFilter || "pending";
+  const search = APP_STATE.voterRegSearch || "";
+  const dept = APP_STATE.voterRegDept || "all";
+
+  const list = queue.filter(r => {
+    if (filter !== "all" && r.status.toLowerCase() !== filter.toLowerCase()) return false;
+    if (dept !== "all" && r.department !== dept) return false;
+    if (search) {
+      const matches = r.name.toLowerCase().includes(search) ||
+                      r.studentId.toLowerCase().includes(search) ||
+                      r.appId.toLowerCase().includes(search);
+      if (!matches) return false;
+    }
+    return true;
+  });
+
+  tbody.innerHTML = "";
+
+  if (list.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="7" style="text-align: center; padding: 24px; color: #64748b;">
+          No registration applications matching the selected criteria.
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  list.forEach(r => {
+    const tr = document.createElement("tr");
+
+    let statusPill = `<span class="vreg-status-badge amber"><i class="fa-solid fa-clock"></i> Pending</span>`;
+    if (r.status === "APPROVED") {
+      statusPill = `<span class="vreg-status-badge emerald"><i class="fa-solid fa-check"></i> Approved</span>`;
+    } else if (r.status === "REJECTED") {
+      statusPill = `<span class="vreg-status-badge rose"><i class="fa-solid fa-ban"></i> Rejected</span>`;
+    }
+
+    let actionsHtml = ``;
+    if (r.status === "PENDING") {
+      actionsHtml = `
+        <button type="button" class="btn btn-xs btn-emerald-gradient btn-approve-reg" data-appid="${r.appId}" title="Approve and enroll on voter roster">
+          <i class="fa-solid fa-check"></i> Approve
+        </button>
+        <button type="button" class="btn btn-xs btn-outline-danger btn-reject-reg" data-appid="${r.appId}" title="Reject application with regulatory grounds">
+          <i class="fa-solid fa-ban"></i> Reject
+        </button>
+        <button type="button" class="btn btn-xs btn-secondary-glass btn-inspect-id" data-appid="${r.appId}" title="Inspect ID credential badge">
+          <i class="fa-solid fa-id-card"></i> Inspect
+        </button>
+      `;
+    } else if (r.status === "APPROVED") {
+      actionsHtml = `
+        <span class="text-emerald" style="font-size: 11px; font-weight: 700; margin-right: 6px;">
+          <i class="fa-solid fa-circle-check"></i> On Electoral Roll
+        </span>
+        <button type="button" class="btn btn-xs btn-secondary-glass btn-inspect-id" data-appid="${r.appId}" title="View ID Badge">
+          <i class="fa-solid fa-eye"></i> Badge
+        </button>
+      `;
+    } else if (r.status === "REJECTED") {
+      actionsHtml = `
+        <span class="text-danger" style="font-size: 11px; font-weight: 700; margin-right: 6px;">
+          <i class="fa-solid fa-ban"></i> Disqualified
+        </span>
+        <button type="button" class="btn btn-xs btn-outline-emerald btn-approve-reg" data-appid="${r.appId}" title="Re-evaluate and grant approval">
+          <i class="fa-solid fa-rotate-left"></i> Re-Approve
+        </button>
+      `;
+    }
+
+    tr.innerHTML = `
+      <td>
+        <div style="font-family: monospace; font-weight: 700; color: #00f2fe;">${r.appId}</div>
+        <div style="font-size: 11px; color: #64748b;">${r.submittedAt}</div>
+      </td>
+      <td>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <img src="${r.photo || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80'}" alt="${r.name}" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1.5px solid #00f2fe;">
+          <div>
+            <div style="font-weight: 700; color: #fff;">${r.name}</div>
+            <div style="font-size: 11px; font-family: monospace; color: #38bdf8;">${r.studentId}</div>
+          </div>
+        </div>
+      </td>
+      <td>
+        <span class="badge-pill-cyan" style="font-size: 10px;">${r.department}</span>
+        <div style="font-size: 11px; color: #94a3b8; margin-top: 2px;">${r.year}</div>
+      </td>
+      <td>
+        <div style="font-size: 11px; color: #cbd5e1;">${r.email}</div>
+        <div style="font-size: 11px; color: #64748b; font-family: monospace;">${r.phone}</div>
+      </td>
+      <td>
+        <button type="button" class="btn btn-xs btn-secondary-glass btn-inspect-id" data-appid="${r.appId}" style="display: inline-flex; align-items: center; gap: 4px;">
+          <i class="fa-solid fa-id-card-clip text-cyan"></i>
+          <span>${r.proofType === 'COLLEGE_SMART_ID' ? 'Smart ID' : 'Receipt'}</span>
+        </button>
+      </td>
+      <td>${statusPill}</td>
+      <td>
+        <div style="display: flex; gap: 6px; align-items: center;">
+          ${actionsHtml}
+        </div>
+      </td>
+    `;
+
+    tbody.appendChild(tr);
+  });
+
+  // Attach dynamic button event listeners
+  tbody.querySelectorAll(".btn-approve-reg").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const appId = btn.getAttribute("data-appid");
+      approveVoterRegistration(appId);
+    });
+  });
+
+  tbody.querySelectorAll(".btn-reject-reg").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const appId = btn.getAttribute("data-appid");
+      openRejectVoterModal(appId);
+    });
+  });
+
+  tbody.querySelectorAll(".btn-inspect-id").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const appId = btn.getAttribute("data-appid");
+      openInspectStudentIdModal(appId);
+    });
+  });
+}
+
+function approveVoterRegistration(appId, notify = true) {
+  const reg = (APP_STATE.voterRegistrationQueue || []).find(r => r.appId === appId);
+  if (!reg) return;
+
+  reg.status = "APPROVED";
+  reg.reviewedBy = (APP_STATE.currentUser && APP_STATE.currentUser.name) || "Dr. S. Ramanujan (Chief Returning Officer)";
+  reg.reviewerRemarks = "Verified against University Registrar database. Student identity & branch confirmed. Officially enrolled on Electoral Roll.";
+
+  // Enroll onto MOCK_STUDENTS roster
+  MOCK_STUDENTS[reg.studentId] = {
+    studentId: reg.studentId,
+    name: reg.name,
+    department: reg.department,
+    year: reg.year,
+    phone: reg.phone,
+    email: reg.email,
+    pin: reg.pin || "1234",
+    password: "password123",
+    verified: true,
+    hasVoted: false,
+    receiptHash: null
+  };
+
+  // Sync with backend API
+  try {
+    fetch("/api/admin/verify-registration", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        applicationId: appId,
+        action: "approve",
+        reviewerRemarks: reg.reviewerRemarks,
+        reviewer: reg.reviewedBy
+      })
+    });
+  } catch (err) {}
+
+  // Audit Log
+  if (APP_STATE.logs) {
+    APP_STATE.logs.unshift({
+      id: Date.now(),
+      timestamp: new Date().toLocaleTimeString(),
+      eventType: "VOTER_APPROVED",
+      details: `Voter ${reg.name} (${reg.studentId}) APPROVED by Election Commission officer. Added to electoral roll.`,
+      ip: "192.168.1.1",
+      isSuspicious: false
+    });
+    if (typeof renderAuditLogTable === "function") renderAuditLogTable(APP_STATE.logs);
+  }
+
+  renderAdminVoterRegTable();
+  if (typeof renderVoterRosterTable === "function") renderVoterRosterTable();
+
+  if (notify) {
+    showToast(`Student ${reg.name} (${reg.studentId}) officially APPROVED and enrolled onto Electoral Roll!`, "success");
+  }
+}
+
+function openRejectVoterModal(appId) {
+  const reg = (APP_STATE.voterRegistrationQueue || []).find(r => r.appId === appId);
+  if (!reg) return;
+
+  APP_STATE.activeRejectingAppId = appId;
+  const modal = document.getElementById("modalRejectVoter");
+  const preview = document.getElementById("rejectApplicantPreview");
+
+  if (preview) {
+    preview.innerHTML = `
+      <div style="display: flex; gap: 14px; align-items: center;">
+        <img src="${reg.photo || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80'}" alt="${reg.name}" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid #ef4444;">
+        <div>
+          <div style="font-weight: 800; font-size: 15px; color: #fff;">${reg.name}</div>
+          <div style="font-size: 12px; color: #94a3b8;">
+            App ID: <strong style="color: #00f2fe; font-family: monospace;">${reg.appId}</strong> • 
+            Roll: <strong style="color: #f1f5f9; font-family: monospace;">${reg.studentId}</strong> • 
+            Branch: <strong style="color: #38bdf8;">${reg.department} (${reg.year})</strong>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  if (modal) modal.classList.remove("hidden");
+}
+
+function initRejectVoterModal() {
+  const modal = document.getElementById("modalRejectVoter");
+  const btnClose = document.getElementById("btnCloseRejectVoterModal");
+  const btnCancel = document.getElementById("btnCancelRejectVoterModal");
+  const form = document.getElementById("formConfirmRejectVoter");
+
+  const hide = () => {
+    if (modal) modal.classList.add("hidden");
+    APP_STATE.activeRejectingAppId = null;
+  };
+
+  if (btnClose) btnClose.addEventListener("click", hide);
+  if (btnCancel) btnCancel.addEventListener("click", hide);
+
+  if (form) {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const appId = APP_STATE.activeRejectingAppId;
+      if (!appId) return;
+
+      const reg = (APP_STATE.voterRegistrationQueue || []).find(r => r.appId === appId);
+      if (!reg) return;
+
+      const reasonPreset = document.getElementById("selectRejectReasonPreset")?.value;
+      const remarks = document.getElementById("textareaRejectRemarks")?.value.trim() || 
+        "Disqualified due to failure of academic identity verification.";
+
+      reg.status = "REJECTED";
+      reg.reviewedBy = (APP_STATE.currentUser && APP_STATE.currentUser.name) || "Dr. S. Ramanujan (Chief Returning Officer)";
+      reg.reviewerRemarks = remarks;
+
+      // If in MOCK_STUDENTS, flag unverified
+      if (MOCK_STUDENTS[reg.studentId]) {
+        MOCK_STUDENTS[reg.studentId].verified = false;
+      }
+
+      // Sync backend
+      try {
+        fetch("/api/admin/verify-registration", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            applicationId: appId,
+            action: "reject",
+            reviewerRemarks: remarks,
+            reviewer: reg.reviewedBy
+          })
+        });
+      } catch (err) {}
+
+      // Audit Log
+      if (APP_STATE.logs) {
+        APP_STATE.logs.unshift({
+          id: Date.now(),
+          timestamp: new Date().toLocaleTimeString(),
+          eventType: "VOTER_REJECTED",
+          details: `Application for ${reg.name} (${reg.studentId}) was REJECTED by Commission. Reason: ${remarks}`,
+          ip: "192.168.1.1",
+          isSuspicious: true
+        });
+        if (typeof renderAuditLogTable === "function") renderAuditLogTable(APP_STATE.logs);
+      }
+
+      renderAdminVoterRegTable();
+      hide();
+      showToast(`Registration for ${reg.name} rejected on statutory grounds.`, "error");
+    });
+  }
+}
+
+function openInspectStudentIdModal(appId) {
+  const reg = (APP_STATE.voterRegistrationQueue || []).find(r => r.appId === appId);
+  if (!reg) return;
+
+  const modal = document.getElementById("modalInspectStudentId");
+  const container = document.getElementById("inspectIdContainer");
+  const btnApprove = document.getElementById("btnApproveFromInspector");
+
+  if (container) {
+    container.innerHTML = `
+      <div class="student-hologram-card" style="box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);">
+        <div class="shc-header">
+          <div class="shc-emblem"><i class="fa-solid fa-building-columns"></i></div>
+          <div>
+            <div class="shc-inst-name">INSTITUTE OF TECHNOLOGY</div>
+            <div class="shc-badge-type">OFFICIAL STUDENT IDENTITY CARD • CEC VERIFICATION</div>
+          </div>
+        </div>
+        <div class="shc-body">
+          <div class="shc-avatar-box">
+            <img src="${reg.photo || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80'}" alt="${reg.name}">
+            <span class="shc-chip-sim">CHIP-RFID</span>
+          </div>
+          <div class="shc-details">
+            <div class="shc-name">${reg.name}</div>
+            <div class="shc-meta-row">
+              <span class="shc-lbl">PRN / ROLL:</span>
+              <strong class="shc-val" style="color: #00f2fe; font-family: monospace;">${reg.studentId}</strong>
+            </div>
+            <div class="shc-meta-row">
+              <span class="shc-lbl">BRANCH:</span>
+              <strong class="shc-val text-cyan">${reg.department} (${reg.year})</strong>
+            </div>
+            <div class="shc-meta-row">
+              <span class="shc-lbl">CONTACT:</span>
+              <strong class="shc-val" style="font-size: 11px;">${reg.email}</strong>
+            </div>
+            <div class="shc-meta-row">
+              <span class="shc-lbl">STATUS:</span>
+              <strong class="shc-status ${reg.status === 'APPROVED' ? 'emerald' : (reg.status === 'REJECTED' ? 'rose' : 'amber')}">${reg.status}</strong>
+            </div>
+          </div>
+        </div>
+        <div class="shc-footer">
+          <div class="shc-barcode-strip">
+            <span>||||| ||| ||||||| |||| |||||| |||||||| |||||</span>
+          </div>
+          <div class="shc-watermark">AUTHENTICATED ERP RECORD • APP: ${reg.appId}</div>
+        </div>
+      </div>
+    `;
+  }
+
+  if (btnApprove) {
+    btnApprove.style.display = reg.status === "PENDING" ? "inline-flex" : "none";
+    btnApprove.onclick = () => {
+      approveVoterRegistration(reg.appId);
+      if (modal) modal.classList.add("hidden");
+    };
+  }
+
+  const btnClose = document.getElementById("btnCloseInspectIdModal");
+  const btnDismiss = document.getElementById("btnCloseInspectIdBtn");
+  const hide = () => modal && modal.classList.add("hidden");
+
+  if (btnClose) btnClose.onclick = hide;
+  if (btnDismiss) btnDismiss.onclick = hide;
+
+  if (modal) modal.classList.remove("hidden");
+}

@@ -114,6 +114,12 @@
    - **Live Real-Time Stepper:** Automates **Genesis Minting**, **1,000 Ballot Casts** with realistic multi-department distribution (CSE: 340, ECE: 260, ME: 180, IT: 140, CE: 80), **Cryptographic Ledger Mining**, and **Official Tabulation Ceremony**.
    - **Dynamic Counters & Charts:** Real-time animated progress bars, live terminal logs, and automatic transition to the **Winner Declaration Ceremony** declaring the elected President with certified victory margin and official Gazette Certificate.
 
+16. **🪪 Student Voter Self-Registration Portal & Admin Group Verification Desk:**
+   - **Student Self-Registration Portal:** New students submit their academic credentials (Full Name, Roll No/PRN, Department, Academic Year, Email, Mobile, Security PIN) and preview an interactive holographic digital Student ID proof badge.
+   - **Real-Time Verification Pipeline:** Transparent 3-step tracking pipeline (*Submitted → Academic Verification → Commission Approval*) allowing students to verify their application status by Roll Number.
+   - **Admin Commission Verification Desk:** Administrative review desk in the Election Management Console with live counters, filter tabs (*Pending Review*, *Approved Voters*, *Rejected Records*), batch approval for verified rosters, and statutory rejection recording with reasons.
+   - **Election-Specific Voter Eligibility & Scope Criteria:** Automated constitutional filter ensuring that specific elections restrict voting strictly to designated departments (e.g., **CSE Department Class Representative** allows **only CSE students** to vote; students from ECE or ME are blocked with a clear *Electoral Scope Ineligibility Alert* explaining the boundary rule). Universal elections permit all verified enrolled departments.
+
 ---
 
 ## 🚀 Quick Start (Run Locally)

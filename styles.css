@@ -7907,6 +7907,762 @@ body:has(.modal-overlay:not(.hidden)) .floating-election-bar {
   margin-bottom: 20px;
 }
 
+/* ==========================================================================
+   VOTER SELF-REGISTRATION & VERIFICATION DESK STYLES (PROJECT NO. 94)
+   ========================================================================== */
 
+/* Booth Election Scope & Criteria Card */
+.booth-election-scope-card {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 41, 59, 0.7) 100%);
+  border: 1px solid rgba(0, 242, 254, 0.35);
+  border-radius: 14px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 24px rgba(0, 242, 254, 0.1);
+  position: relative;
+  overflow: hidden;
+}
 
+.booth-election-scope-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, #00f2fe, #4facfe);
+}
 
+.besc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.besc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #00f2fe;
+  text-transform: uppercase;
+}
+
+.besc-status {
+  font-size: 11px;
+  font-weight: 600;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+}
+
+.besc-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.besc-election-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 4px 0;
+}
+
+.besc-criteria-desc {
+  font-size: 13px;
+  color: #cbd5e1;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.besc-switcher {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.besc-switcher label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+.form-input-custom-sm {
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(0, 242, 254, 0.3);
+  color: #f1f5f9;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  outline: none;
+}
+
+.besc-chips {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.scope-chip {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.scope-chip.restricted {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+}
+
+.scope-chip.universal {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.scope-chip.verified-only {
+  background: rgba(0, 242, 254, 0.12);
+  color: #38bdf8;
+  border: 1px solid rgba(0, 242, 254, 0.3);
+}
+
+/* Booth Ineligibility Warning Alert */
+.booth-ineligibility-alert {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.18) 0%, rgba(153, 27, 27, 0.28) 100%);
+  border: 1.5px solid rgba(239, 68, 68, 0.55);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  box-shadow: 0 0 25px rgba(239, 68, 68, 0.2);
+  animation: shakeAlert 0.4s ease-in-out;
+}
+
+@keyframes shakeAlert {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-5px); }
+  40%, 80% { transform: translateX(5px); }
+}
+
+.bia-icon {
+  font-size: 26px;
+  color: #f87171;
+  margin-top: 2px;
+}
+
+.bia-content h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fca5a5;
+  margin: 0 0 4px 0;
+}
+
+.bia-content p {
+  font-size: 13px;
+  color: #f1f5f9;
+  margin: 0 0 10px 0;
+  line-height: 1.45;
+}
+
+.bia-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* Admin Verification Desk Card */
+.admin-verification-card {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.voter-reg-stats-group {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.vreg-stat-chip {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  min-width: 90px;
+  text-align: center;
+}
+
+.vreg-stat-chip.amber {
+  border-color: rgba(245, 158, 11, 0.35);
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.15);
+}
+.vreg-stat-chip.amber .vreg-num { color: #f59e0b; }
+
+.vreg-stat-chip.emerald {
+  border-color: rgba(16, 185, 129, 0.35);
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
+}
+.vreg-stat-chip.emerald .vreg-num { color: #10b981; }
+
+.vreg-stat-chip.rose {
+  border-color: rgba(239, 68, 68, 0.35);
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.15);
+}
+.vreg-stat-chip.rose .vreg-num { color: #ef4444; }
+
+.vreg-stat-chip.cyan {
+  border-color: rgba(0, 242, 254, 0.35);
+  box-shadow: 0 0 12px rgba(0, 242, 254, 0.15);
+}
+.vreg-stat-chip.cyan .vreg-num { color: #00f2fe; }
+
+.vreg-num {
+  font-size: 20px;
+  font-weight: 800;
+  font-family: monospace;
+}
+
+.vreg-lbl {
+  font-size: 11px;
+  color: #94a3b8;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.vreg-controls-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin: 18px 0;
+  flex-wrap: wrap;
+}
+
+.vreg-tab-filters {
+  display: flex;
+  gap: 8px;
+}
+
+.vreg-search-filters {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.vreg-search-box {
+  width: 220px;
+}
+
+.vreg-dept-select {
+  width: 130px;
+}
+
+.vreg-table td {
+  vertical-align: middle;
+}
+
+/* Voter Self-Registration Modal Layout */
+.vreg-modal-box {
+  max-width: 980px !important;
+  width: 95%;
+}
+
+.vreg-modal-tabs {
+  display: flex;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0 0 14px 0;
+  margin-bottom: 20px;
+}
+
+.vreg-tab-btn {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.vreg-tab-btn.active {
+  background: rgba(0, 242, 254, 0.15);
+  border-color: #00f2fe;
+  color: #00f2fe;
+  box-shadow: 0 0 15px rgba(0, 242, 254, 0.25);
+}
+
+.vreg-form-layout {
+  display: grid;
+  grid-template-columns: 1.25fr 0.95fr;
+  gap: 28px;
+  align-items: flex-start;
+}
+
+@media (max-width: 860px) {
+  .vreg-form-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.vreg-quick-fill-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  font-size: 12px;
+  color: #94a3b8;
+  flex-wrap: wrap;
+}
+
+.btn-demo-chip {
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #f1f5f9;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-demo-chip:hover {
+  background: rgba(0, 242, 254, 0.2);
+  border-color: #00f2fe;
+  color: #00f2fe;
+}
+
+.vreg-notice-box {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(0, 242, 254, 0.05);
+  border: 1px solid rgba(0, 242, 254, 0.2);
+  font-size: 12px;
+  color: #cbd5e1;
+  line-height: 1.45;
+  margin-bottom: 18px;
+}
+
+/* Holographic Student ID Card Simulator */
+.vreg-id-preview-col {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.vreg-preview-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #00f2fe;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.student-hologram-card {
+  background: linear-gradient(135deg, #091322 0%, #0e1e38 50%, #13274a 100%);
+  border: 1.5px solid rgba(0, 242, 254, 0.4);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(0, 242, 254, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.student-hologram-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.08) 45%,
+    rgba(0, 242, 254, 0.15) 50%,
+    rgba(168, 85, 247, 0.15) 55%,
+    transparent 60%
+  );
+  transform: rotate(25deg);
+  pointer-events: none;
+  animation: hologramSheen 6s infinite linear;
+}
+
+@keyframes hologramSheen {
+  0% { transform: translateY(-30%) rotate(25deg); }
+  50% { transform: translateY(30%) rotate(25deg); }
+  100% { transform: translateY(-30%) rotate(25deg); }
+}
+
+.shc-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 14px;
+}
+
+.shc-emblem {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0, 242, 254, 0.15);
+  border: 1px solid #00f2fe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #00f2fe;
+  font-size: 16px;
+}
+
+.shc-inst-name {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #fff;
+}
+
+.shc-badge-type {
+  font-size: 9px;
+  font-weight: 700;
+  color: #38bdf8;
+  letter-spacing: 0.08em;
+}
+
+.shc-body {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.shc-avatar-box {
+  position: relative;
+  width: 74px;
+  height: 90px;
+  border-radius: 8px;
+  border: 1.5px solid rgba(0, 242, 254, 0.35);
+  overflow: hidden;
+  background: #000;
+  flex-shrink: 0;
+}
+
+.shc-avatar-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.shc-chip-sim {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(15, 23, 42, 0.85);
+  font-size: 8px;
+  font-weight: 800;
+  color: #fbbf24;
+  text-align: center;
+  padding: 2px 0;
+  font-family: monospace;
+}
+
+.shc-details {
+  flex: 1;
+}
+
+.shc-name {
+  font-size: 16px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.shc-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+
+.shc-lbl {
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.shc-val {
+  color: #f1f5f9;
+  font-weight: 700;
+}
+
+.shc-status {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.shc-status.amber {
+  background: rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.shc-status.emerald {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.shc-status.rose {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+.shc-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 10px;
+}
+
+.shc-barcode-strip {
+  font-family: monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #64748b;
+}
+
+.shc-watermark {
+  font-size: 9px;
+  font-weight: 700;
+  color: #38bdf8;
+  letter-spacing: 0.06em;
+}
+
+.vreg-preview-hint {
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 10px;
+  line-height: 1.4;
+  text-align: center;
+}
+
+/* Status Tracker UI */
+.vreg-track-container {
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.vreg-track-search {
+  margin-bottom: 24px;
+}
+
+.vreg-track-search label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.sample-link-roll {
+  color: #00f2fe;
+  text-decoration: none;
+  font-weight: 600;
+  font-family: monospace;
+  cursor: pointer;
+}
+
+.sample-link-roll:hover {
+  text-decoration: underline;
+}
+
+.vreg-status-card {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 22px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+.vreg-status-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 20px;
+}
+
+.vreg-status-badge {
+  font-size: 12px;
+  font-weight: 800;
+  padding: 5px 12px;
+  border-radius: 6px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.vreg-status-badge.amber {
+  background: rgba(245, 158, 11, 0.18);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.4);
+}
+
+.vreg-status-badge.emerald {
+  background: rgba(16, 185, 129, 0.18);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+}
+
+.vreg-status-badge.rose {
+  background: rgba(239, 68, 68, 0.18);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+/* 3-Step Pipeline Tracker */
+.vreg-pipeline {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  margin: 24px 0 28px 0;
+}
+
+.vreg-pipeline::before {
+  content: '';
+  position: absolute;
+  top: 15px;
+  left: 30px;
+  right: 30px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  z-index: 1;
+}
+
+.pipe-step {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 120px;
+}
+
+.pipe-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #0f172a;
+  border: 2px solid #64748b;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  transition: all 0.3s;
+}
+
+.pipe-step.done .pipe-dot {
+  background: rgba(16, 185, 129, 0.2);
+  border-color: #10b981;
+  color: #10b981;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+}
+
+.pipe-step.active .pipe-dot {
+  background: rgba(245, 158, 11, 0.2);
+  border-color: #f59e0b;
+  color: #f59e0b;
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+}
+
+.pipe-step.rejected .pipe-dot {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: #ef4444;
+  color: #ef4444;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
+}
+
+.pipe-lbl {
+  font-size: 11px;
+  font-weight: 700;
+  color: #cbd5e1;
+}
+
+.pipe-sub {
+  font-size: 10px;
+  color: #64748b;
+}
+
+.vreg-remarks-box {
+  background: rgba(30, 41, 59, 0.6);
+  border-left: 3px solid #00f2fe;
+  padding: 12px 14px;
+  border-radius: 0 8px 8px 0;
+  font-size: 12px;
+  color: #e2e8f0;
+  margin-bottom: 16px;
+  line-height: 1.45;
+}
+
+.vreg-remarks-box.error {
+  border-left-color: #ef4444;
+  background: rgba(239, 68, 68, 0.08);
+  color: #fca5a5;
+}
+
+.reject-applicant-card {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 18px;
+}
