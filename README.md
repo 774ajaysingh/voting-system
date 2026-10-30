@@ -9,10 +9,11 @@
 ---
 
 ## 👥 Project Team
-* **Akhil Kumar** — Team Leader
-* **Aksh Cheema** — Team Member
-* **Ajay Singh** — Team Member
-* **Akhtar Ali** — Team Member
+* **Anuj Pandey** — Team Leader
+* **Ashhab Ahmed** — Team Member
+* **Arshad Singh** — Team Member
+* **Aryan Katiyar** — Team Member
+* **Aryan Mishra** — Team Member
 
 ---
 
